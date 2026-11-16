@@ -312,6 +312,7 @@ $("#form").addEventListener("submit", async e => {
     });
     const j = await r.json();
     if (!j.ok) throw new Error(j.description || "telegram error");
+    try { sessionStorage.setItem("reg", JSON.stringify({ type: data.type, name: data.name, team: data.team, phone: data.phone })); } catch (e) {}
     location.href = CONFIG.thanksPage + "?lang=" + lang;
   } catch (err) {
     btn.disabled = false; label.textContent = T[lang].send;

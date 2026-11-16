@@ -8,93 +8,118 @@
 <meta name="theme-color" content="#0a0907">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0907;--line:rgba(226,190,112,.18);
-  --gold:#d9b25f;--gold-hi:#f6e3a6;--gold-lo:#8f6a26;--orange:#ff8a1f;
+  --bg:#0a0907;--line:rgba(226,190,112,.2);
+  --gold:#d9b25f;--gold-hi:#f6e3a6;--gold-lo:#8f6a26;
   --text:#f4efe4;--muted:#a59c8a;
+  --ig:conic-gradient(from 210deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,#feda75);
   --display:"Oswald","Arial Narrow",Impact,sans-serif;
   --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
-body{min-height:100svh;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:clip;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
-img{display:block;max-width:100%}
+body{min-height:100svh;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:clip;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
 ::selection{background:var(--gold);color:#000}
 body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .bg{position:fixed;inset:-4%;background:url(assets/hero.webp) center 30%/cover no-repeat;z-index:-3;animation:kb 22s ease-in-out infinite alternate}
-.shade{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse 70% 60% at 50% 48%,rgba(10,9,7,.5),rgba(10,9,7,.94)),linear-gradient(180deg,rgba(10,9,7,.9),rgba(10,9,7,.4) 40%,var(--bg))}
+.shade{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse 80% 60% at 50% 45%,rgba(10,9,7,.55),rgba(10,9,7,.95)),linear-gradient(180deg,rgba(10,9,7,.9),rgba(10,9,7,.5) 40%,var(--bg))}
 .beams{position:fixed;inset:0;z-index:-1;overflow:hidden;mix-blend-mode:screen;pointer-events:none}
-.beam{position:absolute;top:-20%;width:26vw;height:150%;background:linear-gradient(180deg,rgba(246,227,166,.3),rgba(217,178,95,0) 72%);filter:blur(22px);transform-origin:50% 0;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
+.beam{position:absolute;top:-20%;width:26vw;height:150%;background:linear-gradient(180deg,rgba(246,227,166,.26),rgba(217,178,95,0) 72%);filter:blur(22px);transform-origin:50% 0;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
 .beam:nth-child(1){left:2%;animation:sweep 9s ease-in-out infinite alternate}
 .beam:nth-child(2){left:36%;animation:sweep 12s ease-in-out -4s infinite alternate-reverse;opacity:.7}
 .beam:nth-child(3){right:2%;animation:sweep 10s ease-in-out -2s infinite alternate}
 @keyframes sweep{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
 @keyframes kb{from{transform:scale(1.04)}to{transform:scale(1.13) translate(-1.5%,1%)}}
-#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
 
-.top{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,72px)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1180px;margin:0 auto;padding:18px clamp(20px,5vw,56px)}
 .logo img{height:44px;width:auto}
 .lang{display:inline-flex;border:1px solid var(--line);background:rgba(10,9,7,.6);backdrop-filter:blur(6px);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
-.lang button{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:9px 16px;cursor:pointer;transition:.3s}
+.lang button{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:10px 16px;cursor:pointer;transition:.3s}
 .lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
 
-main{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px clamp(20px,5vw,72px) 70px;position:relative;z-index:6}
-.wrap{max-width:780px;width:100%}
+main{max-width:1180px;margin:0 auto;padding:clamp(14px,3vw,40px) clamp(20px,5vw,56px) 80px;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,6vw,90px);align-items:center}
+@media(max-width:900px){main{grid-template-columns:1fr}}
 
-.seal{width:clamp(96px,14vw,132px);aspect-ratio:1;margin:0 auto 26px;position:relative;display:grid;place-items:center}
-.seal::before,.seal::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--gold);opacity:0;animation:ring 2.4s ease-out infinite}
-.seal::after{animation-delay:1.2s}
-@keyframes ring{from{transform:scale(.8);opacity:.7}to{transform:scale(1.7);opacity:0}}
-.seal svg{width:100%;height:100%;filter:drop-shadow(0 8px 34px rgba(217,178,95,.5))}
-.seal circle{fill:none;stroke:url(#g);stroke-width:4;stroke-dasharray:302;stroke-dashoffset:302;animation:draw .9s var(--ease) .2s forwards}
-.seal path{fill:none;stroke:url(#g);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:70;stroke-dashoffset:70;animation:draw .6s var(--ease) 1s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
+/* ---------- headline ---------- */
+.tag{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.tag i{width:9px;height:9px;border-radius:50%;background:#43e06b;box-shadow:0 0 0 0 rgba(67,224,107,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{to{box-shadow:0 0 0 11px rgba(67,224,107,0)}}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(46px,8vw,104px);line-height:1.12;padding-bottom:.06em;margin:16px 0 18px;transform:skewX(-7deg);transform-origin:left bottom}
+h1 span{display:block}
+.gold-text{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 50%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
+.lead{color:#d6cebd;font-size:clamp(18px,2.2vw,21px);max-width:520px}
 
-.eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
-.eyebrow::before,.eyebrow::after{content:"";width:34px;height:2px;background:var(--gold)}
-h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.92;font-size:clamp(50px,11vw,132px);transform:skewX(-8deg);margin:18px 0 20px;text-shadow:0 12px 60px rgba(0,0,0,.7)}
-.gold-text{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 45%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
-.lead{color:#d8d0bf;font-size:clamp(17px,1.8vw,21px);max-width:560px;margin:0 auto}
-.lead b{color:var(--gold-hi)}
+/* ---------- instagram ---------- */
+.ig{position:relative;display:block;margin-top:clamp(28px,4vw,44px);max-width:520px;padding:2px;border-radius:26px;background:var(--ig);background-size:200% 200%;animation:igflow 6s linear infinite;transition:transform .4s var(--ease),box-shadow .4s}
+@keyframes igflow{to{filter:hue-rotate(360deg)}}
+.ig:hover{transform:translateY(-4px);box-shadow:0 22px 60px rgba(214,41,118,.28),0 10px 30px rgba(250,126,30,.18)}
+.ig-in{position:relative;overflow:hidden;border-radius:24px;padding:clamp(20px,3vw,28px);background:linear-gradient(160deg,#1a1410,#0d0a08)}
+.ig-in::before{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-110px;background:var(--ig);filter:blur(70px);opacity:.35;pointer-events:none}
+.ig-head{position:relative;display:flex;align-items:center;gap:16px}
+.ig-ava{flex:none;width:72px;height:72px;border-radius:50%;padding:3px;background:var(--ig)}
+.ig-ava div{width:100%;height:100%;border-radius:50%;background:#0a0907;border:3px solid #0a0907;display:grid;place-items:center;overflow:hidden}
+.ig-ava img{width:78%;height:auto}
+.ig-name{min-width:0}
+.ig-name small{display:block;font-family:var(--display);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#d98fb4}
+.ig-name b{display:block;font-family:var(--display);font-weight:600;font-size:clamp(26px,3.4vw,34px);letter-spacing:.02em;line-height:1.15;overflow:hidden;text-overflow:ellipsis}
+.ig p{position:relative;margin:18px 0 20px;color:#cfc7b5;font-size:17px}
+.ig-chips{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.ig-chips span{font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:7px 13px;border-radius:99px;border:1px solid rgba(255,255,255,.16);color:#efe7d6;background:rgba(255,255,255,.04)}
+.ig-btn{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:18px 22px;border-radius:16px;font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(100deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);overflow:hidden;isolation:isolate}
+.ig-btn::after{content:"";position:absolute;top:0;bottom:0;width:70px;left:-100px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 3.4s ease-in-out infinite;z-index:-1}
+@keyframes shine{0%,55%{left:-100px}100%{left:calc(100% + 100px)}}
+.ig-btn svg{width:24px;height:24px;flex:none}
+.ig-btn .arr{width:20px;height:20px;transition:transform .35s var(--ease)}
+.ig:hover .arr{transform:translate(4px,-4px)}
 
-.ig{margin:clamp(30px,5vw,46px) auto 0;max-width:560px;position:relative;padding:clamp(20px,3vw,30px);text-align:left;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;
-  background:linear-gradient(160deg,rgba(26,22,15,.92),rgba(14,12,8,.94));backdrop-filter:blur(10px);
-  clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px)}
-.ig::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(246,227,166,.55),rgba(217,178,95,.08) 40%,rgba(217,178,95,.4));padding:1px;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.ig-ico{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 30% 107%,#fdf497 0,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
-.ig-ico svg{width:34px;height:34px}
-.ig h2{font-family:var(--display);font-weight:600;font-size:clamp(18px,2.2vw,24px);letter-spacing:.06em;text-transform:uppercase;line-height:1.15}
-.ig p{color:var(--muted);font-size:14.5px;margin-top:4px}
-.ig .btn{grid-column:1/-1}
-
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:.12em;text-transform:uppercase;padding:19px 34px;border:0;cursor:pointer;overflow:hidden;isolation:isolate;
-  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);transition:transform .35s var(--ease),filter .35s}
-.btn svg{width:18px;height:18px;transition:transform .35s var(--ease)}
-.btn:hover{transform:translateY(-3px)}
-.btn:hover svg{transform:translateX(5px)}
-.btn-gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);color:#120d02}
-.btn-gold::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-90px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite;z-index:-1}
-.btn-gold:hover{filter:drop-shadow(0 10px 28px rgba(217,178,95,.45))}
-@keyframes shine{0%,55%{left:-90px}100%{left:calc(100% + 90px)}}
-.home{display:inline-block;margin-top:26px;font-family:var(--display);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent;transition:.3s}
+.home{display:inline-block;margin-top:26px;font-family:var(--display);font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent;transition:.3s}
 .home:hover{color:var(--gold-hi);border-color:var(--gold)}
 
+/* ---------- ticket ---------- */
+.stage{display:flex;justify-content:center;perspective:1200px}
+.ticket{--stub:128px;position:relative;width:100%;max-width:400px;color:#120d02;transform:rotate(2.5deg);transition:transform .6s var(--ease);filter:drop-shadow(0 30px 50px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(217,178,95,.18))}
+.ticket:hover{transform:rotate(0) translateY(-6px)}
+.t-body{position:relative;background:linear-gradient(165deg,#f6e3a6,#d9b25f 46%,#b98d3a);
+  -webkit-mask:radial-gradient(circle 14px at 0 calc(100% - var(--stub)),#0000 97%,#000) 0 0/51% 100% no-repeat,radial-gradient(circle 14px at 100% calc(100% - var(--stub)),#0000 97%,#000) 100% 0/51% 100% no-repeat;
+  mask:radial-gradient(circle 14px at 0 calc(100% - var(--stub)),#0000 97%,#000) 0 0/51% 100% no-repeat,radial-gradient(circle 14px at 100% calc(100% - var(--stub)),#0000 97%,#000) 100% 0/51% 100% no-repeat;
+  border-radius:22px;padding:26px 26px calc(var(--stub) + 22px);overflow:hidden}
+.t-body::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 22px,rgba(255,255,255,.07) 22px 23px);pointer-events:none}
+.t-body::after{content:"";position:absolute;left:0;right:0;top:0;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);transform:translateX(-120%);animation:glint 5s ease-in-out 1.2s infinite;pointer-events:none}
+@keyframes glint{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.t-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.t-top img{height:34px;width:auto;filter:brightness(0) saturate(100%)}
+.t-top span{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-align:right;line-height:1.35}
+.t-kind{margin:34px 0 4px;font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;opacity:.7}
+.t-name{font-family:var(--display);font-weight:700;font-size:clamp(34px,6vw,46px);line-height:1.1;text-transform:uppercase;word-break:break-word;overflow-wrap:anywhere}
+.t-rows{display:grid;grid-template-columns:1fr 1fr;gap:16px 14px;margin-top:26px}
+.t-rows small{display:block;font-family:var(--display);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.65}
+.t-rows b{display:block;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.04em;text-transform:uppercase;line-height:1.2;word-break:break-word}
+.t-rows .wide{grid-column:1/-1}
+.t-stub{position:absolute;left:0;right:0;bottom:0;height:var(--stub);padding:0 26px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.t-stub::before{content:"";position:absolute;left:22px;right:22px;top:0;border-top:3px dashed rgba(18,13,2,.4)}
+.bars{display:flex;align-items:stretch;gap:2px;height:58px;flex:1;max-width:210px}
+.bars i{display:block;background:#120d02;border-radius:1px}
+.t-code{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.2em;text-align:right;line-height:1.5;text-transform:uppercase}
+.t-code b{display:block;font-size:26px;letter-spacing:.08em;font-weight:700}
+
 .in{opacity:0;transform:translateY(34px);animation:up .9s var(--ease) forwards;animation-delay:var(--d,0s)}
+.ticket.in{transform:translateY(40px) rotate(6deg);animation-name:tin}
 @keyframes up{to{opacity:1;transform:none}}
-@media(max-width:480px){.ig{grid-template-columns:1fr;text-align:center}.ig-ico{margin:0 auto}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}.seal circle,.seal path{stroke-dashoffset:0}}
+@keyframes tin{to{opacity:1;transform:rotate(2.5deg)}}
+@media(max-width:900px){.stage{order:-1}.ticket{max-width:380px}h1{transform-origin:left bottom}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}.ticket.in{transform:rotate(2.5deg)}}
 </style>
 </head>
 <body>
 <div class="bg"></div><div class="shade"></div>
 <div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
-<canvas id="confetti"></canvas>
 
 <header class="top">
   <a href="index.html" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
@@ -105,50 +130,87 @@ h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-heig
 </header>
 
 <main>
-  <div class="wrap">
-    <div class="seal in" aria-hidden="true">
-      <svg viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e3a6"/><stop offset=".5" stop-color="#d9b25f"/><stop offset="1" stop-color="#8f6a26"/></linearGradient></defs>
-        <circle cx="50" cy="50" r="48" transform="rotate(-90 50 50)"/><path d="M30 52l14 14 27-30"/></svg>
-    </div>
-    <div class="eyebrow in" style="--d:.1s" data-t="eyebrow">Заявка принята</div>
-    <h1 class="in" style="--d:.2s"><span data-t="h1a">Ты</span> <span class="gold-text" data-t="h1b">в игре!</span></h1>
-    <p class="lead in" style="--d:.3s" data-t="lead">Мы получили твою заявку и скоро свяжемся по телефону.</p>
+  <section>
+    <div class="tag in"><i></i><span data-t="tag">Заявка принята</span></div>
+    <h1 class="in" style="--d:.1s"><span data-t="h1a">Ты в списке.</span><span class="gold-text" data-t="h1b">До встречи на финале</span></h1>
+    <p class="lead in" style="--d:.2s" data-t="lead">Мы получили заявку и скоро свяжемся по указанному номеру телефона.</p>
 
-    <div class="ig in" style="--d:.45s">
-      <div class="ig-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r=".9" fill="#fff" stroke="none"/></svg></div>
-      <div><h2 data-t="igH">Следи за новостями в Instagram</h2><p data-t="igP">Сетка, расписание матчей и анонсы финала — первыми у нас.</p></div>
-      <a class="btn btn-gold" href="https://www.instagram.com/adrenalineuz/" target="_blank" rel="noopener">
-        <span data-t="igB">Открыть @adrenalineuz</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
-    </div>
+    <a class="ig in" style="--d:.35s" href="https://www.instagram.com/adrenalineuz/" target="_blank" rel="noopener" aria-label="Instagram @adrenalineuz">
+      <div class="ig-in">
+        <div class="ig-head">
+          <div class="ig-ava"><div><img src="assets/logo.webp" alt="" width="320" height="116"></div></div>
+          <div class="ig-name"><small>Instagram</small><b>@adrenalineuz</b></div>
+        </div>
+        <p data-t="igP">Сетка, расписание матчей и анонсы финала — первыми у нас.</p>
+        <div class="ig-chips"><span data-t="chip1">Сетка</span><span data-t="chip2">Расписание</span><span data-t="chip3">Анонсы</span></div>
+        <div class="ig-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r=".9" fill="currentColor" stroke="none"/></svg>
+          <span data-t="igB">Подписаться</span>
+          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M8 7h9v9"/></svg>
+        </div>
+      </div>
+    </a>
 
-    <a class="home in" style="--d:.6s" href="index.html" data-t="home">← Вернуться на главную</a>
+    <a class="home in" style="--d:.5s" href="index.html" data-t="home">← На главную</a>
+  </section>
+
+  <div class="stage">
+    <div class="ticket in" style="--d:.25s" aria-label="Pass">
+      <div class="t-body">
+        <div class="t-top">
+          <img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116">
+          <span>Cyber Fest<br>CS2 · 5x5</span>
+        </div>
+        <div class="t-kind" data-t="kind">Пропуск игрока</div>
+        <div class="t-name" id="tName">Игрок</div>
+        <div class="t-rows">
+          <div><small data-t="fmt">Формат</small><b id="tType">Команда</b></div>
+          <div><small data-t="date">Финал</small><b>13.12.2026</b></div>
+          <div class="wide" id="tTeamWrap"><small data-t="team">Команда</small><b id="tTeam">—</b></div>
+          <div class="wide"><small data-t="place">Площадка</small><b data-t="placeV">Ледовый дворец «Алпомыш»</b></div>
+        </div>
+      </div>
+      <div class="t-stub">
+        <div class="bars" id="bars" aria-hidden="true"></div>
+        <div class="t-code"><span data-t="no">Пропуск №</span><b id="tNo">0000</b></div>
+      </div>
+    </div>
   </div>
 </main>
 
 <script>
 const T = {
   ru: {
-    eyebrow:"Заявка принята", h1a:"Ты", h1b:"в игре!",
-    lead:"Мы получили твою заявку и скоро свяжемся по указанному номеру телефона. Финалы — 13 декабря.",
-    igH:"Следи за новостями в Instagram", igP:"Сетка, расписание матчей и анонсы финала — первыми у нас.",
-    igB:"Открыть @adrenalineuz", home:"← Вернуться на главную",
-    title:"Заявка принята — Adrenaline Rush Cyber Fest"
+    tag:"Заявка принята", h1a:"Ты в списке.", h1b:"До встречи на финале",
+    lead:"Мы получили заявку и скоро свяжемся по указанному номеру телефона.",
+    igP:"Сетка, расписание матчей и анонсы финала — первыми у нас.", chip1:"Сетка", chip2:"Расписание", chip3:"Анонсы", igB:"Подписаться",
+    home:"← На главную", kind:"Пропуск игрока", fmt:"Формат", date:"Финал", team:"Команда", place:"Площадка", placeV:"Ледовый дворец «Алпомыш»", no:"Пропуск №",
+    typeTeam:"Команда", typeSolo:"Соло", player:"Игрок", title:"Заявка принята — Adrenaline Rush Cyber Fest"
   },
   uz: {
-    eyebrow:"Ariza qabul qilindi", h1a:"Sen", h1b:"o‘yindasan!",
-    lead:"Arizangiz qabul qilindi, tez orada ko‘rsatilgan telefon raqamingiz orqali bog‘lanamiz. Finallar — 13 dekabr.",
-    igH:"Yangiliklarni Instagram’da kuzat", igP:"Setka, o‘yinlar jadvali va final e’lonlari — birinchi bizda.",
-    igB:"@adrenalineuz sahifasini ochish", home:"← Bosh sahifaga qaytish",
-    title:"Ariza qabul qilindi — Adrenaline Rush Cyber Fest"
+    tag:"Ariza qabul qilindi", h1a:"Sen ro‘yxatdasan.", h1b:"Finalda ko‘rishamiz",
+    lead:"Arizangiz qabul qilindi, tez orada ko‘rsatilgan telefon raqamingiz orqali bog‘lanamiz.",
+    igP:"Setka, o‘yinlar jadvali va final e’lonlari — birinchi bizda.", chip1:"Setka", chip2:"Jadval", chip3:"E’lonlar", igB:"Obuna bo‘lish",
+    home:"← Bosh sahifa", kind:"O‘yinchi propuski", fmt:"Format", date:"Final", team:"Jamoa", place:"Manzil", placeV:"«Alpomish» muz saroyi", no:"Propusk №",
+    typeTeam:"Jamoa", typeSolo:"Yakka", player:"O‘yinchi", title:"Ariza qabul qilindi — Adrenaline Rush Cyber Fest"
   }
 };
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-let lang = "ru";
+const $ = (s, r = document) => r.querySelector(s);
+let lang = "ru", reg = {};
 try {
   const q = new URLSearchParams(location.search).get("lang"), saved = localStorage.getItem("lang");
   if (q === "uz" || q === "ru") lang = q; else if (saved === "uz" || saved === "ru") lang = saved;
+  reg = JSON.parse(sessionStorage.getItem("reg") || "{}");
 } catch (e) {}
+
+function render() {
+  const t = T[lang], solo = reg.type === "solo";
+  $("#tName").textContent = reg.name || t.player;
+  $("#tType").textContent = solo ? t.typeSolo : t.typeTeam;
+  $("#tTeamWrap").hidden = solo || !reg.team;
+  $("#tTeam").textContent = reg.team || "—";
+}
 function setLang(l) {
   lang = l;
   try { localStorage.setItem("lang", l); } catch (e) {}
@@ -156,35 +218,17 @@ function setLang(l) {
   document.title = T[l].title;
   $$("[data-t]").forEach(el => { if (T[l][el.dataset.t]) el.textContent = T[l][el.dataset.t]; });
   $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
+  render();
 }
 $$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
-setLang(lang);
 
-/* gold confetti burst */
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const c = document.getElementById("confetti"), x = c.getContext("2d");
-  const fit = () => { c.width = innerWidth * devicePixelRatio; c.height = innerHeight * devicePixelRatio; };
-  fit(); addEventListener("resize", fit);
-  const cols = ["#f6e3a6", "#d9b25f", "#b98d3a", "#ff8a1f", "#fff4cf"], dpr = devicePixelRatio;
-  const P = Array.from({ length: 140 }, () => {
-    const a = Math.random() * Math.PI - Math.PI;                 // upward fan
-    const v = (6 + Math.random() * 13) * dpr;
-    return { x: c.width / 2, y: c.height * .42, vx: Math.cos(a) * v * 1.1, vy: Math.sin(a) * v - 2 * dpr,
-      w: (5 + Math.random() * 7) * dpr, h: (3 + Math.random() * 5) * dpr, r: Math.random() * 6, vr: (Math.random() - .5) * .3,
-      col: cols[(Math.random() * cols.length) | 0], life: 0 };
-  });
-  (function frame() {
-    x.clearRect(0, 0, c.width, c.height);
-    let alive = 0;
-    for (const p of P) {
-      p.vy += .32 * dpr; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
-      if (p.y < c.height + 30 && p.life < 260) alive++;
-      x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.globalAlpha = Math.max(0, 1 - p.life / 260);
-      x.fillStyle = p.col; x.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); x.restore();
-    }
-    if (alive) requestAnimationFrame(frame); else x.clearRect(0, 0, c.width, c.height);
-  })();
-}
+/* pass number + barcode, seeded from the phone so each pass looks different */
+let seed = 0;
+for (const ch of String(reg.phone || reg.name || "adrenaline")) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+$("#tNo").textContent = String(1000 + Math.floor(rnd() * 8999));
+$("#bars").innerHTML = Array.from({ length: 34 }, () => `<i style="width:${1 + Math.floor(rnd() * 4)}px"></i>`).join("");
+setLang(lang);
 </script>
 </body>
 </html>
