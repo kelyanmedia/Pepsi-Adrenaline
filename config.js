@@ -3,7 +3,7 @@
    Пока api пустой, форма шлёт заявку напрямую в Telegram (без номера участника), а админка не работает. */
 window.APP_CONFIG = {
   api: "",
-  thanksPage: "thanks.html",
+  thanksPage: "/thanks",
   telegram: {                                   // запасной путь, пока не подключён api
     botToken: "9056095540:AAHis1R2BVMf5Zgxrx_r-NzyhfBrTguC0EY",
     chatId: "-1004434135380"

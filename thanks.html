@@ -2,6 +2,9 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>/* чистые адреса: /register вместо /register.html */
+if (/\.html$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/index\.html$/, "/").replace(/\.html$/, "").replace(/\/\/$/, "/") + location.search + location.hash);
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Заявка принята — Adrenaline Rush Cyber Fest</title>
 <meta name="robots" content="noindex">
@@ -122,7 +125,7 @@ h1 span{display:block}
 <div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
 
 <header class="top">
-  <a href="index.html" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
+  <a href="/" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
   <div class="lang" role="group" aria-label="Language">
     <button type="button" data-lang="ru" aria-pressed="true">RU</button>
     <button type="button" data-lang="uz" aria-pressed="false">UZ</button>
@@ -151,7 +154,7 @@ h1 span{display:block}
       </div>
     </a>
 
-    <a class="home in" style="--d:.5s" href="index.html" data-t="home">← На главную</a>
+    <a class="home in" style="--d:.5s" href="/" data-t="home">← На главную</a>
   </section>
 
   <div class="stage">

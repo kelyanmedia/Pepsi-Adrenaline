@@ -2,6 +2,9 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>/* чистые адреса: /register вместо /register.html */
+if (/\.html$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/index\.html$/, "/").replace(/\.html$/, "").replace(/\/\/$/, "/") + location.search + location.hash);
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Adrenaline Rush Cyber Fest — турнир по CS2</title>
 <meta name="description" content="Adrenaline Rush Cyber Fest — турнир по CS2 5x5. Призовой фонд 85 000 000. Регистрация команд 16–28 ноября, финалы 13 декабря.">
@@ -312,7 +315,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
       <a href="#terms" data-i="nav3">Условия и локация</a>
     </nav>
     <div class="nav-r"><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="ru">RU</button><button type="button" data-lang="uz">UZ</button></div>
-    <a class="btn btn-gold" data-form href="register.html" data-i="join">Участвовать</a></div>
+    <a class="btn btn-gold" data-form href="/register" data-i="join">Участвовать</a></div>
   </div>
 </header>
 
@@ -340,7 +343,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
     </div>
 
     <div class="hero-cta">
-      <a class="btn btn-gold btn-lg" data-form href="register.html"><span data-i="heroBtn">Участвовать в турнире</span>
+      <a class="btn btn-gold btn-lg" data-form href="/register"><span data-i="heroBtn">Участвовать в турнире</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn btn-ghost btn-lg" href="#flow" data-i="nav2">Как всё пройдёт</a>
     </div>
@@ -371,7 +374,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
       </ol>
 
       <div class="reg-actions reveal">
-        <a class="btn btn-gold btn-lg" data-form href="register.html"><span data-i="regBtn">Открыть форму регистрации</span>
+        <a class="btn btn-gold btn-lg" data-form href="/register"><span data-i="regBtn">Открыть форму регистрации</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
         <span class="reg-note" data-i="free">Участие <b>бесплатное</b></span>
       </div>
@@ -472,7 +475,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
     <div class="eyebrow reveal" data-i="a1">Слоты ограничены</div>
     <h2 class="display reveal" data-i="a2"><span>Твоя команда</span><span class="gold-text">в игре?</span></h2>
     <p class="reveal" data-i="a3">Регистрация закрывается 28 ноября. Подай заявку сейчас и поборись за призовой фонд 85 000 000.</p>
-    <div class="reveal"><a class="btn btn-gold btn-lg" data-form href="register.html"><span data-i="a4">Зарегистрировать команду</span>
+    <div class="reveal"><a class="btn btn-gold btn-lg" data-form href="/register"><span data-i="a4">Зарегистрировать команду</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     <div class="cta-sub reveal" data-i="a5">Регистрация <b>16–28 ноября</b> · Финалы <b>13 декабря</b></div>
   </div>
@@ -499,7 +502,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
         <h4 data-i="fh2">Даты</h4>
         <span data-i="fd1">16–28 ноября — регистрация</span>
         <span data-i="fd2">13 декабря — финалы (5x5)</span>
-        <a data-form href="register.html" data-i="fapply">Подать заявку →</a>
+        <a data-form href="/register" data-i="fapply">Подать заявку →</a>
       </div>
     </div>
     <div class="f-legal">
@@ -602,7 +605,7 @@ function applyLang(l) {
   $('meta[name=description]').content = META[l].desc;
   $$("[data-i]").forEach(el => { el.innerHTML = l === "uz" && UZ[el.dataset.i] ? UZ[el.dataset.i] : el.dataset.ru; });
   $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
-  $$("[data-form]").forEach(a => a.href = "register.html?lang=" + l);
+  $$("[data-form]").forEach(a => a.href = "/register");
 }
 $$("[data-lang]").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.lang)));
 applyLang(lang);
