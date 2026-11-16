@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Админка — Adrenaline Rush Cyber Fest</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a0907">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#0a0907;--panel:#14110c;--panel-2:#1a1610;--line:rgba(226,190,112,.18);--line-2:rgba(255,255,255,.08);
+  --gold:#d9b25f;--gold-hi:#f6e3a6;--gold-lo:#8f6a26;--text:#f4efe4;--muted:#a59c8a;--err:#ff6b5b;--ok:#43e06b;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100svh;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 40% at 80% 0%,rgba(217,178,95,.12),transparent 70%),radial-gradient(ellipse 50% 40% at 0% 100%,rgba(217,178,95,.07),transparent 70%)}
+[hidden]{display:none!important}
+button,input,select{font:inherit;color:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border:0;cursor:pointer;transition:transform .25s,filter .25s;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.6;cursor:progress;transform:none}
+.btn-gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);color:#120d02}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.btn svg{width:18px;height:18px}
+
+/* ---- login ---- */
+.login{min-height:100svh;display:grid;place-items:center;padding:24px}
+.login-card{width:100%;max-width:420px;padding:34px 30px;background:linear-gradient(160deg,rgba(26,22,15,.95),rgba(14,12,8,.96));border:1px solid var(--line);
+  clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px)}
+.login-card img{height:46px;width:auto;margin-bottom:22px}
+.login-card h1{font-family:var(--display);font-weight:700;font-size:34px;text-transform:uppercase;letter-spacing:.04em;line-height:1.15}
+.login-card p{color:var(--muted);margin:6px 0 24px}
+label{display:block;font-family:var(--display);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+input[type=text],input[type=password],input[type=search],select{width:100%;font-size:17px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);padding:14px 16px;outline:0;border-radius:0;transition:.25s}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,178,95,.14)}
+select option{background:#14110c}
+.f{margin-bottom:18px}
+.msg{min-height:22px;margin:4px 0 14px;font-size:15px;color:var(--err)}
+.login .btn{width:100%}
+
+/* ---- dashboard ---- */
+.top{position:sticky;top:0;z-index:20;background:rgba(10,9,7,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1400px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.top img{height:38px;width:auto}
+.title{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-hi)}
+.live{display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--muted)}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(67,224,107,.7);animation:pulse 1.8s infinite}
+.live.off i{background:var(--err);animation:none}
+@keyframes pulse{to{box-shadow:0 0 0 10px rgba(67,224,107,0)}}
+.sp{flex:1}
+main{max-width:1400px;margin:0 auto;padding:22px 24px 80px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{padding:18px 20px;background:var(--panel);border:1px solid var(--line)}
+.stat b{display:block;font-family:var(--display);font-weight:700;font-size:44px;line-height:1.1;background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-family:var(--display);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.bar .grow{flex:1;min-width:220px}
+.bar select{width:190px}
+.wrap{overflow:auto;border:1px solid var(--line);background:var(--panel);max-height:calc(100svh - 330px);min-height:240px}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th{position:sticky;top:0;background:#1d1812;text-align:left;font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding:13px 14px;border-bottom:1px solid var(--line);white-space:nowrap;z-index:2}
+td{padding:12px 14px;border-bottom:1px solid var(--line-2);font-size:16px;white-space:nowrap}
+tbody tr:hover{background:rgba(217,178,95,.06)}
+td.num{font-family:var(--display);font-weight:600;font-size:18px;color:var(--gold-hi)}
+td.dim{color:var(--muted)}
+.tag{display:inline-block;padding:3px 11px;border-radius:99px;font-family:var(--display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line)}
+.tag.team{color:var(--gold-hi);background:rgba(217,178,95,.12)}
+.tag.solo{color:#9fd0ff;border-color:rgba(159,208,255,.35);background:rgba(159,208,255,.08)}
+tr.fresh{animation:fresh 4s ease-out}
+@keyframes fresh{0%,40%{background:rgba(67,224,107,.25)}100%{background:transparent}}
+.empty{padding:50px 20px;text-align:center;color:var(--muted)}
+.foot{margin-top:12px;color:var(--muted);font-size:14px}
+@media(max-width:760px){
+  .stats{grid-template-columns:1fr 1fr}.stat b{font-size:36px}
+  .top-in{padding:10px 16px}main{padding:16px 16px 60px}.bar select{width:100%}.title{display:none}
+  .wrap{max-height:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ ВХОД ============ -->
+<section class="login" id="login">
+  <form class="login-card" id="loginForm" autocomplete="on">
+    <img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116">
+    <h1>Админ-панель</h1>
+    <p>Участники Cyber Fest в реальном времени</p>
+    <div class="f"><label for="lg">Логин</label><input id="lg" type="text" autocomplete="username" autocapitalize="off" required></div>
+    <div class="f"><label for="pw">Пароль</label><input id="pw" type="password" autocomplete="current-password" required></div>
+    <div class="msg" id="loginMsg" role="alert"></div>
+    <button class="btn btn-gold" type="submit" id="loginBtn">Войти</button>
+  </form>
+</section>
+
+<!-- ============ ПАНЕЛЬ ============ -->
+<section id="app" hidden>
+  <header class="top"><div class="top-in">
+    <img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116">
+    <span class="title">Участники</span>
+    <span class="live" id="live"><i></i><span id="liveText">обновляется…</span></span>
+    <span class="sp"></span>
+    <button class="btn btn-gold" id="xls" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Скачать Excel</button>
+    <button class="btn btn-ghost" id="out" type="button">Выйти</button>
+  </div></header>
+
+  <main>
+    <div class="stats">
+      <div class="stat"><b id="sAll">0</b><span>Всего заявок</span></div>
+      <div class="stat"><b id="sTeam">0</b><span>Команд</span></div>
+      <div class="stat"><b id="sSolo">0</b><span>Соло</span></div>
+      <div class="stat"><b id="sToday">0</b><span>Сегодня</span></div>
+    </div>
+    <div class="bar">
+      <input class="grow" id="q" type="search" placeholder="Поиск: имя, телефон, команда, ник…">
+      <select id="ft"><option value="">Все типы</option><option value="Команда">Только команды</option><option value="Соло">Только соло</option></select>
+    </div>
+    <div class="wrap">
+      <table>
+        <thead><tr><th>№</th><th>Дата</th><th>День</th><th>Время</th><th>Тип</th><th>Имя</th><th>Телефон</th><th>Команда</th><th>Ник</th><th>Язык</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>Заявок пока нет</div>
+    </div>
+    <p class="foot">Данные обновляются автоматически каждые 5 секунд. Excel выгружается с учётом текущего поиска и фильтра.</p>
+  </main>
+</section>
+
+<script>
+const API = (window.APP_CONFIG || {}).api;
+const $ = (s, r = document) => r.querySelector(s);
+const esc = v => String(v).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let creds = null, data = [], timer = null, known = new Set(), first = true;
+
+async function call(body) {
+  const r = await fetch(API, { method: "POST", body: JSON.stringify(body) });
+  return r.json();
+}
+
+/* ---------- вход ---------- */
+$("#loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#loginMsg"), btn = $("#loginBtn"); msg.textContent = "";
+  if (!API) { msg.textContent = "Сервер не подключён: впишите адрес в config.js (см. backend/SETUP.md)."; return; }
+  btn.disabled = true; btn.textContent = "Проверяем…";
+  try {
+    const c = { login: $("#lg").value.trim(), password: $("#pw").value };
+    const j = await call({ action: "list", ...c });
+    if (!j.ok) { msg.textContent = j.error === "auth" ? "Неверный логин или пароль" : "Ошибка сервера"; return; }
+    creds = c; try { sessionStorage.setItem("adm", JSON.stringify(c)); } catch (e) {}
+    show(); apply(j.rows);
+  } catch (err) { msg.textContent = "Нет связи с сервером. Попробуйте ещё раз."; }
+  finally { btn.disabled = false; btn.textContent = "Войти"; }
+});
+
+function show() {
+  $("#login").hidden = true; $("#app").hidden = false;
+  clearInterval(timer); timer = setInterval(refresh, 5000);
+}
+$("#out").addEventListener("click", () => {
+  creds = null; clearInterval(timer); try { sessionStorage.removeItem("adm"); } catch (e) {}
+  $("#app").hidden = true; $("#login").hidden = false; $("#pw").value = ""; data = []; known = new Set(); first = true;
+});
+
+/* ---------- данные в реальном времени ---------- */
+async function refresh() {
+  if (!creds) return;
+  try {
+    const j = await call({ action: "list", ...creds });
+    if (!j.ok) { setLive(false, j.error === "auth" ? "доступ закрыт" : "ошибка"); return; }
+    apply(j.rows); setLive(true, "обновлено " + new Date().toLocaleTimeString("ru-RU"));
+  } catch (e) { setLive(false, "нет связи"); }
+}
+function setLive(ok, t) { $("#live").classList.toggle("off", !ok); $("#liveText").textContent = t; }
+
+function apply(rows) {
+  data = rows.slice().sort((a, b) => b.number - a.number);
+  render(); setLive(true, "обновлено " + new Date().toLocaleTimeString("ru-RU"));
+}
+
+function filtered() {
+  const q = $("#q").value.trim().toLowerCase(), t = $("#ft").value;
+  return data.filter(r => (!t || r.type === t) && (!q || [r.number, r.name, r.phone, r.team, r.nick, r.date].join(" ").toLowerCase().includes(q)));
+}
+function render() {
+  const today = new Date().toLocaleDateString("ru-RU", { timeZone: "Asia/Tashkent", day: "2-digit", month: "2-digit", year: "numeric" });
+  $("#sAll").textContent = data.length;
+  $("#sTeam").textContent = data.filter(r => r.type === "Команда").length;
+  $("#sSolo").textContent = data.filter(r => r.type === "Соло").length;
+  $("#sToday").textContent = data.filter(r => r.date === today).length;
+  const list = filtered();
+  $("#empty").hidden = list.length > 0;
+  $("#rows").innerHTML = list.map(r => {
+    const fresh = !first && !known.has(r.number) ? " fresh" : "";
+    return `<tr class="${fresh.trim()}"><td class="num">${String(r.number).padStart(4, "0")}</td><td>${esc(r.date)}</td><td class="dim">${esc(r.day)}</td><td>${esc(r.time)}</td>
+      <td><span class="tag ${r.type === "Соло" ? "solo" : "team"}">${esc(r.type)}</span></td><td>${esc(r.name)}</td><td>${esc(r.phone)}</td>
+      <td>${esc(r.team || "—")}</td><td>${esc(r.nick || "—")}</td><td class="dim">${r.lang === "uz" ? "UZ" : "RU"}</td></tr>`;
+  }).join("");
+  data.forEach(r => known.add(r.number)); first = false;
+}
+$("#q").addEventListener("input", render);
+$("#ft").addEventListener("change", render);
+
+/* ---------- Excel ---------- */
+$("#xls").addEventListener("click", () => {
+  if (!window.XLSX) { alert("Не загрузилась библиотека Excel. Проверьте интернет и обновите страницу."); return; }
+  const list = filtered().slice().sort((a, b) => a.number - b.number);
+  const head = ["№", "Дата", "День", "Время", "Тип", "Имя", "Телефон", "Команда", "Ник", "Язык"];
+  const aoa = [head, ...list.map(r => [r.number, r.date, r.day, r.time, r.type, r.name, r.phone, r.team, r.nick, r.lang === "uz" ? "UZ" : "RU"])];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws["!cols"] = [6, 12, 14, 10, 10, 22, 19, 22, 16, 7].map(wch => ({ wch }));
+  ws["!freeze"] = { xSplit: 0, ySplit: 1 };
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Участники");
+  const d = new Date(), pad = n => String(n).padStart(2, "0");
+  XLSX.writeFile(wb, `adrenaline-participants-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.xlsx`);
+});
+
+/* ---------- автовход в рамках вкладки ---------- */
+try {
+  const s = JSON.parse(sessionStorage.getItem("adm") || "null");
+  if (s && API) { creds = s; call({ action: "list", ...s }).then(j => { if (j.ok) { show(); apply(j.rows); } else creds = null; }).catch(() => { creds = null; }); }
+} catch (e) {}
+</script>
+</body>
+</html>

@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
 <style>
 :root{
   --bg:#0a0907;--card:#13110d;--line:rgba(226,190,112,.18);
@@ -169,26 +170,51 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 </main>
 
 <script>
-/* ================== НАСТРОЙКИ ================== */
-const CONFIG = {
-  botToken: "9056095540:AAHis1R2BVMf5Zgxrx_r-NzyhfBrTguC0EY",
-  chatId: "-1004434135380",            // группа «Adrenaline Cyber 2026»
-  thanksPage: "thanks.html"
-};
-/* =============================================== */
-
+const CONFIG = window.APP_CONFIG || {};
+const DAYS_RU = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
 const esc = v => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/* время заявки по Ташкенту (для запасного пути без сервера) */
+function tashkentNow() {
+  const f = new Intl.DateTimeFormat("ru-RU", { timeZone: "Asia/Tashkent", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23", weekday: "long" });
+  const p = Object.fromEntries(f.formatToParts(new Date()).map(x => [x.type, x.value]));
+  return { date: `${p.day}.${p.month}.${p.year}`, day: p.weekday, time: `${p.hour}:${p.minute}:${p.second}` };
+}
+
 function tgText(d) {
   const solo = d.type === "solo";
   return [
-    `🔥 <b>Новая заявка — ${solo ? "СОЛО игрок" : "КОМАНДА"}</b>`,
+    `🔥 <b>Новая заявка${d.number ? " №" + String(d.number).padStart(4, "0") : ""} — ${solo ? "СОЛО игрок" : "КОМАНДА"}</b>`,
+    "",
+    `🗓 <b>Дата:</b> ${d.date}, ${d.day}`,
+    `🕒 <b>Время:</b> ${d.time.slice(0, 5)} (Ташкент)`,
     "",
     `👤 <b>Имя:</b> ${esc(d.name)}`,
     `📞 <b>Телефон:</b> ${esc(d.phone)}`,
-    solo ? "" : `🛡 <b>Команда:</b> ${esc(d.team)}`,
+    solo ? null : `🛡 <b>Команда:</b> ${esc(d.team)}`,
     `🎮 <b>Ник:</b> ${d.nick ? esc(d.nick) : "—"}`,
     `🌐 <b>Язык сайта:</b> ${d.lang === "uz" ? "O‘zbekcha" : "Русский"}`
-  ].filter(l => l !== "" || true).filter((l, i, a) => !(l === "" && i === 0)).join("\n");
+  ].filter(l => l !== null).join("\n");
+}
+
+/* отправка: через сервер (номер участника, таблица, админка) либо напрямую в Telegram */
+async function sendApplication(data) {
+  if (CONFIG.api) {
+    const r = await fetch(CONFIG.api, { method: "POST", body: JSON.stringify({ action: "register", ...data }) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || "server error");
+    return { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
+  }
+  const full = { ...data, ...tashkentNow() };
+  const tg = CONFIG.telegram || {};
+  const r = await fetch(`https://api.telegram.org/bot${tg.botToken}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: tg.chatId, text: tgText(full), parse_mode: "HTML", disable_web_page_preview: true })
+  });
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.description || "telegram error");
+  return full;
 }
 
 const T = {
@@ -313,15 +339,9 @@ $("#form").addEventListener("submit", async e => {
   const btn = $("#submit"), label = btn.querySelector("span");
   btn.disabled = true; label.textContent = T[lang].sending;
   try {
-    const r = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: CONFIG.chatId, text: tgText(data), parse_mode: "HTML", disable_web_page_preview: true })
-    });
-    const j = await r.json();
-    if (!j.ok) throw new Error(j.description || "telegram error");
-    try { sessionStorage.setItem("reg", JSON.stringify({ type: data.type, name: data.name, team: data.team, phone: data.phone })); } catch (e) {}
-    location.href = CONFIG.thanksPage + "?lang=" + lang;
+    const saved = await sendApplication(data);
+    try { sessionStorage.setItem("reg", JSON.stringify({ type: saved.type, name: saved.name, team: saved.team, phone: saved.phone, number: saved.number || 0, date: saved.date, day: saved.day, time: saved.time })); } catch (e) {}
+    location.href = (CONFIG.thanksPage || "thanks.html") + "?lang=" + lang;
   } catch (err) {
     btn.disabled = false; label.textContent = T[lang].send;
     $("#fail").classList.add("on");
