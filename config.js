@@ -1,11 +1,10 @@
 /* Общие настройки сайта (форма регистрации и админка).
-   api — адрес веб-приложения Google Apps Script (см. backend/SETUP.md): он выдаёт номер участника,
-   сохраняет заявки в таблицу, шлёт их в Telegram и питает админку /admin.
-   Пока api пустой, форма шлёт заявку напрямую в Telegram (без номера участника), а админка не работает. */
+   api — бэкенд заявок на Vercel (api/registrations.js): номер участника, хранение, админка /admin.
+   Пока к проекту Vercel не подключено хранилище (см. ADMIN.md), форма шлёт заявки напрямую в Telegram. */
 window.APP_CONFIG = {
-  api: "",
+  api: "/api/registrations",
   thanksPage: "/thanks",
-  telegram: {                                   // запасной путь, пока не подключён api
+  telegram: {
     botToken: "9056095540:AAHis1R2BVMf5Zgxrx_r-NzyhfBrTguC0EY",
     chatId: "-1004434135380"
   }

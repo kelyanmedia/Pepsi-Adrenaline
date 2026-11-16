@@ -222,12 +222,17 @@ async function sendApplication(data) {
     if (!j.ok) throw new Error(j.description || "telegram error");
   };
   if (CONFIG.api) {
-    const r = await fetch(CONFIG.api, { method: "POST", body: JSON.stringify({ action: "register", ...data }) });
-    const j = await r.json();
-    if (!j.ok) throw new Error(j.error || "server error");
-    const full = { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
-    if (!j.notified) { try { await toTelegram(full); } catch (e) { /* заявка уже в таблице */ } }
-    return full;
+    let j = null;
+    try {
+      const r = await fetch(CONFIG.api, { method: "POST", body: JSON.stringify({ action: "register", ...data }) });
+      j = await r.json();
+    } catch (e) { j = null; }
+    if (j && j.ok) {
+      const full = { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
+      if (!j.notified) { try { await toTelegram(full); } catch (e) { /* заявка уже сохранена */ } }
+      return full;
+    }
+    // хранилище не подключено / сервер недоступен — заявка всё равно уходит в Telegram (без номера)
   }
   const full = { ...data, ...tashkentNow() };
   await toTelegram(full);

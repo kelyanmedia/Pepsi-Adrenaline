@@ -161,12 +161,12 @@ async function call(body) {
 $("#loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   const msg = $("#loginMsg"), btn = $("#loginBtn"); msg.textContent = "";
-  if (!API) { msg.textContent = "Админка ещё не подключена к таблице заявок. Разверните Google-скрипт по инструкции backend/SETUP.md и впишите его адрес в config.js."; return; }
+  if (!API) { msg.textContent = "Админка не настроена: в config.js не указан api."; return; }
   btn.disabled = true; btn.textContent = "Проверяем…";
   try {
     const c = { login: $("#lg").value.trim(), password: $("#pw").value };
     const j = await call({ action: "list", ...c });
-    if (!j.ok) { msg.textContent = j.error === "auth" ? "Неверный логин или пароль" : "Ошибка сервера"; return; }
+    if (!j.ok) { msg.textContent = j.error === "auth" ? "Неверный логин или пароль" : j.error === "storage_not_connected" ? "Хранилище заявок ещё не подключено в Vercel (см. ADMIN.md)." : "Ошибка сервера"; return; }
     creds = c; try { sessionStorage.setItem("adm", JSON.stringify(c)); } catch (e) {}
     show(); apply(j);
   } catch (err) { msg.textContent = "Нет связи с сервером. Попробуйте ещё раз."; }
