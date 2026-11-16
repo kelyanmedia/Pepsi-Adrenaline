@@ -166,7 +166,7 @@ $("#loginForm").addEventListener("submit", async e => {
   try {
     const c = { login: $("#lg").value.trim(), password: $("#pw").value };
     const j = await call({ action: "list", ...c });
-    if (!j.ok) { msg.textContent = j.error === "auth" ? "Неверный логин или пароль" : j.error === "storage_not_connected" ? "Хранилище заявок ещё не подключено в Vercel (см. ADMIN.md)." : "Ошибка сервера"; return; }
+    if (!j.ok) { msg.textContent = j.error === "auth" ? "Неверный логин или пароль" : "Ошибка сервера"; return; }
     creds = c; try { sessionStorage.setItem("adm", JSON.stringify(c)); } catch (e) {}
     show(); apply(j);
   } catch (err) { msg.textContent = "Нет связи с сервером. Попробуйте ещё раз."; }
