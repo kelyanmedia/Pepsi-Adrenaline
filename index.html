@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adrenaline Rush Cyber Fest — турнир по CS2</title>
+<meta name="description" content="Adrenaline Rush Cyber Fest — турнир по CS2 5x5. Призовой фонд 85 000 000. Регистрация команд 13–28 ноября, финалы 13 декабря.">
+<meta name="theme-color" content="#0a0907">
+<meta property="og:title" content="Adrenaline Rush Cyber Fest — турнир по CS2">
+<meta property="og:description" content="Призовой фонд 85 000 000. Регистрация 13–28 ноября, финалы 13 декабря.">
+<meta property="og:image" content="assets/poster.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/hero.webp">
+<style>
+:root{
+  --bg:#0a0907;
+  --bg-2:#12100c;
+  --card:#16130e;
+  --line:rgba(226,190,112,.16);
+  --gold:#d9b25f;
+  --gold-hi:#f6e3a6;
+  --gold-lo:#8f6a26;
+  --orange:#ff8a1f;
+  --text:#f4efe4;
+  --muted:#a59c8a;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --pad:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#000}
+
+/* film grain over everything */
+body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 var(--pad)}
+.display{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.95;letter-spacing:.01em}
+.gold-text{background:linear-gradient(180deg,var(--gold-hi) 0%,var(--gold) 45%,var(--gold-lo) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
+.h2{font-size:clamp(40px,7vw,92px);transform:skewX(-7deg);transform-origin:left bottom;margin:18px 0 22px}
+.lead{color:var(--muted);font-size:clamp(16px,1.5vw,19px);max-width:560px}
+section{position:relative;padding:clamp(80px,11vw,150px) 0}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.12em;text-transform:uppercase;padding:18px 34px;border:0;cursor:pointer;overflow:hidden;isolation:isolate;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);transition:transform .35s var(--ease),filter .35s}
+.btn svg{width:18px;height:18px;transition:transform .35s var(--ease)}
+.btn:hover{transform:translateY(-3px)}
+.btn:hover svg{transform:translateX(5px)}
+.btn-gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);color:#120d02}
+.btn-gold::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-90px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite;z-index:-1}
+.btn-gold:hover{filter:drop-shadow(0 10px 28px rgba(217,178,95,.45))}
+.btn-ghost{background:rgba(255,255,255,.04);color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1px var(--gold);color:var(--gold-hi)}
+.btn-lg{font-size:clamp(18px,2vw,22px);padding:22px 44px}
+@keyframes shine{0%,55%{left:-90px}100%{left:calc(100% + 90px)}}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+.reveal-l{transform:translateX(-50px)}
+.reveal-r{transform:translateX(50px)}
+.reveal-s{transform:scale(.92)}
+.h2.reveal{transform:skewX(-7deg) translateY(40px)}
+.h2.reveal.in{transform:skewX(-7deg)}
+
+/* torn paper edge */
+.torn{position:absolute;left:0;width:100%;height:clamp(40px,7vw,90px);z-index:5;pointer-events:none;display:block}
+.torn.bottom{bottom:-1px}
+.torn.top{top:-1px;transform:scaleY(-1)}
+
+/* ============ NAV ============ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,backdrop-filter .4s,transform .4s var(--ease)}
+.nav.scrolled{background:rgba(10,9,7,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo img{height:46px;width:auto}
+.nav-links{display:flex;gap:34px;font-family:var(--display);font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.nav-links a{position:relative;color:#d8d0bf;padding:6px 0;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.nav-links a:hover{color:var(--gold-hi)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav .btn{padding:12px 22px;font-size:14px}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* ============ HERO ============ */
+.hero{min-height:100svh;padding:100px 0 clamp(90px,10vw,140px);display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:-4%;background:url(assets/hero.webp) center 30%/cover no-repeat;animation:kenburns 22s ease-in-out infinite alternate;will-change:transform;
+  transform:translate3d(calc(var(--mx,0) * -14px),calc(var(--my,0) * -10px),0) scale(1.04)}
+@keyframes kenburns{from{scale:1}to{scale:1.1}}
+.hero-shade{position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 60% at 50% 45%,rgba(10,9,7,.35) 0%,rgba(10,9,7,.86) 100%),
+  linear-gradient(180deg,rgba(10,9,7,.9) 0%,rgba(10,9,7,.25) 28%,rgba(10,9,7,.7) 70%,var(--bg) 100%)}
+.beams{position:absolute;inset:0;overflow:hidden;mix-blend-mode:screen;pointer-events:none}
+.beam{position:absolute;top:-20%;width:26vw;height:150%;background:linear-gradient(180deg,rgba(246,227,166,.34),rgba(217,178,95,0) 72%);filter:blur(22px);transform-origin:50% 0;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
+.beam:nth-child(1){left:2%;animation:sweep 9s ease-in-out infinite alternate}
+.beam:nth-child(2){left:36%;animation:sweep 12s ease-in-out -4s infinite alternate-reverse;opacity:.7}
+.beam:nth-child(3){right:2%;animation:sweep 10s ease-in-out -2s infinite alternate}
+@keyframes sweep{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+
+.hero-in{position:relative;z-index:3;text-align:center;width:100%}
+.live{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-size:13px;letter-spacing:.24em;text-transform:uppercase;padding:9px 18px;border:1px solid rgba(217,178,95,.45);background:rgba(10,9,7,.55);backdrop-filter:blur(6px);color:var(--gold-hi);border-radius:99px;opacity:0;animation:fadeUp .8s var(--ease) .2s forwards}
+.live i{width:8px;height:8px;border-radius:50%;background:#43e06b;box-shadow:0 0 0 0 rgba(67,224,107,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{to{box-shadow:0 0 0 12px rgba(67,224,107,0)}}
+.hero-title{font-size:clamp(64px,min(16.5vw,25vh),250px);margin:22px 0 0;transform:skewX(-9deg);line-height:.86;text-shadow:0 12px 60px rgba(0,0,0,.7);white-space:nowrap}
+.hero-title .w{display:inline-block;overflow:hidden;padding:.05em .06em 0 .02em;vertical-align:top}
+.hero-title .w + .w{margin-left:.16em}
+.hero-title .c{display:inline-block;transform:translateY(110%) rotate(8deg);animation:letter .9s var(--ease) forwards;animation-delay:calc(.35s + var(--i) * .055s)}
+@keyframes letter{to{transform:none}}
+.hero-sub{font-family:var(--display);font-weight:600;font-size:clamp(20px,3.4vw,44px);letter-spacing:.2em;text-transform:uppercase;transform:skewX(-9deg);margin-top:10px;opacity:0;animation:fadeUp .8s var(--ease) 1s forwards}
+.hero-sub b{color:var(--orange);font-weight:700;text-shadow:0 0 28px rgba(255,138,31,.6)}
+.prize{margin-top:clamp(22px,3vw,40px);opacity:0;animation:fadeUp .9s var(--ease) 1.2s forwards}
+.prize-label{font-family:var(--display);font-size:clamp(14px,1.6vw,20px);letter-spacing:.34em;text-transform:uppercase;color:#e9e2d2}
+.prize-num{font-family:var(--display);font-weight:700;font-size:clamp(52px,min(12vw,15vh),170px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em;filter:drop-shadow(0 6px 40px rgba(217,178,95,.35))}
+.prize-num small{font-size:.22em;letter-spacing:.2em;margin-left:.3em;vertical-align:.9em}
+.hero-dates{display:flex;justify-content:center;gap:clamp(20px,6vw,90px);margin-top:clamp(18px,2.4vw,30px);opacity:0;animation:fadeUp .9s var(--ease) 1.4s forwards;flex-wrap:wrap}
+.hero-dates div{text-align:center}
+.hero-dates strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(24px,3.2vw,40px);text-transform:uppercase;transform:skewX(-9deg);line-height:1.1}
+.hero-dates span{font-family:var(--display);font-size:clamp(13px,1.4vw,17px);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.hero-cta{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:clamp(26px,3.4vw,44px);opacity:0;animation:fadeUp .9s var(--ease) 1.6s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.hero-sub{animation-name:fadeUpSkew}
+@keyframes fadeUpSkew{from{opacity:0;transform:skewX(-9deg) translateY(26px)}to{opacity:1;transform:skewX(-9deg)}}
+.scroll-hint{position:absolute;left:50%;bottom:clamp(70px,9vw,120px);z-index:6;width:24px;height:40px;margin-left:-12px;border:2px solid rgba(255,255,255,.5);border-radius:14px}
+.scroll-hint::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--gold-hi);animation:wheel 1.8s infinite}
+@keyframes wheel{to{transform:translateY(14px);opacity:0}}
+@media(max-height:1000px),(max-width:700px){.scroll-hint{display:none}}
+@media(max-width:600px){
+  .hero-title{font-size:31vw;white-space:normal;line-height:.84}
+  .hero-title .w{display:block}
+  .hero-title .w + .w{margin-left:0}
+  .hero-cta .btn{width:100%}
+  .btn-lg{padding:19px 26px}
+}
+
+/* ============ MARQUEE ============ */
+.marquee{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 60%,#b98d3a);color:#120d02;overflow:hidden;padding:14px 0;transform:rotate(-1.2deg) scale(1.03);position:relative;z-index:6;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.marquee-track{display:flex;width:max-content;animation:marq 26s linear infinite}
+.marquee span{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.4vw,30px);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding:0 26px;display:inline-flex;align-items:center;gap:52px}
+.marquee span::after{content:"✦";font-size:.7em}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ============ REGISTER ============ */
+.register{background:radial-gradient(ellipse 60% 50% at 85% 30%,rgba(217,178,95,.13),transparent 70%),var(--bg)}
+.reg-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,6vw,90px);align-items:center}
+.steps{list-style:none;margin:36px 0 40px;display:grid;gap:14px;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:18px;align-items:flex-start;padding:18px 20px;background:linear-gradient(90deg,rgba(255,255,255,.045),rgba(255,255,255,0));border-left:2px solid var(--gold);transition:transform .4s var(--ease),background .4s}
+.steps li:hover{transform:translateX(8px);background:linear-gradient(90deg,rgba(217,178,95,.14),rgba(255,255,255,0))}
+.steps li::before{content:"0" counter(s);font-family:var(--display);font-weight:700;font-size:30px;line-height:1;color:var(--gold);min-width:42px}
+.steps b{display:block;font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.06em;text-transform:uppercase}
+.steps p{color:var(--muted);font-size:15px;margin-top:2px}
+.reg-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.reg-note{color:var(--muted);font-size:14px}
+.reg-note b{color:var(--gold-hi);font-weight:600}
+
+.poster-wrap{perspective:1200px;position:relative;justify-self:center;width:min(100%,440px)}
+.poster-wrap::before{content:"";position:absolute;inset:8% -6% -4% 6%;background:conic-gradient(from 0deg,var(--gold),transparent 30%,var(--orange) 55%,transparent 75%,var(--gold));filter:blur(46px);opacity:.5;animation:spin 14s linear infinite;border-radius:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.poster{position:relative;transform:rotateY(calc(var(--rx,0) * 1deg)) rotateX(calc(var(--ry,0) * 1deg)) rotate(3deg);transform-style:preserve-3d;transition:transform .25s ease-out;box-shadow:0 40px 90px rgba(0,0,0,.75),0 0 0 1px var(--line);animation:float 6s ease-in-out infinite}
+.poster img{width:100%;height:auto}
+.poster::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at calc(var(--gx,50) * 1%) calc(var(--gy,30) * 1%),rgba(255,255,255,.28),transparent 45%);mix-blend-mode:overlay;pointer-events:none}
+@keyframes float{50%{translate:0 -14px}}
+.countdown{display:flex;gap:10px;margin-top:34px}
+.cd{flex:1;max-width:96px;text-align:center;background:var(--card);border:1px solid var(--line);padding:12px 6px 10px}
+.cd b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(28px,3.4vw,40px);line-height:1;font-variant-numeric:tabular-nums}
+.cd span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.cd-title{margin-top:34px;font-family:var(--display);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.cd-title + .countdown{margin-top:12px}
+@media(max-width:900px){.reg-grid{grid-template-columns:1fr}.poster-wrap{order:-1;width:min(78%,360px)}}
+
+/* ============ TIMELINE ============ */
+.flow{background:var(--bg-2)}
+.flow-head{text-align:center;display:flex;flex-direction:column;align-items:center}
+.flow-head .h2{transform-origin:center bottom}
+.flow-head .lead{margin:0 auto}
+.timeline{position:relative;margin-top:clamp(50px,7vw,90px)}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:rgba(255,255,255,.09)}
+.tl-fill{position:absolute;left:0;top:0;width:100%;height:calc(var(--p,0) * 100%);background:linear-gradient(180deg,var(--gold-hi),var(--gold));box-shadow:0 0 18px var(--gold)}
+.tl-item{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(50px,9vw,130px);margin-bottom:clamp(36px,5vw,64px)}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:50%;top:26px;width:18px;height:18px;margin-left:-9px;background:var(--bg-2);border:2px solid rgba(255,255,255,.25);transform:rotate(45deg);transition:all .5s var(--ease);z-index:2}
+.tl-item.in .tl-dot{background:var(--gold);border-color:var(--gold-hi);box-shadow:0 0 0 6px rgba(217,178,95,.18),0 0 24px var(--gold)}
+.tl-date{text-align:right;padding-top:6px}
+.tl-date strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(34px,5vw,64px);line-height:1;text-transform:uppercase;transform:skewX(-7deg)}
+.tl-date span{font-family:var(--display);letter-spacing:.24em;font-size:13px;text-transform:uppercase;color:var(--gold)}
+.tl-card{background:var(--card);border:1px solid var(--line);padding:26px 28px;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);transition:transform .4s var(--ease),border-color .4s}
+.tl-card:hover{transform:translateY(-6px);border-color:rgba(217,178,95,.55)}
+.tl-card::before{content:attr(data-n);position:absolute;right:14px;bottom:-26px;font-family:var(--display);font-weight:700;font-size:130px;line-height:1;color:rgba(217,178,95,.07)}
+.tl-card h3{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px}
+.tl-card p{color:var(--muted);font-size:15.5px;position:relative}
+.tl-item:nth-child(odd) .tl-date{order:2;text-align:left}
+.tl-item .tl-date,.tl-item .tl-card{opacity:0;transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.tl-item .tl-date{transform:translateX(-40px)}
+.tl-item .tl-card{transform:translateX(40px)}
+.tl-item:nth-child(odd) .tl-date{transform:translateX(40px)}
+.tl-item:nth-child(odd) .tl-card{transform:translateX(-40px)}
+.tl-item.in .tl-date,.tl-item.in .tl-card{opacity:1;transform:none}
+.tl-item.in .tl-card:hover{transform:translateY(-6px)}
+@media(max-width:760px){
+  .tl-line{left:9px}
+  .tl-dot{left:9px}
+  .tl-item{grid-template-columns:1fr;gap:12px;padding-left:44px}
+  .tl-date,.tl-item:nth-child(odd) .tl-date{order:0;text-align:left}
+}
+
+/* ============ CONDITIONS ============ */
+.terms{background:
+  linear-gradient(180deg,var(--bg-2),rgba(10,9,7,.86) 30%,var(--bg) 100%),
+  url(assets/hero.webp) center/cover fixed}
+.terms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(36px,5vw,60px)}
+.t-card{position:relative;background:rgba(18,16,12,.9);border:1px solid var(--line);padding:30px 26px 28px;overflow:hidden;transition:transform .45s var(--ease),border-color .45s}
+.t-card::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--x,50%) var(--y,0%),rgba(217,178,95,.2),transparent 45%);opacity:0;transition:opacity .4s}
+.t-card:hover{transform:translateY(-6px);border-color:rgba(217,178,95,.6)}
+.t-card:hover::before{opacity:1}
+.t-card::after{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--gold-hi),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.t-card:hover::after{transform:scaleX(1)}
+.t-big{font-family:var(--display);font-weight:700;font-size:clamp(44px,5vw,66px);line-height:1;position:relative}
+.t-card h3{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.08em;text-transform:uppercase;margin:14px 0 6px;position:relative}
+.t-card p{color:var(--muted);font-size:15px;position:relative}
+
+.loc{display:grid;grid-template-columns:1fr 1fr;margin-top:16px;border:1px solid var(--line);background:rgba(18,16,12,.94)}
+.loc-info{padding:clamp(28px,4vw,50px)}
+.loc-info h3{font-family:var(--display);font-weight:700;font-size:clamp(30px,4vw,50px);text-transform:uppercase;line-height:1;transform:skewX(-7deg);transform-origin:left;margin:14px 0 14px}
+.loc-info p{color:var(--muted);max-width:420px}
+.loc-rows{margin-top:26px;display:grid;gap:12px}
+.loc-rows div{display:flex;gap:14px;align-items:baseline;border-top:1px solid var(--line);padding-top:12px}
+.loc-rows dt{font-family:var(--display);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);min-width:92px}
+.loc-rows dd{font-weight:600}
+.radar{position:relative;min-height:340px;overflow:hidden;border-left:1px solid var(--line);
+  background:
+   linear-gradient(rgba(217,178,95,.09) 1px,transparent 1px) 0 0/38px 38px,
+   linear-gradient(90deg,rgba(217,178,95,.09) 1px,transparent 1px) 0 0/38px 38px,
+   radial-gradient(circle at 50% 50%,rgba(217,178,95,.16),transparent 62%),#0d0b08}
+.radar::before{content:"";position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;translate:-50% -50%;background:conic-gradient(from 0deg,rgba(217,178,95,.4),transparent 18%);border-radius:50%;animation:spin 5s linear infinite}
+.ring{position:absolute;left:50%;top:50%;border:1px solid rgba(217,178,95,.28);border-radius:50%;translate:-50% -50%;aspect-ratio:1}
+.ring:nth-child(1){width:26%}.ring:nth-child(2){width:52%}.ring:nth-child(3){width:80%}
+.pin{position:absolute;left:50%;top:50%;translate:-50% -100%;z-index:2;color:var(--gold-hi);filter:drop-shadow(0 6px 18px rgba(217,178,95,.8));animation:bounce 2s var(--ease) infinite}
+.pin svg{width:46px;height:46px}
+@keyframes bounce{50%{translate:-50% -118%}}
+.pin-pulse{position:absolute;left:50%;top:50%;width:16px;height:16px;translate:-50% -50%;border-radius:50%;background:var(--gold);animation:ping 2s infinite}
+@keyframes ping{to{box-shadow:0 0 0 46px rgba(217,178,95,0)}from{box-shadow:0 0 0 0 rgba(217,178,95,.6)}}
+@media(max-width:900px){.terms-grid{grid-template-columns:1fr 1fr}.loc{grid-template-columns:1fr}.radar{border-left:0;border-top:1px solid var(--line);min-height:260px}.terms{background-attachment:scroll,scroll}}
+@media(max-width:560px){.terms-grid{grid-template-columns:1fr}}
+
+/* ============ CTA ============ */
+.cta{text-align:center;overflow:hidden;padding:clamp(110px,15vw,210px) 0;background:radial-gradient(ellipse 70% 70% at 50% 100%,rgba(217,178,95,.3),transparent 70%),var(--bg)}
+.cta .beams{opacity:.8}
+.cta-in{position:relative;z-index:3}
+.cta h2{font-size:clamp(50px,11vw,170px);transform:skewX(-9deg);line-height:.9}
+.cta h2 span{display:block}
+.cta h2.reveal{transform:skewX(-9deg) translateY(40px)}
+.cta h2.reveal.in{transform:skewX(-9deg)}
+.cta p{color:#d6cdb9;font-size:clamp(16px,1.6vw,20px);max-width:560px;margin:26px auto 38px}
+.cta-sub{margin-top:22px;font-family:var(--display);letter-spacing:.2em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+.cta-sub b{color:var(--gold-hi);font-weight:500}
+
+/* ============ FOOTER ============ */
+footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px;overflow:hidden}
+.f-giant{font-family:var(--display);font-weight:700;font-size:clamp(70px,19.5vw,330px);line-height:.82;text-transform:uppercase;white-space:nowrap;text-align:center;transform:skewX(-9deg);color:transparent;-webkit-text-stroke:1px rgba(217,178,95,.4);
+  background:linear-gradient(100deg,transparent 40%,rgba(246,227,166,.95) 50%,transparent 60%) -100% 0/250% 100% no-repeat;-webkit-background-clip:text;background-clip:text;animation:sheen 6s linear infinite;user-select:none;margin-bottom:clamp(36px,5vw,70px)}
+@keyframes sheen{to{background-position:200% 0}}
+.f-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid var(--line)}
+.f-grid .logo img{height:58px}
+.f-about{color:var(--muted);font-size:14.5px;max-width:320px;margin-top:14px}
+.f-col h4{font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.f-col a,.f-col span{display:block;color:#d8d0bf;margin-bottom:9px;font-size:15px;transition:color .3s,transform .3s var(--ease)}
+.f-col a:hover{color:var(--gold-hi);transform:translateX(6px)}
+.f-legal{display:flex;gap:18px;align-items:flex-start;padding:26px 0}
+.age{flex:none;width:46px;height:46px;border:1.5px solid #8d8676;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:15px;color:#b3ab9a}
+.f-legal p{font-size:10.5px;line-height:1.5;letter-spacing:.03em;text-transform:uppercase;color:#7e7768}
+.f-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:#6f695c;padding-top:6px}
+@media(max-width:760px){.f-grid{grid-template-columns:1fr}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .reveal,.tl-item .tl-date,.tl-item .tl-card{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
+    <nav class="nav-links">
+      <a href="#register">Регистрация</a>
+      <a href="#flow">Как всё пройдёт</a>
+      <a href="#terms">Условия и локация</a>
+    </nav>
+    <a class="btn btn-gold" data-form href="#register">Участвовать</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- ============ 1. HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-shade"></div>
+  <div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
+  <canvas id="embers"></canvas>
+
+  <div class="wrap hero-in">
+    <div class="live"><i></i>Регистрация команд открыта</div>
+    <h1 class="hero-title display" aria-label="Cyber Fest"><span class="w">CYBER</span><span class="w">FEST</span></h1>
+    <div class="hero-sub">Турнир по <b>CS2</b></div>
+
+    <div class="prize">
+      <div class="prize-label">Призовой фонд</div>
+      <div class="prize-num gold-text"><span id="prize" data-to="85000000">85 000 000</span><small data-currency></small></div>
+    </div>
+
+    <div class="hero-dates">
+      <div><strong>13–28 ноября</strong><span>Регистрация</span></div>
+      <div><strong>13 декабря</strong><span>Финалы (5x5)</span></div>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn btn-gold btn-lg" data-form href="#register">Участвовать в турнире
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ghost btn-lg" href="#flow">Как всё пройдёт</a>
+    </div>
+  </div>
+
+  <a class="scroll-hint" href="#register" aria-label="Листать вниз"></a>
+  <svg class="torn bottom" data-torn="#0a0907" preserveAspectRatio="none" viewBox="0 0 1000 100"></svg>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marq">
+    <span>Cyber Fest</span><span>Турнир по CS2</span><span>Призовой фонд 85 000 000</span><span>Финалы 5x5</span><span>Adrenaline Rush</span><span>13 декабря</span>
+  </div>
+</div>
+
+<!-- ============ 2. REGISTER ============ -->
+<section class="register" id="register">
+  <div class="wrap reg-grid">
+    <div>
+      <div class="eyebrow reveal">Регистрация · до 28 ноября</div>
+      <h2 class="h2 display reveal">Займи слот<br><span class="gold-text">для своей команды</span></h2>
+      <p class="lead reveal">Заявка подаётся через Google Форму и занимает пару минут. Одна заявка — одна команда.</p>
+
+      <ol class="steps">
+        <li class="reveal reveal-l" style="--d:.05s"><div><b>Собери состав</b><p>Пять игроков основного состава и капитан, который будет на связи.</p></div></li>
+        <li class="reveal reveal-l" style="--d:.15s"><div><b>Заполни форму</b><p>Название команды, ники и Steam-профили игроков, контакт капитана.</p></div></li>
+        <li class="reveal reveal-l" style="--d:.25s"><div><b>Получи подтверждение</b><p>Организаторы свяжутся с капитаном и пришлют расписание матчей.</p></div></li>
+      </ol>
+
+      <div class="reg-actions reveal">
+        <a class="btn btn-gold btn-lg" data-form href="#register">Открыть форму регистрации
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+        <span class="reg-note">Участие <b>бесплатное</b></span>
+      </div>
+
+      <div class="cd-title reveal" id="cdTitle">До конца регистрации</div>
+      <div class="countdown reveal" id="countdown">
+        <div class="cd"><b data-cd="d">00</b><span>дней</span></div>
+        <div class="cd"><b data-cd="h">00</b><span>часов</span></div>
+        <div class="cd"><b data-cd="m">00</b><span>минут</span></div>
+        <div class="cd"><b data-cd="s">00</b><span>секунд</span></div>
+      </div>
+    </div>
+
+    <div class="poster-wrap reveal reveal-s" id="posterWrap">
+      <div class="poster" id="poster"><img src="assets/poster.webp" alt="Афиша Adrenaline Rush Cyber Fest: турнир по CS2, призовой фонд 85 000 000" width="1135" height="1416" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. FLOW ============ -->
+<section class="flow" id="flow">
+  <svg class="torn top" data-torn="#0a0907" preserveAspectRatio="none" viewBox="0 0 1000 100"></svg>
+  <div class="wrap">
+    <div class="flow-head">
+      <div class="eyebrow reveal">Формат</div>
+      <h2 class="h2 display reveal">Как всё <span class="gold-text">пройдёт</span></h2>
+      <p class="lead reveal">От заявки до кубка — четыре шага. Лучшие команды встретятся на сцене в финальный день.</p>
+    </div>
+
+    <div class="timeline" id="timeline">
+      <div class="tl-line"><div class="tl-fill"></div></div>
+
+      <div class="tl-item">
+        <i class="tl-dot"></i>
+        <div class="tl-date"><strong>13–28 ноября</strong><span>Этап 1</span></div>
+        <div class="tl-card" data-n="01"><h3>Регистрация команд</h3><p>Капитан подаёт заявку через форму. После проверки состава команда получает слот в турнирной сетке.</p></div>
+      </div>
+      <div class="tl-item">
+        <i class="tl-dot"></i>
+        <div class="tl-date"><strong>Отборочные</strong><span>Этап 2</span></div>
+        <div class="tl-card" data-n="02"><h3>Онлайн-квалификации</h3><p>Команды играют отборочные матчи 5x5. Сетка и расписание приходят капитанам после закрытия регистрации.</p></div>
+      </div>
+      <div class="tl-item">
+        <i class="tl-dot"></i>
+        <div class="tl-date"><strong>13 декабря</strong><span>Этап 3</span></div>
+        <div class="tl-card" data-n="03"><h3>Финалы 5x5</h3><p>Сильнейшие команды выходят на сцену Cyber Fest: живые матчи, зрители, свет и комментаторы.</p></div>
+      </div>
+      <div class="tl-item">
+        <i class="tl-dot"></i>
+        <div class="tl-date"><strong>Награждение</strong><span>Этап 4</span></div>
+        <div class="tl-card" data-n="04"><h3>Кубок и призовой фонд</h3><p>Победители делят призовой фонд 85 000 000 и забирают кубок Adrenaline Rush Cyber Fest.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. TERMS & LOCATION ============ -->
+<section class="terms" id="terms">
+  <div class="wrap">
+    <div class="eyebrow reveal">Правила участия</div>
+    <h2 class="h2 display reveal">Условия <span class="gold-text">и локация</span></h2>
+
+    <div class="terms-grid">
+      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">5x5</div><h3>Формат</h3><p>Counter-Strike 2, команда из пяти игроков. Одна заявка на команду.</p></div>
+      <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">18+</div><h3>Возраст</h3><p>К участию допускаются игроки, которым исполнилось 18 лет.</p></div>
+      <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">0</div><h3>Взнос</h3><p>Участие бесплатное. Нужна только заявка, поданная до 28 ноября.</p></div>
+      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">28.11</div><h3>Дедлайн</h3><p>Заявки принимаются с 13 по 28 ноября включительно.</p></div>
+      <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">Fair</div><h3>Честная игра</h3><p>Читы, подставные игроки и токсичное поведение — дисквалификация команды.</p></div>
+      <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">85M</div><h3>Призовой фонд</h3><p>85 000 000 разыгрываются между командами-призёрами финального дня.</p></div>
+    </div>
+
+    <div class="loc">
+      <div class="loc-info reveal">
+        <div class="eyebrow">Локация финалов</div>
+        <h3 data-venue>Площадка будет объявлена</h3>
+        <p data-venue-text>Точный адрес и схему прохода капитаны команд-финалистов получат вместе с расписанием финального дня.</p>
+        <dl class="loc-rows">
+          <div><dt>Дата</dt><dd>13 декабря</dd></div>
+          <div><dt>Формат</dt><dd>Офлайн-финалы, 5x5</dd></div>
+          <div><dt>Адрес</dt><dd data-address>Уточняется</dd></div>
+        </dl>
+      </div>
+      <div class="radar" aria-hidden="true">
+        <i class="ring"></i><i class="ring"></i><i class="ring"></i>
+        <i class="pin-pulse"></i>
+        <div class="pin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. CTA ============ -->
+<section class="cta" id="cta">
+  <svg class="torn top" data-torn="#0a0907" preserveAspectRatio="none" viewBox="0 0 1000 100"></svg>
+  <div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
+  <div class="wrap cta-in">
+    <div class="eyebrow reveal">Слоты ограничены</div>
+    <h2 class="display reveal"><span>Твоя команда</span><span class="gold-text">в игре?</span></h2>
+    <p class="reveal">Регистрация закрывается 28 ноября. Подай заявку сейчас и поборись за призовой фонд 85 000 000.</p>
+    <div class="reveal"><a class="btn btn-gold btn-lg" data-form href="#register">Зарегистрировать команду
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="cta-sub reveal">Регистрация <b>13–28 ноября</b> · Финалы <b>13 декабря</b></div>
+  </div>
+</section>
+</main>
+
+<!-- ============ 6. FOOTER ============ -->
+<footer>
+  <svg class="torn top" data-torn="#0a0907" preserveAspectRatio="none" viewBox="0 0 1000 100"></svg>
+  <div class="f-giant" aria-hidden="true">CYBER FEST</div>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a href="#top" class="logo"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116" loading="lazy"></a>
+        <p class="f-about">Adrenaline Rush Cyber Fest — турнир по Counter-Strike 2 в формате 5x5 с призовым фондом 85 000 000.</p>
+      </div>
+      <div class="f-col">
+        <h4>Турнир</h4>
+        <a href="#register">Регистрация</a>
+        <a href="#flow">Как всё пройдёт</a>
+        <a href="#terms">Условия и локация</a>
+      </div>
+      <div class="f-col">
+        <h4>Даты</h4>
+        <span>13–28 ноября — регистрация</span>
+        <span>13 декабря — финалы (5x5)</span>
+        <a data-form href="#register">Подать заявку →</a>
+      </div>
+    </div>
+    <div class="f-legal">
+      <div class="age">18+</div>
+      <p>18 yoshga to‘lmagan bolalar, homilador va emizikli ayollar, shuningdek, asab kasalliklari, uyqusizlik, arterial gipertenziya bo‘lgan holatlarda iste’mol qilish tavsiya etilmaydi. Me’yordan ortiq iste’mol qilish sog‘liq uchun zararli. Не рекомендуется употребление детям в возрасте до 18 лет, беременным и кормящим грудью, а также лицам, страдающим повышенной нервной возбудимостью, бессонницей, артериальной гипертензией. Чрезмерное употребление вредит здоровью.</p>
+    </div>
+    <div class="f-bottom"><span>© 2026 Adrenaline Rush Cyber Fest</span><span>Counter-Strike 2 · 5x5</span></div>
+  </div>
+</footer>
+
+<script>
+/* ================== НАСТРОЙКИ ================== */
+const CONFIG = {
+  formUrl: "",                          // ← ссылка на Google Форму (https://forms.gle/...)
+  currency: "",                         // ← валюта призового фонда, например "сум" (пусто — не показывать)
+  regEnd: "2026-11-28T23:59:59+05:00",  // конец регистрации
+  venue: "",                            // ← название площадки финалов
+  address: ""                           // ← адрес площадки
+};
+/* =============================================== */
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+/* form links */
+if (CONFIG.formUrl) $$("[data-form]").forEach(a => { a.href = CONFIG.formUrl; a.target = "_blank"; a.rel = "noopener"; });
+if (CONFIG.currency) $$("[data-currency]").forEach(e => e.textContent = CONFIG.currency);
+if (CONFIG.venue) { $("[data-venue]").textContent = CONFIG.venue; }
+if (CONFIG.address) { $("[data-address]").textContent = CONFIG.address; }
+
+/* hero letters */
+let li = 0;
+$$(".hero-title .w").forEach(w => {
+  w.innerHTML = [...w.textContent].map(ch => `<span class="c" style="--i:${li++}">${ch}</span>`).join("");
+});
+
+/* marquee: duplicate for seamless loop */
+const marq = $("#marq"); marq.innerHTML += marq.innerHTML;
+
+/* torn paper edges */
+function rng(seed){ return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+$$("svg[data-torn]").forEach((svg, k) => {
+  const r = rng(77 + k * 131), mk = (base, amp) => {
+    let d = `M0 100 L0 ${base}`, x = 0;
+    while (x < 1000) { x += 6 + r() * 22; d += ` L${Math.min(x,1000).toFixed(1)} ${(base + (r() - .5) * amp + Math.sin(x / 90 + k) * 14).toFixed(1)}`; }
+    return d + " L1000 100 Z";
+  };
+  svg.innerHTML = `<path d="${mk(42, 34)}" fill="#d9b25f"/><path d="${mk(60, 26)}" fill="${svg.dataset.torn}"/>`;
+});
+
+/* nav */
+const nav = $("#nav");
+const onScroll = () => nav.classList.toggle("scrolled", scrollY > 40);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+/* scroll reveal */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .18, rootMargin: "0px 0px -6% 0px" });
+$$(".reveal, .tl-item").forEach(el => io.observe(el));
+
+/* prize counter */
+const prize = $("#prize"), fmt = n => Math.round(n).toLocaleString("ru-RU").replace(/ | /g, " ");
+if (!reduce) {
+  const to = +prize.dataset.to, t0 = performance.now() + 1300, dur = 2200;
+  prize.textContent = "0";
+  (function tick(t){
+    const p = Math.min(Math.max((t - t0) / dur, 0), 1), e = 1 - Math.pow(1 - p, 4);
+    prize.textContent = fmt(to * e);
+    if (p < 1) requestAnimationFrame(tick);
+  })(performance.now());
+}
+
+/* countdown */
+const end = new Date(CONFIG.regEnd).getTime(), cd = {};
+$$("[data-cd]").forEach(b => cd[b.dataset.cd] = b);
+function tickCd(){
+  let s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+  if (!s) $("#cdTitle").textContent = "Регистрация завершена";
+  const d = Math.floor(s / 86400); s -= d * 86400;
+  const h = Math.floor(s / 3600); s -= h * 3600;
+  const m = Math.floor(s / 60); s -= m * 60;
+  const pad = n => String(n).padStart(2, "0");
+  cd.d.textContent = pad(d); cd.h.textContent = pad(h); cd.m.textContent = pad(m); cd.s.textContent = pad(s);
+}
+tickCd(); setInterval(tickCd, 1000);
+
+/* hero parallax + poster tilt + card glow */
+const hero = $("#hero");
+if (!reduce && matchMedia("(pointer:fine)").matches) {
+  hero.addEventListener("mousemove", e => {
+    hero.style.setProperty("--mx", (e.clientX / innerWidth - .5) * 2);
+    hero.style.setProperty("--my", (e.clientY / innerHeight - .5) * 2);
+  });
+  const pw = $("#posterWrap"), poster = $("#poster");
+  pw.addEventListener("mousemove", e => {
+    const r = pw.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    poster.style.setProperty("--rx", (x - .5) * 22); poster.style.setProperty("--ry", (.5 - y) * 18);
+    poster.style.setProperty("--gx", x * 100); poster.style.setProperty("--gy", y * 100);
+  });
+  pw.addEventListener("mouseleave", () => { poster.style.setProperty("--rx", 0); poster.style.setProperty("--ry", 0); });
+  $$(".t-card").forEach(c => c.addEventListener("mousemove", e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty("--x", e.clientX - r.left + "px"); c.style.setProperty("--y", e.clientY - r.top + "px");
+  }));
+}
+
+/* timeline progress */
+const tl = $("#timeline");
+function tlProg(){
+  const r = tl.getBoundingClientRect();
+  tl.style.setProperty("--p", Math.min(1, Math.max(0, (innerHeight * .6 - r.top) / r.height)));
+}
+addEventListener("scroll", tlProg, { passive: true }); addEventListener("resize", tlProg); tlProg();
+
+/* embers canvas */
+(function(){
+  if (reduce) return;
+  const c = $("#embers"), ctx = c.getContext("2d");
+  let w, h, dpr, parts = [], visible = true;
+  function size(){ dpr = Math.min(devicePixelRatio || 1, 2); w = c.clientWidth; h = c.clientHeight; c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  function spawn(init){ return { x: Math.random() * w, y: init ? Math.random() * h : h + 10, r: .6 + Math.random() * 2.2, vy: .25 + Math.random() * .9, vx: (Math.random() - .5) * .4, a: .2 + Math.random() * .7, ph: Math.random() * 6.28, hue: 36 + Math.random() * 14 }; }
+  size(); addEventListener("resize", size);
+  const N = Math.min(110, Math.round(innerWidth / 13));
+  for (let i = 0; i < N; i++) parts.push(spawn(true));
+  new IntersectionObserver(e => visible = e[0].isIntersecting).observe(c);
+  (function frame(t){
+    requestAnimationFrame(frame);
+    if (!visible) return;
+    ctx.clearRect(0, 0, w, h);
+    for (const p of parts) {
+      p.y -= p.vy; p.x += p.vx + Math.sin(t / 900 + p.ph) * .35;
+      if (p.y < -10) Object.assign(p, spawn(false));
+      const tw = .55 + .45 * Math.sin(t / 300 + p.ph);
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 5);
+      g.addColorStop(0, `hsla(${p.hue},90%,72%,${p.a * tw})`); g.addColorStop(1, `hsla(${p.hue},90%,50%,0)`);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 5, 0, 6.2832); ctx.fill();
+    }
+  })(0);
+})();
+</script>
+</body>
+</html>
