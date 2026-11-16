@@ -52,7 +52,7 @@ body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;op
 .lang button{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:9px 16px;cursor:pointer;transition:.3s}
 .lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
 
-main{max-width:680px;margin:0 auto;padding:clamp(10px,3vw,40px) clamp(18px,5vw,40px) 80px}
+main{max-width:760px;margin:0 auto;padding:clamp(10px,3vw,40px) clamp(18px,5vw,40px) 80px}
 .eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
 .eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
 h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:1.12;font-size:clamp(44px,9vw,84px);transform:skewX(-7deg);transform-origin:left bottom;margin:0 0 18px}
@@ -89,6 +89,22 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 .err{display:none;color:var(--err);font-size:15px;margin-top:6px}
 .field.bad .err{display:block}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.roster-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:8px 0 12px}
+.roster-h b{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.6vw,24px);letter-spacing:.06em;text-transform:uppercase}
+.roster-h span{color:var(--muted);font-size:14px}
+.player{position:relative;padding:18px 18px 4px;margin-bottom:12px;border:1px solid var(--line);background:rgba(255,255,255,.025)}
+.player.cap{border-color:rgba(217,178,95,.55);background:linear-gradient(160deg,rgba(217,178,95,.10),rgba(255,255,255,.02))}
+.p-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.p-num{font-family:var(--display);font-weight:700;font-size:26px;line-height:1;color:var(--gold-hi);min-width:34px}
+.p-role{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.14em;text-transform:uppercase}
+.p-badge{margin-left:auto;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#120d02;background:linear-gradient(180deg,var(--gold-hi),var(--gold));padding:5px 10px}
+.p-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.p-grid .wide{grid-column:1/-1}
+.player .field{margin-bottom:14px}
+.player label{font-size:13px}
+.player input[type=text],.player input[type=tel]{font-size:18px;padding:15px 16px}
+.solo .player{border-color:rgba(217,178,95,.55)}
+@media(max-width:560px){.p-grid{grid-template-columns:1fr}.player{padding:16px 14px 2px}}
 
 .btn{position:relative;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.12em;text-transform:uppercase;padding:21px 34px;border:0;cursor:pointer;overflow:hidden;isolation:isolate;margin-top:8px;
   background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);color:#120d02;
@@ -130,7 +146,7 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 <main>
   <section>
     <h1 class="in"><span data-t="h1a">Займи</span> <span class="gold-text" data-t="h1b">свой слот</span></h1>
-    <p class="lead in" style="--d:.1s" data-t="lead">Играй командой или приходи соло — мы поможем найти состав. Участие бесплатное.</p>
+    <p class="lead in" style="--d:.1s" data-t="lead">Команда 5x5 или соло — заполни форму за пару минут. Участие бесплатное.</p>
   </section>
 
   <form class="card" id="form" novalidate autocomplete="on">
@@ -140,28 +156,14 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
       <label class="opt"><input type="radio" name="type" value="solo"><span><b data-t="solo">Соло игрок</b><small data-t="soloSub">Ищу команду</small></span></label>
     </div>
 
-    <div class="field" id="f-name">
-      <label for="name"><span><span data-t="name">Имя</span><b class="req">*</b></span></label>
-      <input id="name" name="name" type="text" autocomplete="name" required maxlength="60" data-p="nameP" placeholder="Ваше имя, например: White">
-      <div class="err" data-t="nameE">Введите имя</div>
-    </div>
-
-    <div class="field" id="f-phone">
-      <label for="phone"><span><span data-t="phone">Номер телефона</span><b class="req">*</b></span></label>
-      <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="17" required placeholder="+998 90 123 45 67">
-      <div class="err" data-t="phoneE">Введите корректный номер</div>
-    </div>
-
     <div class="field" id="f-team">
-      <label for="team"><span><span data-t="teamL">Команда</span><b class="req">*</b></span></label>
+      <label for="team"><span><span data-t="teamL">Название команды</span><b class="req">*</b></span></label>
       <input id="team" name="team" type="text" autocomplete="off" required maxlength="60" data-p="teamP" placeholder="Например: NAVI">
       <div class="err" data-t="teamE">Укажите название команды</div>
     </div>
 
-    <div class="field" id="f-nick">
-      <label for="nick"><span data-t="nick">Ник</span><em data-t="opt">необязательно</em></label>
-      <input id="nick" name="nick" type="text" maxlength="40" autocomplete="nickname" data-p="nickP" placeholder="@s1mple">
-    </div>
+    <div class="roster-h" id="rosterH"><b data-t="rosterT">Состав команды</b><span data-t="rosterS">Капитан и ещё 4 игрока</span></div>
+    <div id="roster"></div>
 
     <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
@@ -186,19 +188,25 @@ function tashkentNow() {
 
 function tgText(d) {
   const solo = d.type === "solo";
-  return [
+  const who = p => `${esc(p.name)}${p.nick ? " (" + esc(p.nick) + ")" : ""} · ${esc(p.phone)}`;
+  const head = [
     d.number ? `🏆 <b>Участник #${d.number}</b>` : null,
     `🔥 <b>Новая заявка</b> — ${solo ? "СОЛО игрок" : "КОМАНДА"}`,
     "",
     `🗓 <b>Дата:</b> ${d.date}, ${d.day}`,
     `🕒 <b>Время:</b> ${d.time.slice(0, 5)} (Ташкент)`,
-    "",
-    `👤 <b>Имя:</b> ${esc(d.name)}`,
-    `📞 <b>Телефон:</b> ${esc(d.phone)}`,
-    solo ? null : `🛡 <b>Команда:</b> ${esc(d.team)}`,
-    `🎮 <b>Ник:</b> ${d.nick ? esc(d.nick) : "—"}`,
-    `🌐 <b>Язык сайта:</b> ${d.lang === "uz" ? "O‘zbekcha" : "Русский"}`
-  ].filter(l => l !== null).join("\n");
+    ""
+  ];
+  const body = solo ? [
+    `👤 <b>Имя:</b> ${esc(d.players[0].name)}`,
+    `📞 <b>Телефон:</b> ${esc(d.players[0].phone)}`,
+    `🎮 <b>Ник:</b> ${d.players[0].nick ? esc(d.players[0].nick) : "—"}`
+  ] : [
+    `🛡 <b>Команда:</b> ${esc(d.team)}`,
+    `👥 <b>Состав:</b>`,
+    ...d.players.map((p, k) => k === 0 ? `👑 <b>Капитан:</b> ${who(p)}` : `${k + 1}. ${who(p)}`)
+  ];
+  return [...head, ...body, "", `🌐 <b>Язык сайта:</b> ${d.lang === "uz" ? "O‘zbekcha" : "Русский"}`].filter(l => l !== null).join("\n");
 }
 
 /* отправка: через сервер (номер участника, таблица, админка) либо напрямую в Telegram */
@@ -229,12 +237,13 @@ async function sendApplication(data) {
 const T = {
   ru: {
     back:"На главную", h1a:"Займи", h1b:"свой слот",
-    lead:"Играй командой или приходи соло — мы поможем найти состав. Участие бесплатное.",
+    lead:"Команда 5x5 или соло — заполни форму за пару минут. Участие бесплатное.",
     q:"Вы команда или соло игрок?", team:"Команда", teamSub:"Есть свой состав 5x5", solo:"Соло игрок", soloSub:"Ищу команду",
     name:"Имя", nameP:"Ваше имя, например: White", nameE:"Введите имя",
     phone:"Номер телефона", phoneE:"Введите номер полностью: +998 XX XXX XX XX",
-    teamL:"Команда", teamP:"Например: NAVI", teamE:"Укажите название команды",
-    nick:"Ник", nickP:"@s1mple", opt:"необязательно",
+    teamL:"Название команды", teamP:"Например: NAVI", teamE:"Укажите название команды",
+    nick:"Ник", nickP:"@s1mple", nickP2:"@ник игрока", nameP2:"Имя игрока", opt:"необязательно",
+    rosterT:"Состав команды", rosterS:"Капитан и ещё 4 игрока", captain:"Капитан", player:"Игрок", you:"Ваши данные", capBadge:"на связи",
     send:"Отправить заявку", sending:"Отправляем…",
     fail:"Не удалось отправить. Попробуйте ещё раз.",
     note:"Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру.",
@@ -242,12 +251,13 @@ const T = {
   },
   uz: {
     back:"Bosh sahifa", h1a:"O‘z o‘rningni", h1b:"band qil",
-    lead:"Jamoa bilan o‘yna yoki yakka kel — jamoa topishda yordam beramiz. Ishtirok bepul.",
+    lead:"5x5 jamoa yoki yakka — formani bir necha daqiqada to‘ldir. Ishtirok bepul.",
     q:"Siz jamoasizmi yoki yakka o‘yinchi?", team:"Jamoa", teamSub:"O‘z tarkibim bor, 5x5", solo:"Yakka o‘yinchi", soloSub:"Jamoa qidiryapman",
     name:"Ism", nameP:"Ismingiz, masalan: White", nameE:"Ismingizni kiriting",
     phone:"Telefon raqami", phoneE:"Raqamni to‘liq kiriting: +998 XX XXX XX XX",
-    teamL:"Jamoa", teamP:"Masalan: NAVI", teamE:"Jamoa nomini kiriting",
-    nick:"Nik", nickP:"@s1mple", opt:"majburiy emas",
+    teamL:"Jamoa nomi", teamP:"Masalan: NAVI", teamE:"Jamoa nomini kiriting",
+    nick:"Nik", nickP:"@s1mple", nickP2:"@o‘yinchi niki", nameP2:"O‘yinchi ismi", opt:"majburiy emas",
+    rosterT:"Jamoa tarkibi", rosterS:"Sardor va yana 4 o‘yinchi", captain:"Sardor", player:"O‘yinchi", you:"Ma’lumotlaringiz", capBadge:"aloqada",
     send:"Arizani yuborish", sending:"Yuborilmoqda…",
     fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
     note:"Tugmani bosish orqali siz turnir bo‘yicha aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
@@ -265,7 +275,7 @@ try {
   else if ((navigator.language || "").toLowerCase().startsWith("uz")) lang = "uz";
 } catch (e) {}
 
-function setLang(l) {
+let setLang = function (l) {
   lang = l;
   try { localStorage.setItem("lang", l); } catch (e) {}
   document.documentElement.lang = l;
@@ -273,57 +283,97 @@ function setLang(l) {
   $$("[data-t]").forEach(el => { el.textContent = T[l][el.dataset.t]; });
   $$("[data-p]").forEach(el => { el.placeholder = T[l][el.dataset.p]; });
   $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
-}
+};
 $$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
-setLang(lang);
 
-/* team / solo */
-const teamField = $("#f-team");
+/* ---------- состав: капитан + игроки 2–5 (команда) или одна карточка (соло) ---------- */
+const roster = $("#roster");
+const playerCard = k => `
+  <div class="player${k === 0 ? " cap" : ""}" data-k="${k}">
+    <div class="p-head"><span class="p-num">${String(k + 1).padStart(2, "0")}</span><span class="p-role" data-role="${k}"></span>${k === 0 ? '<span class="p-badge" data-t="capBadge"></span>' : ""}</div>
+    <div class="p-grid">
+      <div class="field" data-f="name">
+        <label for="name${k}"><span><span data-t="name"></span><b class="req">*</b></span></label>
+        <input id="name${k}" type="text" maxlength="60" autocomplete="${k === 0 ? "name" : "off"}" data-p="${k === 0 ? "nameP" : "nameP2"}">
+        <div class="err" data-t="nameE"></div>
+      </div>
+      <div class="field" data-f="nick">
+        <label for="nick${k}"><span data-t="nick"></span><em data-t="opt"></em></label>
+        <input id="nick${k}" type="text" maxlength="40" autocomplete="${k === 0 ? "nickname" : "off"}" data-p="${k === 0 ? "nickP" : "nickP2"}">
+      </div>
+      <div class="field wide" data-f="phone">
+        <label for="phone${k}"><span><span data-t="phone"></span><b class="req">*</b></span></label>
+        <input id="phone${k}" class="phone" type="tel" inputmode="tel" maxlength="17" autocomplete="${k === 0 ? "tel" : "off"}" placeholder="+998 90 123 45 67">
+        <div class="err" data-t="phoneE"></div>
+      </div>
+    </div>
+  </div>`;
+roster.innerHTML = [0, 1, 2, 3, 4].map(playerCard).join("");
+
+const isSolo = () => $('input[name=type]:checked').value === "solo";
+function roleNames() {
+  const t = T[lang], solo = isSolo();
+  $$("[data-role]").forEach(el => {
+    const k = +el.dataset.role;
+    el.textContent = solo ? t.you : k === 0 ? t.captain : `${t.player} ${k + 1}`;
+  });
+}
 function applyType() {
-  const solo = $('input[name=type]:checked').value === "solo";
-  teamField.hidden = solo;
-  if (solo) teamField.classList.remove("bad");
+  const solo = isSolo();
+  $("#f-team").hidden = solo;
+  $("#rosterH").hidden = solo;
+  $$(".player").forEach(p => { p.hidden = solo && p.dataset.k !== "0"; });
+  $(".player.cap .p-badge").hidden = solo;
+  $(".player.cap .p-num").hidden = solo;
+  $("#form").classList.toggle("solo", solo);
+  $$(".field.bad").forEach(f => { if (f.closest("[hidden]")) f.classList.remove("bad"); });
+  roleNames();
 }
 $$('input[name=type]').forEach(r => r.addEventListener("change", applyType));
+setLang(lang);                       // подписи для только что созданных карточек
+const _setLang = setLang;
+setLang = l => { _setLang(l); roleNames(); };
 applyType();
 
-/* phone mask: +998 XX XXX XX XX */
-const phone = $("#phone");
+/* ---------- маска телефона: +998 XX XXX XX XX ---------- */
 function fmtPhone(v, deleting) {
   let d = v.replace(/\D/g, "");
   if (d.startsWith("998")) d = d.slice(3);
-  else if (deleting && "998".startsWith(d)) d = "";      // стёрли префикс
-  else if (d.length === 10 && d[0] === "0") d = d.slice(1); // 0901234567 -> 901234567
+  else if (deleting && "998".startsWith(d)) d = "";           // стёрли префикс
+  else if (d.length === 10 && d[0] === "0") d = d.slice(1);   // 0901234567 -> 901234567
   d = d.slice(0, 9);
   const p = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean);
   return "+998" + (p.length ? " " + p.join(" ") : "");
 }
-phone.addEventListener("focus", () => { if (!phone.value) phone.value = "+998 "; });
-phone.addEventListener("input", e => { phone.value = fmtPhone(phone.value, /^delete/.test(e.inputType || "")); });
-phone.addEventListener("blur", () => { if (phone.value.replace(/\D/g, "") === "998") phone.value = ""; });
+$$(".phone").forEach(ph => {
+  ph.addEventListener("focus", () => { if (!ph.value) ph.value = "+998 "; });
+  ph.addEventListener("input", e => { ph.value = fmtPhone(ph.value, /^delete/.test(e.inputType || "")); });
+  ph.addEventListener("blur", () => { if (ph.value.replace(/\D/g, "") === "998") ph.value = ""; });
+});
 
-/* validation */
-function rules() {
-  const solo = $('input[name=type]:checked').value === "solo";
-  return {
-    "f-name": $("#name").value.trim().length >= 2,
-    "f-phone": phone.value.replace(/\D/g, "").length === 12,
-    "f-team": solo || $("#team").value.trim().length >= 2
-  };
-}
+/* ---------- проверка: всё обязательно, кроме ника ---------- */
+const okField = f => {
+  const v = f.querySelector("input").value.trim();
+  if (f.id === "f-team") return v.length >= 2;
+  if (f.dataset.f === "name") return v.length >= 2;
+  if (f.dataset.f === "phone") return v.replace(/\D/g, "").length === 12;
+  return true;
+};
+const requiredFields = () => [$("#f-team"), ...$$('.player .field[data-f="name"], .player .field[data-f="phone"]')].filter(f => !f.closest("[hidden]"));
 function check(only) {
-  const r = rules();
   let first = null;
-  for (const id in r) {
-    if (only && id !== only) continue;
-    const f = document.getElementById(id);
-    f.classList.toggle("bad", !r[id]);
-    if (!r[id] && !first) first = f;
+  for (const f of only ? [only] : requiredFields()) {
+    const ok = okField(f);
+    f.classList.toggle("bad", !ok);
+    if (!ok && !first) first = f;
   }
   return first;
 }
-["name", "phone", "team"].forEach(id => $("#" + id).addEventListener("blur", () => { if ($("#" + id).value) check("f-" + id); }));
-["name", "phone", "team"].forEach(id => $("#" + id).addEventListener("input", e => e.target.closest(".field").classList.remove("bad")));
+$$('#f-team, .player .field[data-f="name"], .player .field[data-f="phone"]').forEach(f => {
+  const inp = f.querySelector("input");
+  inp.addEventListener("blur", () => { if (inp.value && inp.value.replace(/\D/g, "") !== "998") check(f); });
+  inp.addEventListener("input", () => f.classList.remove("bad"));
+});
 
 $("#form").addEventListener("submit", async e => {
   e.preventDefault();
@@ -335,15 +385,19 @@ $("#form").addEventListener("submit", async e => {
     const c = $("#form"); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake");
     return;
   }
-  const solo = $('input[name=type]:checked').value === "solo";
+  const solo = isSolo();
+  const players = $$(".player").filter(p => !p.hidden).map((p, k) => ({
+    role: solo ? "Соло" : k === 0 ? "Капитан" : `Игрок ${k + 1}`,
+    name: p.querySelector('[data-f="name"] input').value.trim(),
+    nick: p.querySelector('[data-f="nick"] input').value.trim(),
+    phone: p.querySelector('[data-f="phone"] input').value.trim()
+  }));
   const data = {
     type: solo ? "solo" : "team",
-    name: $("#name").value.trim(),
-    phone: phone.value.trim(),
     team: solo ? "" : $("#team").value.trim(),
-    nick: $("#nick").value.trim(),
-    lang,
-    submittedAt: new Date().toISOString()
+    players,
+    name: players[0].name, phone: players[0].phone, nick: players[0].nick,   // капитан / соло-игрок
+    lang
   };
   const btn = $("#submit"), label = btn.querySelector("span");
   btn.disabled = true; label.textContent = T[lang].sending;

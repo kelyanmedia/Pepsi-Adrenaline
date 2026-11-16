@@ -1,27 +1,35 @@
 /**
  * Adrenaline Rush Cyber Fest — бэкенд заявок (Google Apps Script).
  *
- * Что делает:
- *   • register — сохраняет заявку в Google Таблицу, присваивает номер участника,
- *                шлёт уведомление в Telegram-группу, возвращает номер сайту;
- *   • list     — отдаёт всех участников админке (только по логину и паролю).
+ *   • register — сохраняет заявку (команда 5x5 или соло) в Google Таблицу, присваивает номер участника,
+ *                возвращает номер сайту (Telegram-уведомление с номером отправляет сам сайт);
+ *   • list     — отдаёт заявки и игроков админке (только по логину и паролю).
  *
- * Логин, пароль и токен бота НЕ хранятся в коде: они лежат в «Свойствах скрипта».
- * Как подключить — см. backend/SETUP.md
+ * Листы таблицы:
+ *   «Заявки» — одна строка на заявку (команда или соло-игрок);
+ *   «Игроки» — одна строка на каждого игрока (капитан, игроки 2–5, соло).
+ *
+ * Как подключить — backend/SETUP.md
  */
 
-const SHEET_NAME = "Участники";
 const TZ = "Asia/Tashkent";
-const HEADERS = ["№", "Дата", "День", "Время", "Тип", "Имя", "Телефон", "Команда", "Ник", "Язык"];
+const APPS = "Заявки";
+const PLAYERS = "Игроки";
+const APP_HEADERS = ["№", "Дата", "День", "Время", "Тип", "Команда", "Капитан / игрок", "Телефон", "Ник", "Игроков", "Язык"];
+const PLAYER_HEADERS = ["№ заявки", "Дата", "Тип", "Команда", "Роль", "Имя", "Ник", "Телефон"];
 const DAYS = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
 
-/** Запустите ОДИН раз: впишите логин и пароль админки и нажмите «Выполнить» → setup.
- *  Токен бота здесь не нужен: Telegram-уведомление с номером отправляет сам сайт. */
+/** Запустите ОДИН раз (Выполнить → setup): создаёт листы и генерирует пароль админки.
+ *  Логин и пароль появятся в «Журнале выполнения» внизу редактора. */
 function setup() {
-  PropertiesService.getScriptProperties().setProperties({
-    ADMIN_LOGIN: "admin",
-    ADMIN_PASSWORD: "ПРИДУМАЙТЕ_ПАРОЛЬ"
-  });
+  const p = PropertiesService.getScriptProperties();
+  let pass = p.getProperty("ADMIN_PASSWORD");
+  if (!pass) {
+    pass = Utilities.getUuid().replace(/-/g, "").slice(0, 12);
+    p.setProperties({ ADMIN_LOGIN: "admin", ADMIN_PASSWORD: pass });
+  }
+  sheet(APPS, APP_HEADERS); sheet(PLAYERS, PLAYER_HEADERS);
+  Logger.log("Админка: логин = " + p.getProperty("ADMIN_LOGIN") + ", пароль = " + pass);
 }
 
 function doGet() {
@@ -38,95 +46,76 @@ function doPost(e) {
 
 /* ---------------- регистрация ---------------- */
 function register(d) {
-  const name = clean(d.name, 60), team = clean(d.team, 60), nick = clean(d.nick, 40);
-  const phone = clean(d.phone, 20);
   const type = d.type === "solo" ? "solo" : "team";
   const lang = d.lang === "uz" ? "uz" : "ru";
-  if (name.length < 2 || phone.replace(/\D/g, "").length !== 12 || (type === "team" && team.length < 2)) {
-    return json({ ok: false, error: "invalid" });
-  }
+  const team = type === "team" ? clean(d.team, 60) : "";
+  const raw = Array.isArray(d.players) && d.players.length ? d.players
+    : [{ name: d.name, phone: d.phone, nick: d.nick }];                    // старый формат формы
+  const players = raw.slice(0, type === "solo" ? 1 : 5).map(function (p, k) {
+    return {
+      role: type === "solo" ? "Соло" : (k === 0 ? "Капитан" : "Игрок " + (k + 1)),
+      name: clean(p && p.name, 60), nick: clean(p && p.nick, 40), phone: clean(p && p.phone, 20)
+    };
+  });
+  const bad = players.some(function (p) { return p.name.length < 2 || p.phone.replace(/\D/g, "").length !== 12; });
+  if (bad || (type === "team" && (team.length < 2 || players.length !== 5))) return json({ ok: false, error: "invalid" });
 
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
-  let row;
+  let res;
   try {
-    const sh = sheet();
-    const number = Math.max(sh.getLastRow(), 1);               // строка 1 — заголовки
+    const apps = sheet(APPS, APP_HEADERS), pl = sheet(PLAYERS, PLAYER_HEADERS);
+    const number = apps.getLastRow();                                       // строка 1 — заголовки
     const now = new Date();
     const date = Utilities.formatDate(now, TZ, "dd.MM.yyyy");
     const time = Utilities.formatDate(now, TZ, "HH:mm:ss");
     const day = DAYS[Number(Utilities.formatDate(now, TZ, "u")) % 7];
-    row = { number: number, date: date, day: day, time: time, type: type, name: name, phone: phone, team: type === "solo" ? "" : team, nick: nick, lang: lang };
-    const r = sh.getLastRow() + 1;
-    sh.getRange(r, 1, 1, HEADERS.length).setNumberFormat("@")
-      .setValues([[row.number, row.date, row.day, row.time, row.type === "solo" ? "Соло" : "Команда", row.name, row.phone, row.team, row.nick, row.lang]]);
+    const typeRu = type === "solo" ? "Соло" : "Команда";
+    const cap = players[0];
+    apps.getRange(apps.getLastRow() + 1, 1, 1, APP_HEADERS.length).setNumberFormat("@")
+      .setValues([[number, date, day, time, typeRu, team, cap.name, cap.phone, cap.nick, players.length, lang]]);
+    pl.getRange(pl.getLastRow() + 1, 1, players.length, PLAYER_HEADERS.length).setNumberFormat("@")
+      .setValues(players.map(function (p) { return [number, date, typeRu, team, p.role, p.name, p.nick, p.phone]; }));
+    res = { ok: true, number: number, date: date, day: day, time: time, notified: false };
   } finally {
     lock.releaseLock();
   }
-
-  let notified = false;
-  try { notified = notify(row); } catch (err) { /* заявка уже сохранена — Telegram не должен её ломать */ }
-  return json({ ok: true, number: row.number, date: row.date, day: row.day, time: row.time, notified: notified });
+  return json(res);
 }
 
-function notify(r) {
-  const p = PropertiesService.getScriptProperties();
-  const token = p.getProperty("BOT_TOKEN"), chat = p.getProperty("CHAT_ID");
-  if (!token || !chat) return false;                          // без токена уведомление отправит сам сайт
-  const solo = r.type === "solo";
-  const text = [
-    "🏆 <b>Участник #" + r.number + "</b>",
-    "🔥 <b>Новая заявка</b> — " + (solo ? "СОЛО игрок" : "КОМАНДА"),
-    "",
-    "🗓 <b>Дата:</b> " + r.date + ", " + r.day,
-    "🕒 <b>Время:</b> " + r.time.slice(0, 5) + " (Ташкент)",
-    "",
-    "👤 <b>Имя:</b> " + esc(r.name),
-    "📞 <b>Телефон:</b> " + esc(r.phone),
-    solo ? null : "🛡 <b>Команда:</b> " + esc(r.team),
-    "🎮 <b>Ник:</b> " + (r.nick ? esc(r.nick) : "—"),
-    "🌐 <b>Язык сайта:</b> " + (r.lang === "uz" ? "O‘zbekcha" : "Русский")
-  ].filter(function (l) { return l !== null; }).join("\n");
-  UrlFetchApp.fetch("https://api.telegram.org/bot" + token + "/sendMessage", {
-    method: "post",
-    contentType: "application/json",
-    muteHttpExceptions: true,
-    payload: JSON.stringify({ chat_id: chat, text: text, parse_mode: "HTML", disable_web_page_preview: true })
-  });
-  return true;
-}
-
-/* ---------------- список для админки ---------------- */
+/* ---------------- данные для админки ---------------- */
 function list(d) {
   const p = PropertiesService.getScriptProperties();
-  const okLogin = safeEq(String(d.login || ""), p.getProperty("ADMIN_LOGIN") || "");
-  const okPass = safeEq(String(d.password || ""), p.getProperty("ADMIN_PASSWORD") || "");
-  if (!okLogin || !okPass || !p.getProperty("ADMIN_PASSWORD")) {
-    Utilities.sleep(800);                                        // тормозим подбор пароля
+  const pass = p.getProperty("ADMIN_PASSWORD");
+  if (!pass || !safeEq(String(d.login || ""), p.getProperty("ADMIN_LOGIN") || "") || !safeEq(String(d.password || ""), pass)) {
+    Utilities.sleep(800);                                                   // тормозим подбор пароля
     return json({ ok: false, error: "auth" });
   }
-  const sh = sheet();
-  const last = sh.getLastRow();
-  const rows = last < 2 ? [] : sh.getRange(2, 1, last - 1, HEADERS.length).getDisplayValues().map(function (v) {
-    return { number: Number(v[0]), date: v[1], day: v[2], time: v[3], type: v[4], name: v[5], phone: v[6], team: v[7], nick: v[8], lang: v[9] };
+  const read = function (name, headers) {
+    const sh = sheet(name, headers), last = sh.getLastRow();
+    return last < 2 ? [] : sh.getRange(2, 1, last - 1, headers.length).getDisplayValues();
+  };
+  const apps = read(APPS, APP_HEADERS).map(function (v) {
+    return { number: Number(v[0]), date: v[1], day: v[2], time: v[3], type: v[4], team: v[5], name: v[6], phone: v[7], nick: v[8], count: Number(v[9]) || 1, lang: v[10] };
   });
-  return json({ ok: true, rows: rows, serverTime: Utilities.formatDate(new Date(), TZ, "HH:mm:ss") });
+  const players = read(PLAYERS, PLAYER_HEADERS).map(function (v) {
+    return { number: Number(v[0]), date: v[1], type: v[2], team: v[3], role: v[4], name: v[5], nick: v[6], phone: v[7] };
+  });
+  return json({ ok: true, applications: apps, players: players });
 }
 
 /* ---------------- утилиты ---------------- */
-function sheet() {
+function sheet(name, headers) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName(SHEET_NAME);
-  if (!sh) sh = ss.insertSheet(SHEET_NAME);
+  let sh = ss.getSheetByName(name);
+  if (!sh) sh = ss.insertSheet(name);
   if (sh.getLastRow() === 0) {
-    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight("bold").setBackground("#d9b25f");
+    sh.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold").setBackground("#d9b25f");
     sh.setFrozenRows(1);
   }
   return sh;
 }
 function clean(v, max) { return String(v == null ? "" : v).replace(/[\u0000-\u001f]/g, " ").trim().slice(0, max); }
-function esc(v) { return String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-function pad(n) { return ("0000" + n).slice(-4); }
 function safeEq(a, b) {
   if (a.length !== b.length) return false;
   let x = 0;
