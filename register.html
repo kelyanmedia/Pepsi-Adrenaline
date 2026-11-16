@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Регистрация — Adrenaline Rush Cyber Fest</title>
+<meta name="description" content="Регистрация на Adrenaline Rush Cyber Fest — турнир по CS2 5x5. Команда или соло игрок.">
+<meta name="theme-color" content="#0a0907">
+<meta property="og:title" content="Регистрация — Adrenaline Rush Cyber Fest">
+<meta property="og:image" content="assets/poster.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0907;--card:#13110d;--line:rgba(226,190,112,.18);
+  --gold:#d9b25f;--gold-hi:#f6e3a6;--gold-lo:#8f6a26;--orange:#ff8a1f;
+  --text:#f4efe4;--muted:#a59c8a;--err:#ff6b5b;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{min-height:100svh;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#000}
+body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.bg{position:fixed;inset:-4%;background:url(assets/hero.webp) center 30%/cover no-repeat;z-index:-3;animation:kb 22s ease-in-out infinite alternate}
+.shade{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse 80% 60% at 50% 45%,rgba(10,9,7,.55),rgba(10,9,7,.93)),linear-gradient(180deg,rgba(10,9,7,.9),rgba(10,9,7,.45) 40%,var(--bg))}
+.beams{position:fixed;inset:0;z-index:-1;overflow:hidden;mix-blend-mode:screen;pointer-events:none}
+.beam{position:absolute;top:-20%;width:26vw;height:150%;background:linear-gradient(180deg,rgba(246,227,166,.26),rgba(217,178,95,0) 72%);filter:blur(22px);transform-origin:50% 0;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
+.beam:nth-child(1){left:2%;animation:sweep 9s ease-in-out infinite alternate}
+.beam:nth-child(2){left:36%;animation:sweep 12s ease-in-out -4s infinite alternate-reverse;opacity:.7}
+.beam:nth-child(3){right:2%;animation:sweep 10s ease-in-out -2s infinite alternate}
+@keyframes sweep{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+@keyframes kb{from{transform:scale(1.04)}to{transform:scale(1.13) translate(-1.5%,1%)}}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,72px)}
+.logo img{height:44px;width:auto}
+.top-r{display:flex;align-items:center;gap:14px}
+.back{font-family:var(--display);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#d8d0bf;padding:6px 0;border-bottom:2px solid transparent;transition:.3s}
+.back:hover{color:var(--gold-hi);border-color:var(--gold)}
+.lang{display:inline-flex;border:1px solid var(--line);background:rgba(10,9,7,.6);backdrop-filter:blur(6px);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.lang button{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:9px 16px;cursor:pointer;transition:.3s}
+.lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
+
+main{max-width:1240px;margin:0 auto;padding:clamp(18px,4vw,50px) clamp(20px,5vw,72px) 80px;display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,6vw,90px);align-items:center}
+.eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.92;font-size:clamp(46px,7.4vw,104px);transform:skewX(-7deg);transform-origin:left bottom;margin:18px 0 22px}
+.gold-text{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 45%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:clamp(16px,1.5vw,19px);max-width:480px}
+.facts{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px}
+.facts div strong{display:block;font-family:var(--display);font-style:italic;font-weight:600;font-size:clamp(24px,3vw,34px);text-transform:uppercase;line-height:1.05}
+.facts div span{font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.prize{margin-top:30px;font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#e9e2d2}
+.prize b{display:block;font-size:clamp(40px,6vw,76px);letter-spacing:.01em;line-height:1.05;font-weight:700}
+
+/* card */
+.card{position:relative;padding:clamp(22px,3.4vw,44px);background:linear-gradient(160deg,rgba(26,22,15,.92),rgba(14,12,8,.94));backdrop-filter:blur(10px);
+  clip-path:polygon(26px 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%,0 26px)}
+.card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(246,227,166,.55),rgba(217,178,95,.08) 40%,rgba(217,178,95,.4));padding:1px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.q{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.2vw,26px);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px}
+.opt{position:relative;cursor:pointer}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.opt span{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);background:rgba(255,255,255,.03);transition:.3s var(--ease);
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.opt b{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.1em;text-transform:uppercase}
+.opt small{color:var(--muted);font-size:13px;line-height:1.3}
+.opt:hover span{border-color:rgba(217,178,95,.5)}
+.opt input:checked + span{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);border-color:transparent;color:#120d02;transform:translateY(-2px);box-shadow:0 12px 30px rgba(217,178,95,.22)}
+.opt input:checked + span small{color:#4a3a12}
+.opt input:focus-visible + span{outline:2px solid var(--gold-hi);outline-offset:3px}
+
+.field{margin-bottom:18px;transition:opacity .3s}
+.field[hidden]{display:none}
+label{display:flex;justify-content:space-between;gap:10px;font-family:var(--display);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+label em{font-style:normal;color:var(--muted);letter-spacing:.1em;text-transform:none;font-family:var(--body);font-size:12px}
+input[type=text],input[type=tel]{width:100%;font:inherit;font-size:17px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);padding:15px 16px;outline:0;border-radius:0;transition:.3s}
+input::placeholder{color:#6f685a}
+input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:0 0 0 3px rgba(217,178,95,.14)}
+.field.bad input{border-color:var(--err);box-shadow:0 0 0 3px rgba(255,107,91,.14)}
+.err{display:none;color:var(--err);font-size:13px;margin-top:6px}
+.field.bad .err{display:block}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+.btn{position:relative;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.12em;text-transform:uppercase;padding:21px 34px;border:0;cursor:pointer;overflow:hidden;isolation:isolate;margin-top:8px;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);color:#120d02;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);transition:transform .35s var(--ease),filter .35s}
+.btn::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-90px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite;z-index:-1}
+.btn svg{width:20px;height:20px;transition:transform .35s var(--ease)}
+.btn:hover{transform:translateY(-3px);filter:drop-shadow(0 10px 28px rgba(217,178,95,.45))}
+.btn:hover svg{transform:translateX(5px)}
+.btn:disabled{opacity:.7;cursor:progress;transform:none}
+@keyframes shine{0%,55%{left:-90px}100%{left:calc(100% + 90px)}}
+.fail{display:none;margin-top:14px;color:var(--err);font-size:14px;text-align:center}
+.fail.on{display:block}
+.note{margin-top:16px;color:#7d7566;font-size:12.5px;line-height:1.45}
+
+.in{opacity:0;transform:translateY(34px);animation:up .9s var(--ease) forwards;animation-delay:var(--d,0s)}
+@keyframes up{to{opacity:1;transform:none}}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+@media(max-width:900px){
+  main{grid-template-columns:1fr;gap:34px}
+  .facts{margin-top:22px}
+  .prize{display:none}
+}
+@media(max-width:480px){.back{display:none}.switch{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="shade"></div>
+<div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
+
+<header class="top">
+  <a href="index.html" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
+  <div class="top-r">
+    <a class="back" href="index.html" data-t="back">На главную</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" data-lang="uz" aria-pressed="false">UZ</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="eyebrow in" data-t="eyebrow">Cyber Fest · CS2 5x5</div>
+    <h1 class="in" style="--d:.1s"><span data-t="h1a">Займи</span><br><span class="gold-text" data-t="h1b">свой слот</span></h1>
+    <p class="lead in" style="--d:.2s" data-t="lead">Одна минута — и ты в турнире. Играй командой или приходи соло, мы поможем найти состав.</p>
+    <div class="facts in" style="--d:.3s">
+      <div><strong>16–28 <span data-t="nov">ноября</span></strong><span data-t="reg">Регистрация</span></div>
+      <div><strong>13 <span data-t="dec">декабря</span></strong><span data-t="fin">Финалы</span></div>
+    </div>
+    <div class="prize in" style="--d:.4s"><span data-t="prize">Призовой фонд</span><b class="gold-text">85 000 000</b></div>
+  </section>
+
+  <form class="card in" style="--d:.2s" id="form" novalidate autocomplete="on">
+    <div class="q" id="qType" data-t="q">Вы команда или соло игрок?</div>
+    <div class="switch" role="radiogroup" aria-labelledby="qType">
+      <label class="opt"><input type="radio" name="type" value="team" checked><span><b data-t="team">Команда</b><small data-t="teamSub">Есть свой состав 5x5</small></span></label>
+      <label class="opt"><input type="radio" name="type" value="solo"><span><b data-t="solo">Соло игрок</b><small data-t="soloSub">Ищу команду</small></span></label>
+    </div>
+
+    <div class="field" id="f-name">
+      <label for="name"><span data-t="name">Имя</span></label>
+      <input id="name" name="name" type="text" autocomplete="name" data-p="nameP" placeholder="Как к тебе обращаться">
+      <div class="err" data-t="nameE">Введите имя</div>
+    </div>
+
+    <div class="field" id="f-phone">
+      <label for="phone"><span data-t="phone">Номер телефона</span></label>
+      <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998 90 123 45 67">
+      <div class="err" data-t="phoneE">Введите корректный номер</div>
+    </div>
+
+    <div class="field" id="f-team">
+      <label for="team"><span data-t="teamL">Команда</span></label>
+      <input id="team" name="team" type="text" autocomplete="off" data-p="teamP" placeholder="Название команды">
+      <div class="err" data-t="teamE">Укажите название команды</div>
+    </div>
+
+    <div class="field" id="f-nick">
+      <label for="nick"><span data-t="nick">Ник</span><em data-t="opt">необязательно</em></label>
+      <input id="nick" name="nick" type="text" autocomplete="nickname" data-p="nickP" placeholder="Игровой ник">
+    </div>
+
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <button class="btn" type="submit" id="submit"><span data-t="send">Отправить заявку</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <div class="fail" id="fail" data-t="fail">Не удалось отправить. Попробуйте ещё раз.</div>
+    <p class="note" data-t="note">Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру. Участие бесплатное.</p>
+  </form>
+</main>
+
+<script>
+/* ================== НАСТРОЙКИ ================== */
+const CONFIG = {
+  // Адрес приёма заявок (Google Apps Script Web App, см. google-apps-script.gs).
+  // Пока пусто — заявки сохраняются только в браузере (для теста).
+  endpoint: "",
+  thanksPage: "thanks.html"
+};
+/* =============================================== */
+
+const T = {
+  ru: {
+    back:"На главную", eyebrow:"Cyber Fest · CS2 5x5", h1a:"Займи", h1b:"свой слот",
+    lead:"Одна минута — и ты в турнире. Играй командой или приходи соло, мы поможем найти состав.",
+    nov:"ноября", dec:"декабря", reg:"Регистрация", fin:"Финалы", prize:"Призовой фонд",
+    q:"Вы команда или соло игрок?", team:"Команда", teamSub:"Есть свой состав 5x5", solo:"Соло игрок", soloSub:"Ищу команду",
+    name:"Имя", nameP:"Как к тебе обращаться", nameE:"Введите имя",
+    phone:"Номер телефона", phoneE:"Введите корректный номер",
+    teamL:"Команда", teamP:"Название команды", teamE:"Укажите название команды",
+    nick:"Ник", nickP:"Игровой ник", opt:"необязательно",
+    send:"Отправить заявку", sending:"Отправляем…",
+    fail:"Не удалось отправить. Попробуйте ещё раз.",
+    note:"Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру. Участие бесплатное.",
+    title:"Регистрация — Adrenaline Rush Cyber Fest"
+  },
+  uz: {
+    back:"Bosh sahifa", eyebrow:"Cyber Fest · CS2 5x5", h1a:"O‘z o‘rningni", h1b:"band qil",
+    lead:"Bir daqiqa — va sen turnirdasan. Jamoa bilan o‘yna yoki yakka kel, jamoa topishda yordam beramiz.",
+    nov:"noyabr", dec:"dekabr", reg:"Ro‘yxatdan o‘tish", fin:"Finallar", prize:"Sovrin jamg‘armasi",
+    q:"Siz jamoasizmi yoki yakka o‘yinchi?", team:"Jamoa", teamSub:"O‘z tarkibim bor, 5x5", solo:"Yakka o‘yinchi", soloSub:"Jamoa qidiryapman",
+    name:"Ism", nameP:"Ismingiz", nameE:"Ismingizni kiriting",
+    phone:"Telefon raqami", phoneE:"Telefon raqamini to‘g‘ri kiriting",
+    teamL:"Jamoa", teamP:"Jamoa nomi", teamE:"Jamoa nomini kiriting",
+    nick:"Nik", nickP:"O‘yindagi nikingiz", opt:"majburiy emas",
+    send:"Arizani yuborish", sending:"Yuborilmoqda…",
+    fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
+    note:"Tugmani bosish orqali siz turnir bo‘yicha aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz. Ishtirok bepul.",
+    title:"Ro‘yxatdan o‘tish — Adrenaline Rush Cyber Fest"
+  }
+};
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+let lang = "ru";
+try {
+  const q = new URLSearchParams(location.search).get("lang"), saved = localStorage.getItem("lang");
+  if (q === "uz" || q === "ru") lang = q;
+  else if (saved === "uz" || saved === "ru") lang = saved;
+  else if ((navigator.language || "").toLowerCase().startsWith("uz")) lang = "uz";
+} catch (e) {}
+
+function setLang(l) {
+  lang = l;
+  try { localStorage.setItem("lang", l); } catch (e) {}
+  document.documentElement.lang = l;
+  document.title = T[l].title;
+  $$("[data-t]").forEach(el => { el.textContent = T[l][el.dataset.t]; });
+  $$("[data-p]").forEach(el => { el.placeholder = T[l][el.dataset.p]; });
+  $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
+}
+$$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+setLang(lang);
+
+/* team / solo */
+const teamField = $("#f-team");
+function applyType() {
+  const solo = $('input[name=type]:checked').value === "solo";
+  teamField.hidden = solo;
+  if (solo) teamField.classList.remove("bad");
+}
+$$('input[name=type]').forEach(r => r.addEventListener("change", applyType));
+applyType();
+
+/* phone mask: +998 XX XXX XX XX */
+const phone = $("#phone");
+function fmtPhone(v) {
+  let d = v.replace(/\D/g, "");
+  if (d.startsWith("998")) d = d.slice(3);
+  d = d.slice(0, 9);
+  const p = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean);
+  return "+998" + (p.length ? " " + p.join(" ") : "");
+}
+phone.addEventListener("focus", () => { if (!phone.value) phone.value = "+998 "; });
+phone.addEventListener("input", () => { phone.value = fmtPhone(phone.value); });
+phone.addEventListener("blur", () => { if (phone.value.replace(/\D/g, "") === "998") phone.value = ""; });
+
+/* validation */
+function check() {
+  const solo = $('input[name=type]:checked').value === "solo";
+  const rules = {
+    "f-name": $("#name").value.trim().length >= 2,
+    "f-phone": phone.value.replace(/\D/g, "").length === 12,
+    "f-team": solo || $("#team").value.trim().length >= 2
+  };
+  let first = null;
+  for (const id in rules) {
+    const f = document.getElementById(id);
+    f.classList.toggle("bad", !rules[id]);
+    if (!rules[id] && !first) first = f;
+  }
+  return first;
+}
+["name", "phone", "team"].forEach(id => $("#" + id).addEventListener("input", e => e.target.closest(".field").classList.remove("bad")));
+
+$("#form").addEventListener("submit", async e => {
+  e.preventDefault();
+  $("#fail").classList.remove("on");
+  if ($('input[name=website]').value) return;            // honeypot
+  const bad = check();
+  if (bad) {
+    bad.querySelector("input").focus();
+    const c = $("#form"); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake");
+    return;
+  }
+  const solo = $('input[name=type]:checked').value === "solo";
+  const data = {
+    type: solo ? "solo" : "team",
+    name: $("#name").value.trim(),
+    phone: phone.value.trim(),
+    team: solo ? "" : $("#team").value.trim(),
+    nick: $("#nick").value.trim(),
+    lang,
+    submittedAt: new Date().toISOString()
+  };
+  const btn = $("#submit"), label = btn.querySelector("span");
+  btn.disabled = true; label.textContent = T[lang].sending;
+  try {
+    if (CONFIG.endpoint) {
+      await fetch(CONFIG.endpoint, { method: "POST", mode: "no-cors", body: new URLSearchParams(data) });
+    } else {
+      console.warn("CONFIG.endpoint не задан — заявка сохранена только локально");
+    }
+    try {
+      const all = JSON.parse(localStorage.getItem("registrations") || "[]"); all.push(data);
+      localStorage.setItem("registrations", JSON.stringify(all));
+      sessionStorage.setItem("regType", data.type);
+    } catch (e) {}
+    location.href = CONFIG.thanksPage + "?lang=" + lang;
+  } catch (err) {
+    btn.disabled = false; label.textContent = T[lang].send;
+    $("#fail").classList.add("on");
+  }
+});
+</script>
+</body>
+</html>
