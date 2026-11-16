@@ -203,21 +203,26 @@ function tgText(d) {
 
 /* отправка: через сервер (номер участника, таблица, админка) либо напрямую в Telegram */
 async function sendApplication(data) {
+  const tg = CONFIG.telegram || {};
+  const toTelegram = async full => {
+    const r = await fetch(`https://api.telegram.org/bot${tg.botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: tg.chatId, text: tgText(full), parse_mode: "HTML", disable_web_page_preview: true })
+    });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.description || "telegram error");
+  };
   if (CONFIG.api) {
     const r = await fetch(CONFIG.api, { method: "POST", body: JSON.stringify({ action: "register", ...data }) });
     const j = await r.json();
     if (!j.ok) throw new Error(j.error || "server error");
-    return { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
+    const full = { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
+    if (!j.notified) { try { await toTelegram(full); } catch (e) { /* заявка уже в таблице */ } }
+    return full;
   }
   const full = { ...data, ...tashkentNow() };
-  const tg = CONFIG.telegram || {};
-  const r = await fetch(`https://api.telegram.org/bot${tg.botToken}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: tg.chatId, text: tgText(full), parse_mode: "HTML", disable_web_page_preview: true })
-  });
-  const j = await r.json();
-  if (!j.ok) throw new Error(j.description || "telegram error");
+  await toTelegram(full);
   return full;
 }
 

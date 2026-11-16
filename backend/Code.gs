@@ -15,13 +15,12 @@ const TZ = "Asia/Tashkent";
 const HEADERS = ["№", "Дата", "День", "Время", "Тип", "Имя", "Телефон", "Команда", "Ник", "Язык"];
 const DAYS = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
 
-/** Запустите ОДИН раз: впишите свои значения и нажмите «Выполнить» → setup */
+/** Запустите ОДИН раз: впишите логин и пароль админки и нажмите «Выполнить» → setup.
+ *  Токен бота здесь не нужен: Telegram-уведомление с номером отправляет сам сайт. */
 function setup() {
   PropertiesService.getScriptProperties().setProperties({
     ADMIN_LOGIN: "admin",
-    ADMIN_PASSWORD: "ПРИДУМАЙТЕ_ПАРОЛЬ",
-    BOT_TOKEN: "ТОКЕН_БОТА",
-    CHAT_ID: "-1004434135380"
+    ADMIN_PASSWORD: "ПРИДУМАЙТЕ_ПАРОЛЬ"
   });
 }
 
@@ -65,14 +64,15 @@ function register(d) {
     lock.releaseLock();
   }
 
-  try { notify(row); } catch (err) { /* заявка уже сохранена — Telegram не должен её ломать */ }
-  return json({ ok: true, number: row.number, date: row.date, day: row.day, time: row.time });
+  let notified = false;
+  try { notified = notify(row); } catch (err) { /* заявка уже сохранена — Telegram не должен её ломать */ }
+  return json({ ok: true, number: row.number, date: row.date, day: row.day, time: row.time, notified: notified });
 }
 
 function notify(r) {
   const p = PropertiesService.getScriptProperties();
   const token = p.getProperty("BOT_TOKEN"), chat = p.getProperty("CHAT_ID");
-  if (!token || !chat) return;
+  if (!token || !chat) return false;                          // без токена уведомление отправит сам сайт
   const solo = r.type === "solo";
   const text = [
     "🏆 <b>Участник #" + r.number + "</b>",
@@ -93,6 +93,7 @@ function notify(r) {
     muteHttpExceptions: true,
     payload: JSON.stringify({ chat_id: chat, text: text, parse_mode: "HTML", disable_web_page_preview: true })
   });
+  return true;
 }
 
 /* ---------------- список для админки ---------------- */
