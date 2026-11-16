@@ -4,7 +4,7 @@
  *   POST /api/registrations { action: "register", type, team, players[], lang } → номер участника
  *   POST /api/registrations { action: "list", login, password }               → данные для /admin
  *
- * Где хранятся заявки: в Telegram-группе организаторов — одно закреплённое сообщение-файл
+ * Где хранятся заявки: в Telegram-группе организаторов — одно сообщение-файл
  * «База заявок», которое бот обновляет при каждой заявке. Каждая заявка зашифрована
  * открытым ключом админки (X25519 + AES-256-GCM); расшифровать можно только паролем админки,
  * поэтому файл бесполезен без пароля даже тому, у кого есть токен бота.
@@ -20,7 +20,7 @@ const ADMIN_PASSWORD_SHA256 = "0eba393e80338601945f5f8549c11b5562954654d67c6d78b
 const ADMIN_PUBLIC_KEY = "WA7YIGwQfOuz58N//Ujbttbd89J5ayKWiKDLMsFIq0M=";  // X25519, из пароля через PBKDF2
 const KDF_SALT = "adrenaline-cyberfest-2026", KDF_ITER = 200000;
 const POINTER_LANG = "eo";               // служебное описание бота (язык, которого нет у участников) хранит id сообщения-базы
-const DB_CAPTION = "📦 База заявок сайта adrenalinefest.uz (зашифрована). Не удаляйте и не открепляйте — из неё работает админка.";
+const DB_CAPTION = "📦 База заявок сайта adrenalinefest.uz (зашифрована). Не удаляйте это сообщение — из него работает админка.";
 
 /* ---------------- Telegram ---------------- */
 async function tg(method, params, file) {
@@ -39,38 +39,34 @@ async function tg(method, params, file) {
 }
 const dbFile = db => ({ field: "db", name: "cyberfest-db.json", data: JSON.stringify(db) });
 
-async function dbMessageId(create) {
+// Указатель на базу хранится в служебном описании бота: "db:<message_id>:<file_id>"
+async function pointer() {
   const d = await tg("getMyDescription", { language_code: POINTER_LANG });
-  const m = /^db:(\d+)$/.exec((d && d.description) || "");
-  if (m) return Number(m[1]);
-  if (!create) return 0;
-  const msg = await tg("sendDocument", { chat_id: CHAT_ID, caption: DB_CAPTION, disable_notification: true },
-    { ...dbFile({ v: 1, records: [] }), field: "document" });
-  await tg("pinChatMessage", { chat_id: CHAT_ID, message_id: msg.message_id, disable_notification: true });
-  await tg("setMyDescription", { description: "db:" + msg.message_id, language_code: POINTER_LANG });
-  return msg.message_id;
+  const m = /^db:(\d+):(.+)$/.exec((d && d.description) || "");
+  return m ? { id: Number(m[1]), file: m[2] } : null;
 }
+const setPointer = (id, file) => tg("setMyDescription", { description: `db:${id}:${file}`, language_code: POINTER_LANG });
 
 async function readDb(create) {
-  const id = await dbMessageId(create);
-  if (!id) return { id: 0, db: { v: 1, records: [] } };
-  let chat = await tg("getChat", { chat_id: CHAT_ID });
-  if (!chat.pinned_message || chat.pinned_message.message_id !== id) {      // кто-то закрепил другое — возвращаем базу наверх
-    await tg("pinChatMessage", { chat_id: CHAT_ID, message_id: id, disable_notification: true });
-    chat = await tg("getChat", { chat_id: CHAT_ID });
+  let ptr = await pointer();
+  if (!ptr) {
+    if (!create) return { id: 0, db: { v: 1, records: [] } };
+    const msg = await tg("sendDocument", { chat_id: CHAT_ID, caption: DB_CAPTION, disable_notification: true },
+      { ...dbFile({ v: 1, records: [] }), field: "document" });
+    ptr = { id: msg.message_id, file: msg.document.file_id };
+    await setPointer(ptr.id, ptr.file);
   }
-  const doc = chat.pinned_message && chat.pinned_message.document;
-  if (!doc) throw new Error("db message has no document");
-  const f = await tg("getFile", { file_id: doc.file_id });
+  const f = await tg("getFile", { file_id: ptr.file });
   const r = await fetch(`${TG}/file/bot${BOT_TOKEN}/${f.file_path}`);
-  return { id, db: JSON.parse(await r.text()) };
+  return { id: ptr.id, db: JSON.parse(await r.text()) };
 }
 
 async function writeDb(id, db) {
-  await tg("editMessageMedia", {
+  const msg = await tg("editMessageMedia", {
     chat_id: CHAT_ID, message_id: id,
     media: { type: "document", media: "attach://db", caption: `${DB_CAPTION}\nЗаявок: ${db.records.length}` }
   }, dbFile(db));
+  await setPointer(id, msg.document.file_id);
 }
 
 /* ---------------- шифрование ---------------- */
