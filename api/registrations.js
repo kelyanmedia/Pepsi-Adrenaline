@@ -44,7 +44,7 @@ async function dbMessageId(create) {
   const m = /^db:(\d+)$/.exec((d && d.description) || "");
   if (m) return Number(m[1]);
   if (!create) return 0;
-  const msg = await tg("sendDocument", { chat_id: CHAT_ID, caption: DB_CAPTION, disable_notification: true, document: "attach://db" },
+  const msg = await tg("sendDocument", { chat_id: CHAT_ID, caption: DB_CAPTION, disable_notification: true },
     { ...dbFile({ v: 1, records: [] }), field: "document" });
   await tg("pinChatMessage", { chat_id: CHAT_ID, message_id: msg.message_id, disable_notification: true });
   await tg("setMyDescription", { description: "db:" + msg.message_id, language_code: POINTER_LANG });
@@ -168,7 +168,12 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return res.status(200).json({ ok: true, service: "adrenaline-registration" });
   let body = req.body;
+  if (Buffer.isBuffer(body)) body = body.toString("utf8");
   if (typeof body === "string") { try { body = JSON.parse(body); } catch (e) { body = null; } }
+  else if (body && typeof body === "object" && !body.action) {          // form-urlencoded: JSON пришёл ключом
+    const k = Object.keys(body)[0];
+    try { body = JSON.parse(k); } catch (e) { /* оставляем как есть */ }
+  }
   if (!body || typeof body !== "object") return res.status(400).json({ ok: false, error: "bad_request" });
   try {
     const out = body.action === "register" ? await register(body)
@@ -177,6 +182,6 @@ module.exports = async (req, res) => {
     res.status(out.status).json(out.body);
   } catch (e) {
     console.error(e);
-    res.status(500).json({ ok: false, error: "server" });
+    res.status(500).json({ ok: false, error: "server", detail: String(e && e.message || e).slice(0, 200) });
   }
 };
