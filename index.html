@@ -240,6 +240,14 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 .loc-rows div{display:flex;gap:14px;align-items:baseline;border-top:1px solid var(--line);padding-top:12px}
 .loc-rows dt{font-family:var(--display);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);min-width:92px}
 .loc-rows dd{font-weight:600}
+.venue-photo{position:relative;min-height:340px;overflow:hidden;border-left:1px solid var(--line);background:#14110c}
+.venue-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;transition:transform 1.4s var(--ease)}
+.loc:hover .venue-photo img{transform:scale(1.05)}
+.venue-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,16,12,.75),rgba(18,16,12,0) 38%),linear-gradient(0deg,rgba(10,9,7,.7),rgba(10,9,7,0) 40%);pointer-events:none}
+.map-chip{position:absolute;z-index:2;left:18px;bottom:18px;display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#120d02;padding:12px 18px;background:linear-gradient(180deg,var(--gold-hi),var(--gold));
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:transform .3s}
+.map-chip:hover{transform:translateY(-3px)}
+.map-chip svg{width:18px;height:18px}
 .radar{position:relative;min-height:340px;overflow:hidden;border-left:1px solid var(--line);
   background:
    linear-gradient(rgba(217,178,95,.09) 1px,transparent 1px) 0 0/38px 38px,
@@ -253,7 +261,7 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 @keyframes bounce{50%{translate:-50% -118%}}
 .pin-pulse{position:absolute;left:50%;top:50%;width:16px;height:16px;translate:-50% -50%;border-radius:50%;background:var(--gold);animation:ping 2s infinite}
 @keyframes ping{to{box-shadow:0 0 0 46px rgba(217,178,95,0)}from{box-shadow:0 0 0 0 rgba(217,178,95,.6)}}
-@media(max-width:900px){.terms-grid{grid-template-columns:1fr 1fr}.loc{grid-template-columns:1fr}.radar{border-left:0;border-top:1px solid var(--line);min-height:260px}.terms{background-attachment:scroll,scroll}}
+@media(max-width:900px){.terms-grid{grid-template-columns:1fr 1fr}.loc{grid-template-columns:1fr}.venue-photo,.radar{border-left:0;border-top:1px solid var(--line);min-height:260px}.venue-photo{min-height:0;aspect-ratio:2/1}.map-chip{top:12px;bottom:auto;left:12px;padding:9px 14px;font-size:13px}.venue-photo img{object-position:50% 70%}.terms{background-attachment:scroll,scroll}}
 @media(max-width:560px){.terms-grid{grid-template-columns:1fr}}
 
 /* ============ CTA ============ */
@@ -446,11 +454,12 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
           <div><dt data-i="l_a">Адрес</dt><dd data-i="addr">Ташкент, Шайхантахурский р-н, ул. Беруни, 41</dd></div>
         </dl>
       </div>
-      <div class="radar" aria-hidden="true">
-        <i class="ring"></i><i class="ring"></i><i class="ring"></i>
-        <i class="pin-pulse"></i>
-        <div class="pin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div>
-      </div>
+      <figure class="venue-photo reveal reveal-s">
+        <img src="assets/venue.webp" alt="Ледовый дворец «Алпомыш», Ташкент" width="1800" height="572" loading="lazy">
+        <a class="map-chip" href="https://www.google.com/maps/search/?api=1&query=Alpomish+muz+saroyi+Tashkent" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+          <span data-i="map">Открыть на карте</span></a>
+      </figure>
     </div>
   </div>
 </section>
@@ -566,7 +575,7 @@ const UZ = {
   c4:"Muddat", c4p:"Arizalar 16 noyabrdan 28 noyabrgacha qabul qilinadi.",
   c5:"Halol o‘yin", c5p:"Cheat, soxta o‘yinchilar va nomaqbul xulq-atvor — jamoani diskvalifikatsiya qilish.",
   c6:"Sovrin jamg‘armasi", c6p:"85 000 000 final kuni sovrindor jamoalar o‘rtasida taqsimlanadi.",
-  l1:"Finallar manzili", venue:"«Alpomish» muz saroyi",
+  map:"Xaritada ochish", l1:"Finallar manzili", venue:"«Alpomish» muz saroyi",
   venueText:"Finallar Toshkentda, «Beruniy» metrosi yaqinidagi «Alpomish» muz saroyida o‘tadi. Final kuni jadvalini finalchi jamoalar sardorlari oladi.",
   l_d:"Sana", l_f:"Format", l_fv:"Oflayn finallar, 5x5", l_a:"Manzil", addr:"Toshkent, Shayxontohur tumani, Beruniy ko‘chasi, 41",
   a1:"O‘rinlar cheklangan", a2:"<span>Jamoang</span><span class=\"gold-text\">o‘yindami?</span>",

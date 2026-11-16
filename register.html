@@ -183,8 +183,10 @@ function tashkentNow() {
 
 function tgText(d) {
   const solo = d.type === "solo";
+  const kind = solo ? "СОЛО игрок" : "КОМАНДА";
   return [
-    `🔥 <b>Новая заявка${d.number ? " №" + String(d.number).padStart(4, "0") : ""} — ${solo ? "СОЛО игрок" : "КОМАНДА"}</b>`,
+    d.number ? `🏆 <b>Участник №${String(d.number).padStart(4, "0")}</b> — ${kind}` : `🔥 <b>Новая заявка</b> — ${kind}`,
+    d.number ? `🔥 Новая заявка` : null,
     "",
     `🗓 <b>Дата:</b> ${d.date}, ${d.day}`,
     `🕒 <b>Время:</b> ${d.time.slice(0, 5)} (Ташкент)`,

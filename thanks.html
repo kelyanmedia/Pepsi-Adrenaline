@@ -43,14 +43,14 @@ body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;op
 .lang button{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:10px 16px;cursor:pointer;transition:.3s}
 .lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
 
-main{max-width:1180px;margin:0 auto;padding:clamp(14px,3vw,40px) clamp(20px,5vw,56px) 80px;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,6vw,90px);align-items:center}
+main{max-width:1180px;margin:0 auto;padding:clamp(6px,1.5vw,18px) clamp(20px,5vw,56px) 70px;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,80px);align-items:start}
 @media(max-width:900px){main{grid-template-columns:1fr}}
 
 /* ---------- headline ---------- */
 .tag{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
 .tag i{width:9px;height:9px;border-radius:50%;background:#43e06b;box-shadow:0 0 0 0 rgba(67,224,107,.7);animation:pulse 1.8s infinite}
 @keyframes pulse{to{box-shadow:0 0 0 11px rgba(67,224,107,0)}}
-h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(46px,8vw,104px);line-height:1.12;padding-bottom:.06em;margin:16px 0 18px;transform:skewX(-7deg);transform-origin:left bottom}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(42px,5.4vw,76px);line-height:1.12;padding-bottom:.06em;margin:16px 0 18px;transform:skewX(-7deg);transform-origin:left bottom}
 h1 span{display:block}
 .gold-text{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 50%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
 .lead{color:#d6cebd;font-size:clamp(18px,2.2vw,21px);max-width:520px}
@@ -84,7 +84,7 @@ h1 span{display:block}
 
 /* ---------- ticket ---------- */
 .stage{display:flex;justify-content:center;perspective:1200px}
-.ticket{--stub:128px;position:relative;width:100%;max-width:400px;color:#120d02;transform:rotate(2.5deg);transition:transform .6s var(--ease);filter:drop-shadow(0 30px 50px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(217,178,95,.18))}
+.ticket{--stub:118px;position:relative;width:100%;max-width:380px;margin-top:6px;color:#120d02;transform:rotate(2.5deg);transition:transform .6s var(--ease);filter:drop-shadow(0 30px 50px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(217,178,95,.18))}
 .ticket:hover{transform:rotate(0) translateY(-6px)}
 .t-body{position:relative;background:linear-gradient(165deg,#f6e3a6,#d9b25f 46%,#b98d3a);
   -webkit-mask:radial-gradient(circle 14px at 0 calc(100% - var(--stub)),#0000 97%,#000) 0 0/51% 100% no-repeat,radial-gradient(circle 14px at 100% calc(100% - var(--stub)),#0000 97%,#000) 100% 0/51% 100% no-repeat;
@@ -113,7 +113,7 @@ h1 span{display:block}
 .ticket.in{transform:translateY(40px) rotate(6deg);animation-name:tin}
 @keyframes up{to{opacity:1;transform:none}}
 @keyframes tin{to{opacity:1;transform:rotate(2.5deg)}}
-@media(max-width:900px){.stage{order:-1}.ticket{max-width:380px}h1{transform-origin:left bottom}}
+@media(max-width:900px){main{align-items:center}.stage{order:-1}.ticket{max-width:380px}h1{transform-origin:left bottom}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}.ticket.in{transform:rotate(2.5deg)}}
 </style>
 </head>

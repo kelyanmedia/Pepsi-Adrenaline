@@ -75,7 +75,8 @@ function notify(r) {
   if (!token || !chat) return;
   const solo = r.type === "solo";
   const text = [
-    "🔥 <b>Новая заявка №" + pad(r.number) + " — " + (solo ? "СОЛО игрок" : "КОМАНДА") + "</b>",
+    "🏆 <b>Участник №" + pad(r.number) + "</b> — " + (solo ? "СОЛО игрок" : "КОМАНДА"),
+    "🔥 Новая заявка",
     "",
     "🗓 <b>Дата:</b> " + r.date + ", " + r.day,
     "🕒 <b>Время:</b> " + r.time.slice(0, 5) + " (Ташкент)",
