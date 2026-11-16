@@ -46,7 +46,7 @@ body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;op
 .gold-text{background:linear-gradient(180deg,var(--gold-hi) 0%,var(--gold) 45%,var(--gold-lo) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
 .eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
-.h2{font-size:clamp(40px,7vw,92px);transform:skewX(-7deg);transform-origin:left bottom;margin:18px 0 22px}
+.h2{font-size:clamp(40px,7vw,92px);line-height:1.1;transform:skewX(-7deg);transform-origin:left bottom;margin:22px 0 28px}
 .lead{color:var(--muted);font-size:clamp(16px,1.5vw,19px);max-width:560px}
 section{position:relative;padding:clamp(80px,11vw,150px) 0}
 
@@ -89,7 +89,12 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 .nav-links a:hover{color:var(--gold-hi)}
 .nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
 .nav .btn{padding:12px 22px;font-size:14px}
+.nav-r{display:flex;align-items:center;gap:14px}
+.lang{display:inline-flex;border:1px solid var(--line);background:rgba(10,9,7,.6);backdrop-filter:blur(6px);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.lang button{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:9px 14px;cursor:pointer;transition:.3s}
+.lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
 @media(max-width:860px){.nav-links{display:none}}
+@media(max-width:480px){.nav .btn{display:none}}
 
 /* ============ HERO ============ */
 .hero{min-height:100svh;padding:100px 0 clamp(90px,10vw,140px);display:flex;align-items:center;overflow:hidden}
@@ -255,7 +260,7 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 .cta{text-align:center;overflow:hidden;padding:clamp(110px,15vw,210px) 0;background:radial-gradient(ellipse 70% 70% at 50% 100%,rgba(217,178,95,.3),transparent 70%),var(--bg)}
 .cta .beams{opacity:.8}
 .cta-in{position:relative;z-index:3}
-.cta h2{font-size:clamp(50px,11vw,170px);transform:skewX(-9deg);line-height:.9}
+.cta h2{font-size:clamp(50px,11vw,170px);transform:skewX(-9deg);line-height:1.05}
 .cta h2 span{display:block}
 .cta h2.reveal{transform:skewX(-9deg) translateY(40px)}
 .cta h2.reveal.in{transform:skewX(-9deg)}
@@ -265,8 +270,8 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 
 /* ============ FOOTER ============ */
 footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px;overflow:hidden}
-.f-giant{font-family:var(--display);font-weight:700;font-size:clamp(70px,19.5vw,330px);line-height:.82;text-transform:uppercase;white-space:nowrap;text-align:center;transform:skewX(-9deg);color:transparent;-webkit-text-stroke:1px rgba(217,178,95,.4);
-  background:linear-gradient(100deg,transparent 40%,rgba(246,227,166,.95) 50%,transparent 60%) -100% 0/250% 100% no-repeat;-webkit-background-clip:text;background-clip:text;animation:sheen 6s linear infinite;user-select:none;margin-bottom:clamp(36px,5vw,70px)}
+.f-giant{font-family:var(--display);font-weight:700;font-size:clamp(70px,19.5vw,330px);line-height:1.12;padding:.02em 0 .06em;text-transform:uppercase;white-space:nowrap;text-align:center;transform:skewX(-9deg);color:transparent;-webkit-text-stroke:1px rgba(217,178,95,.4);
+  background:linear-gradient(100deg,transparent 40%,rgba(246,227,166,.95) 50%,transparent 60%) -100% 0/250% 100% no-repeat;-webkit-background-clip:text;background-clip:text;animation:sheen 6s linear infinite;user-select:none;margin-bottom:clamp(16px,3vw,40px)}
 @keyframes sheen{to{background-position:200% 0}}
 .f-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid var(--line)}
 .f-grid .logo img{height:58px}
@@ -294,11 +299,12 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
   <div class="wrap nav-in">
     <a href="#top" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
     <nav class="nav-links">
-      <a href="#register">Регистрация</a>
-      <a href="#flow">Как всё пройдёт</a>
-      <a href="#terms">Условия и локация</a>
+      <a href="#register" data-i="nav1">Регистрация</a>
+      <a href="#flow" data-i="nav2">Как всё пройдёт</a>
+      <a href="#terms" data-i="nav3">Условия и локация</a>
     </nav>
-    <a class="btn btn-gold" data-form href="register.html">Участвовать</a>
+    <div class="nav-r"><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="ru">RU</button><button type="button" data-lang="uz">UZ</button></div>
+    <a class="btn btn-gold" data-form href="register.html" data-i="join">Участвовать</a></div>
   </div>
 </header>
 
@@ -311,24 +317,24 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
   <canvas id="embers"></canvas>
 
   <div class="wrap hero-in">
-    <div class="live"><i></i>Регистрация команд открыта</div>
+    <div class="live"><i></i><span data-i="live">Регистрация команд открыта</span></div>
     <h1 class="hero-title display" aria-label="Cyber Fest"><span class="w">CYBER</span><span class="w">FEST</span></h1>
-    <div class="hero-sub">Турнир по <b>CS2</b></div>
+    <div class="hero-sub" data-i="sub">Турнир по <b>CS2</b></div>
 
     <div class="prize">
-      <div class="prize-label">Призовой фонд</div>
+      <div class="prize-label" data-i="prize">Призовой фонд</div>
       <div class="prize-num gold-text"><span id="prize" data-to="85000000">85 000 000</span><small data-currency></small></div>
     </div>
 
     <div class="hero-dates">
-      <div><strong>16–28 ноября</strong><span>Регистрация</span></div>
-      <div><strong>13 декабря</strong><span>Финалы (5x5)</span></div>
+      <div><strong data-i="d1">16–28 ноября</strong><span data-i="reg">Регистрация</span></div>
+      <div><strong data-i="d2">13 декабря</strong><span data-i="fin">Финалы (5x5)</span></div>
     </div>
 
     <div class="hero-cta">
-      <a class="btn btn-gold btn-lg" data-form href="register.html">Участвовать в турнире
+      <a class="btn btn-gold btn-lg" data-form href="register.html"><span data-i="heroBtn">Участвовать в турнире</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="btn btn-ghost btn-lg" href="#flow">Как всё пройдёт</a>
+      <a class="btn btn-ghost btn-lg" href="#flow" data-i="nav2">Как всё пройдёт</a>
     </div>
   </div>
 
@@ -338,7 +344,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track" id="marq">
-    <span>Cyber Fest</span><span>Турнир по CS2</span><span>Призовой фонд 85 000 000</span><span>Финалы 5x5</span><span>Adrenaline Rush</span><span>13 декабря</span>
+    <span>Cyber Fest</span><span data-i="m1">Турнир по CS2</span><span data-i="m2">Призовой фонд 85 000 000</span><span data-i="m3">Финалы 5x5</span><span>Adrenaline Rush</span><span data-i="d2">13 декабря</span>
   </div>
 </div>
 
@@ -346,28 +352,28 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 <section class="register" id="register">
   <div class="wrap reg-grid">
     <div>
-      <div class="eyebrow reveal">Регистрация · до 28 ноября</div>
-      <h2 class="h2 display reveal">Займи слот<br><span class="gold-text">для своей команды</span></h2>
-      <p class="lead reveal">Заявка подаётся через форму на сайте и занимает пару минут. Можно зарегистрировать целую команду или прийти соло — мы подберём состав.</p>
+      <div class="eyebrow reveal" data-i="r1">Регистрация · до 28 ноября</div>
+      <h2 class="h2 display reveal" data-i="r2">Займи слот<br><span class="gold-text">для своей команды</span></h2>
+      <p class="lead reveal" data-i="r3">Заявка подаётся через форму на сайте и занимает пару минут. Можно зарегистрировать целую команду или прийти соло — мы подберём состав.</p>
 
       <ol class="steps">
-        <li class="reveal reveal-l" style="--d:.05s"><div><b>Собери состав</b><p>Пять игроков основного состава и капитан, который будет на связи.</p></div></li>
-        <li class="reveal reveal-l" style="--d:.15s"><div><b>Заполни форму</b><p>Укажи, команда ты или соло-игрок, имя, телефон, название команды и ник.</p></div></li>
-        <li class="reveal reveal-l" style="--d:.25s"><div><b>Получи подтверждение</b><p>Организаторы свяжутся с капитаном и пришлют расписание матчей.</p></div></li>
+        <li class="reveal reveal-l" style="--d:.05s"><div><b data-i="s1">Собери состав</b><p data-i="s1p">Пять игроков основного состава и капитан, который будет на связи.</p></div></li>
+        <li class="reveal reveal-l" style="--d:.15s"><div><b data-i="s2">Заполни форму</b><p data-i="s2p">Укажи, команда ты или соло-игрок, имя, телефон, название команды и ник.</p></div></li>
+        <li class="reveal reveal-l" style="--d:.25s"><div><b data-i="s3">Получи подтверждение</b><p data-i="s3p">Организаторы свяжутся с капитаном и пришлют расписание матчей.</p></div></li>
       </ol>
 
       <div class="reg-actions reveal">
-        <a class="btn btn-gold btn-lg" data-form href="register.html">Открыть форму регистрации
+        <a class="btn btn-gold btn-lg" data-form href="register.html"><span data-i="regBtn">Открыть форму регистрации</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
-        <span class="reg-note">Участие <b>бесплатное</b></span>
+        <span class="reg-note" data-i="free">Участие <b>бесплатное</b></span>
       </div>
 
-      <div class="cd-title reveal" id="cdTitle">До конца регистрации</div>
+      <div class="cd-title reveal" id="cdTitle" data-i="cdT">До конца регистрации</div>
       <div class="countdown reveal" id="countdown">
-        <div class="cd"><b data-cd="d">00</b><span>дней</span></div>
-        <div class="cd"><b data-cd="h">00</b><span>часов</span></div>
-        <div class="cd"><b data-cd="m">00</b><span>минут</span></div>
-        <div class="cd"><b data-cd="s">00</b><span>секунд</span></div>
+        <div class="cd"><b data-cd="d">00</b><span data-i="cd_d">дней</span></div>
+        <div class="cd"><b data-cd="h">00</b><span data-i="cd_h">часов</span></div>
+        <div class="cd"><b data-cd="m">00</b><span data-i="cd_m">минут</span></div>
+        <div class="cd"><b data-cd="s">00</b><span data-i="cd_s">секунд</span></div>
       </div>
     </div>
 
@@ -382,9 +388,9 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
   <svg class="torn top" data-torn="#0a0907" preserveAspectRatio="none" viewBox="0 0 1000 100"></svg>
   <div class="wrap">
     <div class="flow-head">
-      <div class="eyebrow reveal">Формат</div>
-      <h2 class="h2 display reveal">Как всё <span class="gold-text">пройдёт</span></h2>
-      <p class="lead reveal">От заявки до кубка — четыре шага. Лучшие команды встретятся на сцене в финальный день.</p>
+      <div class="eyebrow reveal" data-i="f1">Формат</div>
+      <h2 class="h2 display reveal" data-i="f2">Как всё <span class="gold-text">пройдёт</span></h2>
+      <p class="lead reveal" data-i="f3">От заявки до кубка — четыре шага. Лучшие команды встретятся на сцене в финальный день.</p>
     </div>
 
     <div class="timeline" id="timeline">
@@ -392,23 +398,23 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 
       <div class="tl-item">
         <i class="tl-dot"></i>
-        <div class="tl-date"><strong>16–28 ноября</strong><span>Этап 1</span></div>
-        <div class="tl-card" data-n="01"><h3>Регистрация команд</h3><p>Капитан подаёт заявку через форму. После проверки состава команда получает слот в турнирной сетке.</p></div>
+        <div class="tl-date"><strong data-i="d1">16–28 ноября</strong><span data-i="e1">Этап 1</span></div>
+        <div class="tl-card" data-n="01"><h3 data-i="t1">Регистрация команд</h3><p data-i="t1p">Капитан подаёт заявку через форму. После проверки состава команда получает слот в турнирной сетке.</p></div>
       </div>
       <div class="tl-item">
         <i class="tl-dot"></i>
-        <div class="tl-date"><strong>Отборочные</strong><span>Этап 2</span></div>
-        <div class="tl-card" data-n="02"><h3>Онлайн-квалификации</h3><p>Команды играют отборочные матчи 5x5. Сетка и расписание приходят капитанам после закрытия регистрации.</p></div>
+        <div class="tl-date"><strong data-i="q">Отборочные</strong><span data-i="e2">Этап 2</span></div>
+        <div class="tl-card" data-n="02"><h3 data-i="t2">Онлайн-квалификации</h3><p data-i="t2p">Команды играют отборочные матчи 5x5. Сетка и расписание приходят капитанам после закрытия регистрации.</p></div>
       </div>
       <div class="tl-item">
         <i class="tl-dot"></i>
-        <div class="tl-date"><strong>13 декабря</strong><span>Этап 3</span></div>
-        <div class="tl-card" data-n="03"><h3>Финалы 5x5</h3><p>Сильнейшие команды выходят на сцену Cyber Fest: живые матчи, зрители, свет и комментаторы.</p></div>
+        <div class="tl-date"><strong data-i="d2">13 декабря</strong><span data-i="e3">Этап 3</span></div>
+        <div class="tl-card" data-n="03"><h3 data-i="t3">Финалы 5x5</h3><p data-i="t3p">Сильнейшие команды выходят на сцену Cyber Fest: живые матчи, зрители, свет и комментаторы.</p></div>
       </div>
       <div class="tl-item">
         <i class="tl-dot"></i>
-        <div class="tl-date"><strong>Награждение</strong><span>Этап 4</span></div>
-        <div class="tl-card" data-n="04"><h3>Кубок и призовой фонд</h3><p>Победители делят призовой фонд 85 000 000 и забирают кубок Adrenaline Rush Cyber Fest.</p></div>
+        <div class="tl-date"><strong data-i="aw">Награждение</strong><span data-i="e4">Этап 4</span></div>
+        <div class="tl-card" data-n="04"><h3 data-i="t4">Кубок и призовой фонд</h3><p data-i="t4p">Победители делят призовой фонд 85 000 000 и забирают кубок Adrenaline Rush Cyber Fest.</p></div>
       </div>
     </div>
   </div>
@@ -417,27 +423,27 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 <!-- ============ 4. TERMS & LOCATION ============ -->
 <section class="terms" id="terms">
   <div class="wrap">
-    <div class="eyebrow reveal">Правила участия</div>
-    <h2 class="h2 display reveal">Условия <span class="gold-text">и локация</span></h2>
+    <div class="eyebrow reveal" data-i="p1">Правила участия</div>
+    <h2 class="h2 display reveal" data-i="p2">Условия <span class="gold-text">и локация</span></h2>
 
     <div class="terms-grid">
-      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">5x5</div><h3>Формат</h3><p>Counter-Strike 2, команда из пяти игроков. Одна заявка на команду.</p></div>
-      <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">18+</div><h3>Возраст</h3><p>К участию допускаются игроки, которым исполнилось 18 лет.</p></div>
-      <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">0</div><h3>Взнос</h3><p>Участие бесплатное. Нужна только заявка, поданная до 28 ноября.</p></div>
-      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">28.11</div><h3>Дедлайн</h3><p>Заявки принимаются с 16 по 28 ноября включительно.</p></div>
-      <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">Fair</div><h3>Честная игра</h3><p>Читы, подставные игроки и токсичное поведение — дисквалификация команды.</p></div>
-      <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">85M</div><h3>Призовой фонд</h3><p>85 000 000 разыгрываются между командами-призёрами финального дня.</p></div>
+      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">5x5</div><h3 data-i="c1">Формат</h3><p data-i="c1p">Counter-Strike 2, команда из пяти игроков. Одна заявка на команду.</p></div>
+      <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">18+</div><h3 data-i="c2">Возраст</h3><p data-i="c2p">К участию допускаются игроки, которым исполнилось 18 лет.</p></div>
+      <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">0</div><h3 data-i="c3">Взнос</h3><p data-i="c3p">Участие бесплатное. Нужна только заявка, поданная до 28 ноября.</p></div>
+      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">28.11</div><h3 data-i="c4">Дедлайн</h3><p data-i="c4p">Заявки принимаются с 16 по 28 ноября включительно.</p></div>
+      <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">Fair</div><h3 data-i="c5">Честная игра</h3><p data-i="c5p">Читы, подставные игроки и токсичное поведение — дисквалификация команды.</p></div>
+      <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">85M</div><h3 data-i="c6">Призовой фонд</h3><p data-i="c6p">85 000 000 разыгрываются между командами-призёрами финального дня.</p></div>
     </div>
 
     <div class="loc">
       <div class="loc-info reveal">
-        <div class="eyebrow">Локация финалов</div>
-        <h3 data-venue>Ледовый дворец «Алпомыш»</h3>
-        <p data-venue-text>Финалы пройдут в Ташкенте, в ледовом дворце «Алпомыш» рядом с метро «Беруни». Расписание финального дня получат капитаны команд-финалистов.</p>
+        <div class="eyebrow" data-i="l1">Локация финалов</div>
+        <h3 data-i="venue">Ледовый дворец «Алпомыш»</h3>
+        <p data-i="venueText">Финалы пройдут в Ташкенте, в ледовом дворце «Алпомыш» рядом с метро «Беруни». Расписание финального дня получат капитаны команд-финалистов.</p>
         <dl class="loc-rows">
-          <div><dt>Дата</dt><dd>13 декабря</dd></div>
-          <div><dt>Формат</dt><dd>Офлайн-финалы, 5x5</dd></div>
-          <div><dt>Адрес</dt><dd data-address>Ташкент, Шайхантахурский р-н, ул. Беруни, 41</dd></div>
+          <div><dt data-i="l_d">Дата</dt><dd data-i="d2">13 декабря</dd></div>
+          <div><dt data-i="l_f">Формат</dt><dd data-i="l_fv">Офлайн-финалы, 5x5</dd></div>
+          <div><dt data-i="l_a">Адрес</dt><dd data-i="addr">Ташкент, Шайхантахурский р-н, ул. Беруни, 41</dd></div>
         </dl>
       </div>
       <div class="radar" aria-hidden="true">
@@ -454,12 +460,12 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
   <svg class="torn top" data-torn="#0a0907" preserveAspectRatio="none" viewBox="0 0 1000 100"></svg>
   <div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
   <div class="wrap cta-in">
-    <div class="eyebrow reveal">Слоты ограничены</div>
-    <h2 class="display reveal"><span>Твоя команда</span><span class="gold-text">в игре?</span></h2>
-    <p class="reveal">Регистрация закрывается 28 ноября. Подай заявку сейчас и поборись за призовой фонд 85 000 000.</p>
-    <div class="reveal"><a class="btn btn-gold btn-lg" data-form href="register.html">Зарегистрировать команду
+    <div class="eyebrow reveal" data-i="a1">Слоты ограничены</div>
+    <h2 class="display reveal" data-i="a2"><span>Твоя команда</span><span class="gold-text">в игре?</span></h2>
+    <p class="reveal" data-i="a3">Регистрация закрывается 28 ноября. Подай заявку сейчас и поборись за призовой фонд 85 000 000.</p>
+    <div class="reveal"><a class="btn btn-gold btn-lg" data-form href="register.html"><span data-i="a4">Зарегистрировать команду</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <div class="cta-sub reveal">Регистрация <b>16–28 ноября</b> · Финалы <b>13 декабря</b></div>
+    <div class="cta-sub reveal" data-i="a5">Регистрация <b>16–28 ноября</b> · Финалы <b>13 декабря</b></div>
   </div>
 </section>
 </main>
@@ -472,19 +478,19 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
     <div class="f-grid">
       <div>
         <a href="#top" class="logo"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116" loading="lazy"></a>
-        <p class="f-about">Adrenaline Rush Cyber Fest — турнир по Counter-Strike 2 в формате 5x5 с призовым фондом 85 000 000.</p>
+        <p class="f-about" data-i="fa">Adrenaline Rush Cyber Fest — турнир по Counter-Strike 2 в формате 5x5 с призовым фондом 85 000 000.</p>
       </div>
       <div class="f-col">
-        <h4>Турнир</h4>
-        <a href="#register">Регистрация</a>
-        <a href="#flow">Как всё пройдёт</a>
-        <a href="#terms">Условия и локация</a>
+        <h4 data-i="fh1">Турнир</h4>
+        <a href="#register" data-i="nav1">Регистрация</a>
+        <a href="#flow" data-i="nav2">Как всё пройдёт</a>
+        <a href="#terms" data-i="nav3">Условия и локация</a>
       </div>
       <div class="f-col">
-        <h4>Даты</h4>
-        <span>16–28 ноября — регистрация</span>
-        <span>13 декабря — финалы (5x5)</span>
-        <a data-form href="register.html">Подать заявку →</a>
+        <h4 data-i="fh2">Даты</h4>
+        <span data-i="fd1">16–28 ноября — регистрация</span>
+        <span data-i="fd2">13 декабря — финалы (5x5)</span>
+        <a data-form href="register.html" data-i="fapply">Подать заявку →</a>
       </div>
     </div>
     <div class="f-legal">
@@ -499,9 +505,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 /* ================== НАСТРОЙКИ ================== */
 const CONFIG = {
   currency: "",                         // ← валюта призового фонда, например "сум" (пусто — не показывать)
-  regEnd: "2026-11-28T23:59:59+05:00",  // конец регистрации
-  venue: "Ледовый дворец «Алпомыш»",    // название площадки финалов
-  address: "Ташкент, Шайхантахурский р-н, ул. Беруни, 41" // адрес площадки
+  regEnd: "2026-11-28T23:59:59+05:00"   // конец регистрации
 };
 /* =============================================== */
 
@@ -511,14 +515,15 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 /* form links */
 if (CONFIG.currency) $$("[data-currency]").forEach(e => e.textContent = CONFIG.currency);
-if (CONFIG.venue) { $("[data-venue]").textContent = CONFIG.venue; }
-if (CONFIG.address) { $("[data-address]").textContent = CONFIG.address; }
 
 /* hero letters */
 let li = 0;
 $$(".hero-title .w").forEach(w => {
   w.innerHTML = [...w.textContent].map(ch => `<span class="c" style="--i:${li++}">${ch}</span>`).join("");
 });
+
+/* i18n: remember Russian originals */
+$$("[data-i]").forEach(el => el.dataset.ru = el.innerHTML);
 
 /* marquee: duplicate for seamless loop */
 const marq = $("#marq"); marq.innerHTML += marq.innerHTML;
@@ -533,6 +538,65 @@ $$("svg[data-torn]").forEach((svg, k) => {
   };
   svg.innerHTML = `<path d="${mk(42, 34)}" fill="#d9b25f"/><path d="${mk(60, 26)}" fill="${svg.dataset.torn}"/>`;
 });
+
+/* ============ RU / UZ ============ */
+const UZ = {
+  nav1:"Ro‘yxatdan o‘tish", nav2:"Qanday o‘tadi", nav3:"Shartlar va manzil", join:"Qatnashish",
+  live:"Jamoalar ro‘yxati ochiq", sub:"<b>CS2</b> bo‘yicha turnir", prize:"Sovrin jamg‘armasi",
+  d1:"16–28 noyabr", reg:"Ro‘yxatdan o‘tish", d2:"13 dekabr", fin:"Finallar (5x5)",
+  heroBtn:"Turnirda qatnashish",
+  m1:"CS2 bo‘yicha turnir", m2:"Sovrin jamg‘armasi 85 000 000", m3:"Finallar 5x5",
+  r1:"Ro‘yxatdan o‘tish · 28 noyabrgacha", r2:"O‘z jamoang uchun<br><span class=\"gold-text\">o‘rin band qil</span>",
+  r3:"Ariza saytdagi forma orqali yuboriladi va bir necha daqiqa oladi. Butun jamoani ro‘yxatdan o‘tkazish yoki yakka kelish mumkin — tarkib topishga yordam beramiz.",
+  s1:"Tarkibni yig‘", s1p:"Asosiy tarkibdagi besh o‘yinchi va aloqada bo‘ladigan sardor.",
+  s2:"Formani to‘ldir", s2p:"Jamoa yoki yakka o‘yinchi ekanligingni, ism, telefon, jamoa nomi va nikni ko‘rsat.",
+  s3:"Tasdiq ol", s3p:"Tashkilotchilar sardor bilan bog‘lanib, o‘yinlar jadvalini yuborishadi.",
+  regBtn:"Ro‘yxatdan o‘tish formasini ochish", free:"Ishtirok <b>bepul</b>",
+  cdT:"Ro‘yxat yopilishiga qadar", cdEnd:"Ro‘yxatdan o‘tish yakunlandi", cd_d:"kun", cd_h:"soat", cd_m:"daqiqa", cd_s:"soniya",
+  f1:"Format", f2:"Hammasi <span class=\"gold-text\">qanday o‘tadi</span>",
+  f3:"Arizadan kubokkacha — to‘rt qadam. Eng yaxshi jamoalar final kuni sahnada uchrashadi.",
+  e1:"1-bosqich", t1:"Jamoalarni ro‘yxatga olish", t1p:"Sardor forma orqali ariza yuboradi. Tarkib tekshirilgach, jamoa turnir setkasida o‘rin oladi.",
+  q:"Saralash", e2:"2-bosqich", t2:"Onlayn saralash", t2p:"Jamoalar 5x5 saralash o‘yinlarini o‘ynaydi. Setka va jadval ro‘yxat yopilgach sardorlarga yuboriladi.",
+  e3:"3-bosqich", t3:"Finallar 5x5", t3p:"Eng kuchli jamoalar Cyber Fest sahnasiga chiqadi: jonli o‘yinlar, tomoshabinlar, yorug‘lik va sharhlovchilar.",
+  aw:"Taqdirlash", e4:"4-bosqich", t4:"Kubok va sovrin jamg‘armasi", t4p:"G‘oliblar 85 000 000 sovrin jamg‘armasini bo‘lishadi va Adrenaline Rush Cyber Fest kubogini olishadi.",
+  p1:"Ishtirok qoidalari", p2:"Shartlar <span class=\"gold-text\">va manzil</span>",
+  c1:"Format", c1p:"Counter-Strike 2, besh o‘yinchidan iborat jamoa. Jamoa uchun bitta ariza.",
+  c2:"Yosh", c2p:"Ishtirok etish uchun 18 yoshga to‘lgan bo‘lish kerak.",
+  c3:"Badal", c3p:"Ishtirok bepul. Faqat 28 noyabrgacha yuborilgan ariza kerak.",
+  c4:"Muddat", c4p:"Arizalar 16 noyabrdan 28 noyabrgacha qabul qilinadi.",
+  c5:"Halol o‘yin", c5p:"Cheat, soxta o‘yinchilar va nomaqbul xulq-atvor — jamoani diskvalifikatsiya qilish.",
+  c6:"Sovrin jamg‘armasi", c6p:"85 000 000 final kuni sovrindor jamoalar o‘rtasida taqsimlanadi.",
+  l1:"Finallar manzili", venue:"«Alpomish» muz saroyi",
+  venueText:"Finallar Toshkentda, «Beruniy» metrosi yaqinidagi «Alpomish» muz saroyida o‘tadi. Final kuni jadvalini finalchi jamoalar sardorlari oladi.",
+  l_d:"Sana", l_f:"Format", l_fv:"Oflayn finallar, 5x5", l_a:"Manzil", addr:"Toshkent, Shayxontohur tumani, Beruniy ko‘chasi, 41",
+  a1:"O‘rinlar cheklangan", a2:"<span>Jamoang</span><span class=\"gold-text\">o‘yindami?</span>",
+  a3:"Ro‘yxat 28 noyabrda yopiladi. Hoziroq ariza yubor va 85 000 000 sovrin jamg‘armasi uchun kurash.",
+  a4:"Jamoani ro‘yxatdan o‘tkazish", a5:"Ro‘yxat <b>16–28 noyabr</b> · Finallar <b>13 dekabr</b>",
+  fa:"Adrenaline Rush Cyber Fest — 85 000 000 sovrin jamg‘armali Counter-Strike 2 bo‘yicha 5x5 formatidagi turnir.",
+  fh1:"Turnir", fh2:"Sanalar", fd1:"16–28 noyabr — ro‘yxatdan o‘tish", fd2:"13 dekabr — finallar (5x5)", fapply:"Ariza yuborish →"
+};
+const META = {
+  ru: { title:"Adrenaline Rush Cyber Fest — турнир по CS2", desc:"Adrenaline Rush Cyber Fest — турнир по CS2 5x5. Призовой фонд 85 000 000. Регистрация команд 16–28 ноября, финалы 13 декабря." },
+  uz: { title:"Adrenaline Rush Cyber Fest — CS2 bo‘yicha turnir", desc:"Adrenaline Rush Cyber Fest — CS2 bo‘yicha 5x5 turnir. Sovrin jamg‘armasi 85 000 000. Ro‘yxatdan o‘tish 16–28 noyabr, finallar 13 dekabr." }
+};
+let lang = "ru";
+try {
+  const q = new URLSearchParams(location.search).get("lang"), saved = localStorage.getItem("lang");
+  if (q === "uz" || q === "ru") lang = q; else if (saved === "uz" || saved === "ru") lang = saved;
+  else if ((navigator.language || "").toLowerCase().startsWith("uz")) lang = "uz";
+} catch (e) {}
+function applyLang(l) {
+  lang = l;
+  try { localStorage.setItem("lang", l); } catch (e) {}
+  document.documentElement.lang = l;
+  document.title = META[l].title;
+  $('meta[name=description]').content = META[l].desc;
+  $$("[data-i]").forEach(el => { el.innerHTML = l === "uz" && UZ[el.dataset.i] ? UZ[el.dataset.i] : el.dataset.ru; });
+  $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
+  $$("[data-form]").forEach(a => a.href = "register.html?lang=" + l);
+}
+$$("[data-lang]").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.lang)));
+applyLang(lang);
 
 /* nav */
 const nav = $("#nav");
@@ -560,7 +624,7 @@ const end = new Date(CONFIG.regEnd).getTime(), cd = {};
 $$("[data-cd]").forEach(b => cd[b.dataset.cd] = b);
 function tickCd(){
   let s = Math.max(0, Math.floor((end - Date.now()) / 1000));
-  if (!s) $("#cdTitle").textContent = "Регистрация завершена";
+  if (!s) { const t = $("#cdTitle"); t.dataset.ru = "Регистрация завершена"; t.dataset.i = "cdEnd"; t.innerHTML = lang === "uz" ? UZ.cdEnd : t.dataset.ru; }
   const d = Math.floor(s / 86400); s -= d * 86400;
   const h = Math.floor(s / 3600); s -= h * 3600;
   const m = Math.floor(s / 60); s -= m * 60;

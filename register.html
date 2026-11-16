@@ -48,31 +48,26 @@ body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;op
 .lang button{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:9px 16px;cursor:pointer;transition:.3s}
 .lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
 
-main{max-width:1240px;margin:0 auto;padding:clamp(18px,4vw,50px) clamp(20px,5vw,72px) 80px;display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,6vw,90px);align-items:center}
+main{max-width:680px;margin:0 auto;padding:clamp(10px,3vw,40px) clamp(18px,5vw,40px) 80px}
 .eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
 .eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
-h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.92;font-size:clamp(46px,7.4vw,104px);transform:skewX(-7deg);transform-origin:left bottom;margin:18px 0 22px}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:1.12;font-size:clamp(44px,9vw,84px);transform:skewX(-7deg);transform-origin:left bottom;margin:0 0 18px}
 .gold-text{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 45%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{color:var(--muted);font-size:clamp(16px,1.5vw,19px);max-width:480px}
-.facts{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px}
-.facts div strong{display:block;font-family:var(--display);font-style:italic;font-weight:600;font-size:clamp(24px,3vw,34px);text-transform:uppercase;line-height:1.05}
-.facts div span{font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
-.prize{margin-top:30px;font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#e9e2d2}
-.prize b{display:block;font-size:clamp(40px,6vw,76px);letter-spacing:.01em;line-height:1.05;font-weight:700}
+.lead{color:#cfc7b5;font-size:clamp(18px,2.2vw,21px);max-width:560px;margin-bottom:28px}
 
 /* card */
 .card{position:relative;padding:clamp(22px,3.4vw,44px);background:linear-gradient(160deg,rgba(26,22,15,.92),rgba(14,12,8,.94));backdrop-filter:blur(10px);
   clip-path:polygon(26px 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%,0 26px)}
 .card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(246,227,166,.55),rgba(217,178,95,.08) 40%,rgba(217,178,95,.4));padding:1px;
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.q{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.2vw,26px);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.q{font-family:var(--display);font-weight:600;font-size:clamp(22px,3vw,28px);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
 .switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px}
-.opt{position:relative;cursor:pointer}
+.opt{position:relative;cursor:pointer;display:block;margin:0;font:inherit;letter-spacing:0;text-transform:none;color:inherit}
 .opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
 .opt span{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);background:rgba(255,255,255,.03);transition:.3s var(--ease);
   clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
-.opt b{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.1em;text-transform:uppercase}
-.opt small{color:var(--muted);font-size:13px;line-height:1.3}
+.opt b{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.1em;text-transform:uppercase}
+.opt small{color:var(--muted);font-size:15px;line-height:1.3}
 .opt:hover span{border-color:rgba(217,178,95,.5)}
 .opt input:checked + span{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);border-color:transparent;color:#120d02;transform:translateY(-2px);box-shadow:0 12px 30px rgba(217,178,95,.22)}
 .opt input:checked + span small{color:#4a3a12}
@@ -80,13 +75,13 @@ h1{font-family:var(--display);font-weight:700;text-transform:uppercase;line-heig
 
 .field{margin-bottom:18px;transition:opacity .3s}
 .field[hidden]{display:none}
-label{display:flex;justify-content:space-between;gap:10px;font-family:var(--display);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-label em{font-style:normal;color:var(--muted);letter-spacing:.1em;text-transform:none;font-family:var(--body);font-size:12px}
-input[type=text],input[type=tel]{width:100%;font:inherit;font-size:17px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);padding:15px 16px;outline:0;border-radius:0;transition:.3s}
+label{display:flex;justify-content:space-between;gap:10px;font-family:var(--display);font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+label em{font-style:normal;color:var(--muted);letter-spacing:.04em;text-transform:none;font-family:var(--body);font-size:14px}
+input[type=text],input[type=tel]{width:100%;font:inherit;font-size:19px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);padding:17px 18px;outline:0;border-radius:0;transition:.3s}
 input::placeholder{color:#6f685a}
 input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:0 0 0 3px rgba(217,178,95,.14)}
 .field.bad input{border-color:var(--err);box-shadow:0 0 0 3px rgba(255,107,91,.14)}
-.err{display:none;color:var(--err);font-size:13px;margin-top:6px}
+.err{display:none;color:var(--err);font-size:15px;margin-top:6px}
 .field.bad .err{display:block}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
@@ -99,21 +94,16 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 .btn:hover svg{transform:translateX(5px)}
 .btn:disabled{opacity:.7;cursor:progress;transform:none}
 @keyframes shine{0%,55%{left:-90px}100%{left:calc(100% + 90px)}}
-.fail{display:none;margin-top:14px;color:var(--err);font-size:14px;text-align:center}
+.fail{display:none;margin-top:14px;color:var(--err);font-size:16px;text-align:center}
 .fail.on{display:block}
-.note{margin-top:16px;color:#7d7566;font-size:12.5px;line-height:1.45}
+.note{margin-top:16px;color:#8a8272;font-size:14px;line-height:1.45}
 
 .in{opacity:0;transform:translateY(34px);animation:up .9s var(--ease) forwards;animation-delay:var(--d,0s)}
 @keyframes up{to{opacity:1;transform:none}}
 .shake{animation:shake .4s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
-@media(max-width:900px){
-  main{grid-template-columns:1fr;gap:34px}
-  .facts{margin-top:22px}
-  .prize{display:none}
-}
-@media(max-width:480px){.back{display:none}.switch{grid-template-columns:1fr}}
+@media(max-width:480px){.back{display:none}.switch{grid-template-columns:1fr}.card{padding:22px 18px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}}
 </style>
 </head>
@@ -134,14 +124,8 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 
 <main>
   <section>
-    <div class="eyebrow in" data-t="eyebrow">Cyber Fest · CS2 5x5</div>
-    <h1 class="in" style="--d:.1s"><span data-t="h1a">Займи</span><br><span class="gold-text" data-t="h1b">свой слот</span></h1>
-    <p class="lead in" style="--d:.2s" data-t="lead">Одна минута — и ты в турнире. Играй командой или приходи соло, мы поможем найти состав.</p>
-    <div class="facts in" style="--d:.3s">
-      <div><strong>16–28 <span data-t="nov">ноября</span></strong><span data-t="reg">Регистрация</span></div>
-      <div><strong>13 <span data-t="dec">декабря</span></strong><span data-t="fin">Финалы</span></div>
-    </div>
-    <div class="prize in" style="--d:.4s"><span data-t="prize">Призовой фонд</span><b class="gold-text">85 000 000</b></div>
+    <h1 class="in"><span data-t="h1a">Займи</span> <span class="gold-text" data-t="h1b">свой слот</span></h1>
+    <p class="lead in" style="--d:.1s" data-t="lead">Играй командой или приходи соло — мы поможем найти состав. Участие бесплатное.</p>
   </section>
 
   <form class="card in" style="--d:.2s" id="form" novalidate autocomplete="on">
@@ -179,25 +163,37 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
     <button class="btn" type="submit" id="submit"><span data-t="send">Отправить заявку</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     <div class="fail" id="fail" data-t="fail">Не удалось отправить. Попробуйте ещё раз.</div>
-    <p class="note" data-t="note">Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру. Участие бесплатное.</p>
+    <p class="note" data-t="note">Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру. </p>
   </form>
 </main>
 
 <script>
 /* ================== НАСТРОЙКИ ================== */
 const CONFIG = {
-  // Адрес приёма заявок (Google Apps Script Web App, см. google-apps-script.gs).
-  // Пока пусто — заявки сохраняются только в браузере (для теста).
-  endpoint: "",
+  botToken: "9056095540:AAHis1R2BVMf5Zgxrx_r-NzyhfBrTguC0EY",
+  chatId: "-1004434135380",            // группа «Adrenaline Cyber 2026»
   thanksPage: "thanks.html"
 };
 /* =============================================== */
 
+const esc = v => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function tgText(d) {
+  const solo = d.type === "solo";
+  return [
+    `🔥 <b>Новая заявка — ${solo ? "СОЛО игрок" : "КОМАНДА"}</b>`,
+    "",
+    `👤 <b>Имя:</b> ${esc(d.name)}`,
+    `📞 <b>Телефон:</b> ${esc(d.phone)}`,
+    solo ? "" : `🛡 <b>Команда:</b> ${esc(d.team)}`,
+    `🎮 <b>Ник:</b> ${d.nick ? esc(d.nick) : "—"}`,
+    `🌐 <b>Язык сайта:</b> ${d.lang === "uz" ? "O‘zbekcha" : "Русский"}`
+  ].filter(l => l !== "" || true).filter((l, i, a) => !(l === "" && i === 0)).join("\n");
+}
+
 const T = {
   ru: {
-    back:"На главную", eyebrow:"Cyber Fest · CS2 5x5", h1a:"Займи", h1b:"свой слот",
-    lead:"Одна минута — и ты в турнире. Играй командой или приходи соло, мы поможем найти состав.",
-    nov:"ноября", dec:"декабря", reg:"Регистрация", fin:"Финалы", prize:"Призовой фонд",
+    back:"На главную", h1a:"Займи", h1b:"свой слот",
+    lead:"Играй командой или приходи соло — мы поможем найти состав. Участие бесплатное.",
     q:"Вы команда или соло игрок?", team:"Команда", teamSub:"Есть свой состав 5x5", solo:"Соло игрок", soloSub:"Ищу команду",
     name:"Имя", nameP:"Как к тебе обращаться", nameE:"Введите имя",
     phone:"Номер телефона", phoneE:"Введите корректный номер",
@@ -205,13 +201,12 @@ const T = {
     nick:"Ник", nickP:"Игровой ник", opt:"необязательно",
     send:"Отправить заявку", sending:"Отправляем…",
     fail:"Не удалось отправить. Попробуйте ещё раз.",
-    note:"Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру. Участие бесплатное.",
+    note:"Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру.",
     title:"Регистрация — Adrenaline Rush Cyber Fest"
   },
   uz: {
-    back:"Bosh sahifa", eyebrow:"Cyber Fest · CS2 5x5", h1a:"O‘z o‘rningni", h1b:"band qil",
-    lead:"Bir daqiqa — va sen turnirdasan. Jamoa bilan o‘yna yoki yakka kel, jamoa topishda yordam beramiz.",
-    nov:"noyabr", dec:"dekabr", reg:"Ro‘yxatdan o‘tish", fin:"Finallar", prize:"Sovrin jamg‘armasi",
+    back:"Bosh sahifa", h1a:"O‘z o‘rningni", h1b:"band qil",
+    lead:"Jamoa bilan o‘yna yoki yakka kel — jamoa topishda yordam beramiz. Ishtirok bepul.",
     q:"Siz jamoasizmi yoki yakka o‘yinchi?", team:"Jamoa", teamSub:"O‘z tarkibim bor, 5x5", solo:"Yakka o‘yinchi", soloSub:"Jamoa qidiryapman",
     name:"Ism", nameP:"Ismingiz", nameE:"Ismingizni kiriting",
     phone:"Telefon raqami", phoneE:"Telefon raqamini to‘g‘ri kiriting",
@@ -219,7 +214,7 @@ const T = {
     nick:"Nik", nickP:"O‘yindagi nikingiz", opt:"majburiy emas",
     send:"Arizani yuborish", sending:"Yuborilmoqda…",
     fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
-    note:"Tugmani bosish orqali siz turnir bo‘yicha aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz. Ishtirok bepul.",
+    note:"Tugmani bosish orqali siz turnir bo‘yicha aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
     title:"Ro‘yxatdan o‘tish — Adrenaline Rush Cyber Fest"
   }
 };
@@ -310,16 +305,13 @@ $("#form").addEventListener("submit", async e => {
   const btn = $("#submit"), label = btn.querySelector("span");
   btn.disabled = true; label.textContent = T[lang].sending;
   try {
-    if (CONFIG.endpoint) {
-      await fetch(CONFIG.endpoint, { method: "POST", mode: "no-cors", body: new URLSearchParams(data) });
-    } else {
-      console.warn("CONFIG.endpoint не задан — заявка сохранена только локально");
-    }
-    try {
-      const all = JSON.parse(localStorage.getItem("registrations") || "[]"); all.push(data);
-      localStorage.setItem("registrations", JSON.stringify(all));
-      sessionStorage.setItem("regType", data.type);
-    } catch (e) {}
+    const r = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: CONFIG.chatId, text: tgText(data), parse_mode: "HTML", disable_web_page_preview: true })
+    });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.description || "telegram error");
     location.href = CONFIG.thanksPage + "?lang=" + lang;
   } catch (err) {
     btn.disabled = false; label.textContent = T[lang].send;
