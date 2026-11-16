@@ -137,7 +137,7 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 
     <div class="field" id="f-name">
       <label for="name"><span data-t="name">Имя</span></label>
-      <input id="name" name="name" type="text" autocomplete="name" data-p="nameP" placeholder="Как к тебе обращаться">
+      <input id="name" name="name" type="text" autocomplete="name" data-p="nameP" placeholder="Ваше имя, например: White">
       <div class="err" data-t="nameE">Введите имя</div>
     </div>
 
@@ -149,13 +149,13 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 
     <div class="field" id="f-team">
       <label for="team"><span data-t="teamL">Команда</span></label>
-      <input id="team" name="team" type="text" autocomplete="off" data-p="teamP" placeholder="Название команды">
+      <input id="team" name="team" type="text" autocomplete="off" data-p="teamP" placeholder="Например: NAVI">
       <div class="err" data-t="teamE">Укажите название команды</div>
     </div>
 
     <div class="field" id="f-nick">
       <label for="nick"><span data-t="nick">Ник</span><em data-t="opt">необязательно</em></label>
-      <input id="nick" name="nick" type="text" autocomplete="nickname" data-p="nickP" placeholder="Игровой ник">
+      <input id="nick" name="nick" type="text" autocomplete="nickname" data-p="nickP" placeholder="@s1mple">
     </div>
 
     <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -195,10 +195,10 @@ const T = {
     back:"На главную", h1a:"Займи", h1b:"свой слот",
     lead:"Играй командой или приходи соло — мы поможем найти состав. Участие бесплатное.",
     q:"Вы команда или соло игрок?", team:"Команда", teamSub:"Есть свой состав 5x5", solo:"Соло игрок", soloSub:"Ищу команду",
-    name:"Имя", nameP:"Как к тебе обращаться", nameE:"Введите имя",
+    name:"Имя", nameP:"Ваше имя, например: White", nameE:"Введите имя",
     phone:"Номер телефона", phoneE:"Введите корректный номер",
-    teamL:"Команда", teamP:"Название команды", teamE:"Укажите название команды",
-    nick:"Ник", nickP:"Игровой ник", opt:"необязательно",
+    teamL:"Команда", teamP:"Например: NAVI", teamE:"Укажите название команды",
+    nick:"Ник", nickP:"@s1mple", opt:"необязательно",
     send:"Отправить заявку", sending:"Отправляем…",
     fail:"Не удалось отправить. Попробуйте ещё раз.",
     note:"Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру.",
@@ -208,10 +208,10 @@ const T = {
     back:"Bosh sahifa", h1a:"O‘z o‘rningni", h1b:"band qil",
     lead:"Jamoa bilan o‘yna yoki yakka kel — jamoa topishda yordam beramiz. Ishtirok bepul.",
     q:"Siz jamoasizmi yoki yakka o‘yinchi?", team:"Jamoa", teamSub:"O‘z tarkibim bor, 5x5", solo:"Yakka o‘yinchi", soloSub:"Jamoa qidiryapman",
-    name:"Ism", nameP:"Ismingiz", nameE:"Ismingizni kiriting",
+    name:"Ism", nameP:"Ismingiz, masalan: White", nameE:"Ismingizni kiriting",
     phone:"Telefon raqami", phoneE:"Telefon raqamini to‘g‘ri kiriting",
-    teamL:"Jamoa", teamP:"Jamoa nomi", teamE:"Jamoa nomini kiriting",
-    nick:"Nik", nickP:"O‘yindagi nikingiz", opt:"majburiy emas",
+    teamL:"Jamoa", teamP:"Masalan: NAVI", teamE:"Jamoa nomini kiriting",
+    nick:"Nik", nickP:"@s1mple", opt:"majburiy emas",
     send:"Arizani yuborish", sending:"Yuborilmoqda…",
     fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
     note:"Tugmani bosish orqali siz turnir bo‘yicha aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
