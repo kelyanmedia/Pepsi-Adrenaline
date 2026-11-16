@@ -161,7 +161,7 @@ async function call(body) {
 $("#loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   const msg = $("#loginMsg"), btn = $("#loginBtn"); msg.textContent = "";
-  if (!API) { msg.textContent = "Сервер не подключён: впишите адрес в config.js (см. backend/SETUP.md)."; return; }
+  if (!API) { msg.textContent = "Админка ещё не подключена к таблице заявок. Разверните Google-скрипт по инструкции backend/SETUP.md и впишите его адрес в config.js."; return; }
   btn.disabled = true; btn.textContent = "Проверяем…";
   try {
     const c = { login: $("#lg").value.trim(), password: $("#pw").value };
