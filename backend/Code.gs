@@ -19,18 +19,15 @@ const APP_HEADERS = ["№", "Дата", "День", "Время", "Тип", "К�
 const PLAYER_HEADERS = ["№ заявки", "Дата", "Тип", "Команда", "Роль", "Имя", "Ник", "Телефон"];
 const DAYS = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
 
-/** Логин и пароль админки. Впишите пароль ЗДЕСЬ, в редакторе Google (не в git!), и запустите setup.
- *  Если оставить пароль пустым, setup сгенерирует его сам и покажет в «Журнале выполнения». */
+/** Логин админки и SHA-256 хеш пароля (сам пароль в коде не хранится).
+ *  Сменить пароль: посчитайте SHA-256 нового пароля и замените строку ниже. */
 const ADMIN_LOGIN = "admin";
-const ADMIN_PASSWORD = "";
+const ADMIN_PASSWORD_SHA256 = "0eba393e80338601945f5f8549c11b5562954654d67c6d78bb991493f165a60a";
 
-/** Запустите ОДИН раз (Выполнить → setup): создаёт листы и сохраняет логин/пароль админки. */
+/** Необязательно: создаёт листы заранее (иначе они создадутся при первой заявке). */
 function setup() {
-  const p = PropertiesService.getScriptProperties();
-  const pass = ADMIN_PASSWORD || p.getProperty("ADMIN_PASSWORD") || Utilities.getUuid().replace(/-/g, "").slice(0, 12);
-  p.setProperties({ ADMIN_LOGIN: ADMIN_LOGIN, ADMIN_PASSWORD: pass });
   sheet(APPS, APP_HEADERS); sheet(PLAYERS, PLAYER_HEADERS);
-  Logger.log("Админка: логин = " + ADMIN_LOGIN + ", пароль = " + pass);
+  Logger.log("Готово: листы «" + APPS + "» и «" + PLAYERS + "» созданы, логин админки = " + ADMIN_LOGIN);
 }
 
 function doGet() {
@@ -86,9 +83,9 @@ function register(d) {
 
 /* ---------------- данные для админки ---------------- */
 function list(d) {
-  const p = PropertiesService.getScriptProperties();
-  const pass = p.getProperty("ADMIN_PASSWORD");
-  if (!pass || !safeEq(String(d.login || ""), p.getProperty("ADMIN_LOGIN") || "") || !safeEq(String(d.password || ""), pass)) {
+  const okLogin = safeEq(String(d.login || ""), ADMIN_LOGIN);
+  const okPass = safeEq(sha256(String(d.password || "")), ADMIN_PASSWORD_SHA256);
+  if (!okLogin || !okPass) {
     Utilities.sleep(800);                                                   // тормозим подбор пароля
     return json({ ok: false, error: "auth" });
   }
@@ -115,6 +112,10 @@ function sheet(name, headers) {
     sh.setFrozenRows(1);
   }
   return sh;
+}
+function sha256(text) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text, Utilities.Charset.UTF_8)
+    .map(function (b) { return ("0" + (b & 255).toString(16)).slice(-2); }).join("");
 }
 function clean(v, max) { return String(v == null ? "" : v).replace(/[\u0000-\u001f]/g, " ").trim().slice(0, max); }
 function safeEq(a, b) {
