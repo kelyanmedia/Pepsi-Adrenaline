@@ -188,14 +188,14 @@ const T = {
     tag:"Заявка принята", h1a:"Ты в списке.", h1b:"До встречи на финале",
     lead:"Мы получили заявку и скоро свяжемся по указанному номеру телефона.",
     igP:"Сетка, расписание матчей и анонсы финала — первыми у нас.", chip1:"Сетка", chip2:"Расписание", chip3:"Анонсы", igB:"Подписаться",
-    home:"← На главную", kind:"Пропуск игрока", fmt:"Формат", date:"Финал", team:"Команда", when:"Заявка подана", place:"Площадка", placeV:"Ледовый дворец «Алпомыш»", no:"Участник №",
+    home:"← На главную", kind:"Пропуск игрока", fmt:"Формат", date:"Финал", team:"Команда", when:"Заявка подана", place:"Площадка", placeV:"Ледовый дворец «Алпомыш»", no:"Участник",
     typeTeam:"Команда", typeSolo:"Соло", player:"Игрок", title:"Заявка принята — Adrenaline Rush Cyber Fest"
   },
   uz: {
     tag:"Ariza qabul qilindi", h1a:"Sen ro‘yxatdasan.", h1b:"Finalda ko‘rishamiz",
     lead:"Arizangiz qabul qilindi, tez orada ko‘rsatilgan telefon raqamingiz orqali bog‘lanamiz.",
     igP:"Setka, o‘yinlar jadvali va final e’lonlari — birinchi bizda.", chip1:"Setka", chip2:"Jadval", chip3:"E’lonlar", igB:"Obuna bo‘lish",
-    home:"← Bosh sahifa", kind:"O‘yinchi propuski", fmt:"Format", date:"Final", team:"Jamoa", when:"Ariza vaqti", place:"Manzil", placeV:"«Alpomish» muz saroyi", no:"Ishtirokchi №",
+    home:"← Bosh sahifa", kind:"O‘yinchi propuski", fmt:"Format", date:"Final", team:"Jamoa", when:"Ariza vaqti", place:"Manzil", placeV:"«Alpomish» muz saroyi", no:"Ishtirokchi",
     typeTeam:"Jamoa", typeSolo:"Yakka", player:"O‘yinchi", title:"Ariza qabul qilindi — Adrenaline Rush Cyber Fest"
   }
 };
@@ -230,7 +230,7 @@ $$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.datas
 let seed = 0;
 for (const ch of String(reg.phone || reg.name || "adrenaline")) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
 const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
-$("#tNo").textContent = reg.number ? String(reg.number).padStart(4, "0") : "—";
+$("#tNo").textContent = reg.number ? "#" + reg.number : "—";
 if (reg.date) $("#tWhen").textContent = reg.date + " · " + String(reg.time || "").slice(0, 5);
 else $("#tWhenWrap").hidden = true;
 $("#bars").innerHTML = Array.from({ length: 34 }, () => `<i style="width:${1 + Math.floor(rnd() * 4)}px"></i>`).join("");

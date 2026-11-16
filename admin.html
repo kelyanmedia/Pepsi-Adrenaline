@@ -203,7 +203,7 @@ function render() {
   $("#empty").hidden = list.length > 0;
   $("#rows").innerHTML = list.map(r => {
     const fresh = !first && !known.has(r.number) ? " fresh" : "";
-    return `<tr class="${fresh.trim()}"><td class="num">${String(r.number).padStart(4, "0")}</td><td>${esc(r.date)}</td><td class="dim">${esc(r.day)}</td><td>${esc(r.time)}</td>
+    return `<tr class="${fresh.trim()}"><td class="num">#${r.number}</td><td>${esc(r.date)}</td><td class="dim">${esc(r.day)}</td><td>${esc(r.time)}</td>
       <td><span class="tag ${r.type === "Соло" ? "solo" : "team"}">${esc(r.type)}</span></td><td>${esc(r.name)}</td><td>${esc(r.phone)}</td>
       <td>${esc(r.team || "—")}</td><td>${esc(r.nick || "—")}</td><td class="dim">${r.lang === "uz" ? "UZ" : "RU"}</td></tr>`;
   }).join("");
