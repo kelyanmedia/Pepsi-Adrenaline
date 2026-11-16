@@ -67,6 +67,7 @@ async function writeDb(id, db) {
     media: { type: "document", media: "attach://db", caption: `${DB_CAPTION}\nЗаявок: ${db.records.length}` }
   }, dbFile(db));
   await setPointer(id, msg.document.file_id);
+  return msg.document.file_id;
 }
 
 /* ---------------- шифрование ---------------- */
@@ -125,16 +126,18 @@ async function register(d) {
   // запись с проверкой: перед записью сверяем, что базу никто не обновил; после — что наша заявка на месте
   for (let attempt = 0; attempt < 8; attempt++) {
     const { id, file, db } = await readDb(true);
-    let mine = db.records.find(r => r.id === rid);
+    let mine = db.records.find(r => r.id === rid), written = null;
     if (!mine) {
       const number = db.records.reduce((m, r) => Math.max(m, r.n), 0) + 1;
       mine = { id: rid, n: number, ...payload(secret) };
       db.records.push(mine);
       const now = await pointer();
       if (now && now.file !== file) { await sleep(80 + Math.random() * 200); continue; }   // кто-то успел записать — перечитываем
-      await writeDb(id, db);
+      written = await writeDb(id, db);
     }
-    await sleep(250 + Math.random() * 250);
+    await sleep(200 + Math.random() * 200);
+    // быстрая проверка: если база всё ещё наша версия — заявка точно сохранена
+    if (written) { const p = await pointer(); if (p && p.file === written) return { status: 200, body: { ok: true, number: mine.n, ...when, notified: false } }; }
     const check = await readDb(false);
     const saved = check.db.records.find(r => r.id === rid);
     const dup = saved && check.db.records.some(r => r.id !== rid && r.n === saved.n);

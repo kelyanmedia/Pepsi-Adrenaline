@@ -315,6 +315,7 @@ const playerCard = k => `
   </div>`;
 roster.innerHTML = [0, 1, 2, 3, 4].map(playerCard).join("");
 
+if (CONFIG.api) fetch(CONFIG.api).catch(() => {});     // прогрев бэкенда, пока человек заполняет форму
 const isSolo = () => $('input[name=type]:checked').value === "solo";
 function roleNames() {
   const t = T[lang], solo = isSolo();
