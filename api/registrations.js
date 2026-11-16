@@ -58,7 +58,7 @@ async function readDb(create) {
   }
   const f = await tg("getFile", { file_id: ptr.file });
   const r = await fetch(`${TG}/file/bot${BOT_TOKEN}/${f.file_path}`);
-  return { id: ptr.id, db: JSON.parse(await r.text()) };
+  return { id: ptr.id, file: ptr.file, db: JSON.parse(await r.text()) };
 }
 
 async function writeDb(id, db) {
@@ -122,17 +122,19 @@ async function register(d) {
   const secret = encrypt({ type: type === "solo" ? "Соло" : "Команда", team, lang: d.lang === "uz" ? "uz" : "ru", players, ...when });
   const rid = crypto.randomUUID();
 
-  // запись с проверкой: если параллельная заявка затёрла нашу — дописываем заново
-  for (let attempt = 0; attempt < 5; attempt++) {
-    const { id, db } = await readDb(true);
+  // запись с проверкой: перед записью сверяем, что базу никто не обновил; после — что наша заявка на месте
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const { id, file, db } = await readDb(true);
     let mine = db.records.find(r => r.id === rid);
     if (!mine) {
       const number = db.records.reduce((m, r) => Math.max(m, r.n), 0) + 1;
       mine = { id: rid, n: number, ...payload(secret) };
       db.records.push(mine);
+      const now = await pointer();
+      if (now && now.file !== file) { await sleep(80 + Math.random() * 200); continue; }   // кто-то успел записать — перечитываем
       await writeDb(id, db);
     }
-    await sleep(1500 + Math.random() * 700);
+    await sleep(250 + Math.random() * 250);
     const check = await readDb(false);
     const saved = check.db.records.find(r => r.id === rid);
     const dup = saved && check.db.records.some(r => r.id !== rid && r.n === saved.n);

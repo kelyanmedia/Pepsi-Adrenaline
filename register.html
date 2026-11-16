@@ -214,7 +214,7 @@ async function sendApplication(data) {
   const tg = CONFIG.telegram || {};
   const toTelegram = async full => {
     const r = await fetch(`https://api.telegram.org/bot${tg.botToken}/sendMessage`, {
-      method: "POST",
+      method: "POST", keepalive: true,                 // долетит, даже если страница уже перешла на «Спасибо»
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: tg.chatId, text: tgText(full), parse_mode: "HTML", disable_web_page_preview: true })
     });
@@ -229,7 +229,7 @@ async function sendApplication(data) {
     } catch (e) { j = null; }
     if (j && j.ok) {
       const full = { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
-      if (!j.notified) { try { await toTelegram(full); } catch (e) { /* заявка уже сохранена */ } }
+      if (!j.notified) toTelegram(full).catch(() => {});   // не ждём Telegram: заявка уже сохранена
       return full;
     }
     // хранилище не подключено / сервер недоступен — заявка всё равно уходит в Telegram (без номера)
