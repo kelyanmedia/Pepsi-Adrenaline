@@ -19,17 +19,18 @@ const APP_HEADERS = ["№", "Дата", "День", "Время", "Тип", "К�
 const PLAYER_HEADERS = ["№ заявки", "Дата", "Тип", "Команда", "Роль", "Имя", "Ник", "Телефон"];
 const DAYS = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
 
-/** Запустите ОДИН раз (Выполнить → setup): создаёт листы и генерирует пароль админки.
- *  Логин и пароль появятся в «Журнале выполнения» внизу редактора. */
+/** Логин и пароль админки. Впишите пароль ЗДЕСЬ, в редакторе Google (не в git!), и запустите setup.
+ *  Если оставить пароль пустым, setup сгенерирует его сам и покажет в «Журнале выполнения». */
+const ADMIN_LOGIN = "admin";
+const ADMIN_PASSWORD = "";
+
+/** Запустите ОДИН раз (Выполнить → setup): создаёт листы и сохраняет логин/пароль админки. */
 function setup() {
   const p = PropertiesService.getScriptProperties();
-  let pass = p.getProperty("ADMIN_PASSWORD");
-  if (!pass) {
-    pass = Utilities.getUuid().replace(/-/g, "").slice(0, 12);
-    p.setProperties({ ADMIN_LOGIN: "admin", ADMIN_PASSWORD: pass });
-  }
+  const pass = ADMIN_PASSWORD || p.getProperty("ADMIN_PASSWORD") || Utilities.getUuid().replace(/-/g, "").slice(0, 12);
+  p.setProperties({ ADMIN_LOGIN: ADMIN_LOGIN, ADMIN_PASSWORD: pass });
   sheet(APPS, APP_HEADERS); sheet(PLAYERS, PLAYER_HEADERS);
-  Logger.log("Админка: логин = " + p.getProperty("ADMIN_LOGIN") + ", пароль = " + pass);
+  Logger.log("Админка: логин = " + ADMIN_LOGIN + ", пароль = " + pass);
 }
 
 function doGet() {
