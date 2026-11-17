@@ -111,11 +111,11 @@ async function register(d) {
   const type = d.type === "solo" ? "solo" : "team";
   const team = type === "team" ? clean(d.team, 60) : "";
   const raw = Array.isArray(d.players) && d.players.length ? d.players : [{ name: d.name, phone: d.phone, nick: d.nick }];
-  const players = raw.slice(0, type === "solo" ? 1 : 5).map((p, k) => ({
-    role: type === "solo" ? "Соло" : k === 0 ? "Капитан" : `Игрок ${k + 1}`,
-    name: clean(p && p.name, 60), nick: clean(p && p.nick, 40), phone: clean(p && p.phone, 20)
+  const players = raw.slice(0, type === "solo" ? 1 : 6).map((p, k) => ({
+    role: type === "solo" ? "Соло" : k === 0 ? "Капитан" : k === 5 ? "Запасной" : `Игрок ${k + 1}`,
+    name: clean(p && p.name, 60), nick: clean(p && p.nick, 40), steam: clean(p && p.steam, 80), phone: clean(p && p.phone, 20)
   }));
-  if (players.some(p => p.name.length < 2 || p.phone.replace(/\D/g, "").length !== 12) || (type === "team" && (team.length < 2 || players.length !== 5)))
+  if (players.some(p => p.name.length < 2 || p.phone.replace(/\D/g, "").length !== 12) || (type === "team" && (team.length < 2 || players.length < 5)))
     return { status: 400, body: { ok: false, error: "invalid" } };
 
   const when = tashkentNow();
@@ -159,9 +159,9 @@ async function list(d) {
   const recs = db.records.map(r => { try { return { n: r.n, ...dec(r) }; } catch (e) { return null; } }).filter(Boolean).sort((a, b) => a.n - b.n);
   const applications = recs.map(r => ({
     number: r.n, date: r.date, day: r.day, time: r.time, type: r.type, team: r.team,
-    name: r.players[0].name, phone: r.players[0].phone, nick: r.players[0].nick, count: r.players.length, lang: r.lang
+    name: r.players[0].name, phone: r.players[0].phone, nick: r.players[0].nick, steam: r.players[0].steam || "", count: r.players.length, lang: r.lang
   }));
-  const players = recs.flatMap(r => r.players.map(p => ({ number: r.n, date: r.date, type: r.type, team: r.team, role: p.role, name: p.name, nick: p.nick, phone: p.phone })));
+  const players = recs.flatMap(r => r.players.map(p => ({ number: r.n, date: r.date, type: r.type, team: r.team, role: p.role, name: p.name, nick: p.nick, steam: p.steam || "", phone: p.phone })));
   return { status: 200, body: { ok: true, applications, players } };
 }
 

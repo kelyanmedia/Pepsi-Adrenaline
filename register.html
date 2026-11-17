@@ -104,6 +104,10 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 .player label{font-size:13px}
 .player input[type=text],.player input[type=tel]{font-size:18px;padding:15px 16px}
 .solo .player{border-color:rgba(217,178,95,.55)}
+.player.sub{border-style:dashed}
+.player.sub .p-num{color:var(--muted)}
+.p-badge.ghost{color:var(--gold);background:none;border:1px solid rgba(217,178,95,.45)}
+.sub-hint{margin:-6px 0 14px;color:var(--muted);font-size:14px;line-height:1.45}
 @media(max-width:560px){.p-grid{grid-template-columns:1fr}.player{padding:16px 14px 2px}}
 
 .btn{position:relative;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.12em;text-transform:uppercase;padding:21px 34px;border:0;cursor:pointer;overflow:hidden;isolation:isolate;margin-top:8px;
@@ -147,7 +151,7 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 <main>
   <section>
     <h1 class="in"><span data-t="h1a">Займи</span> <span class="gold-text" data-t="h1b">свой слот</span></h1>
-    <p class="lead in" style="--d:.1s" data-t="lead">Команда 5x5 или соло — заполни форму за пару минут. Участие бесплатное.</p>
+    <p class="lead in" style="--d:.1s" data-t="lead">Команда 5+1 или соло — заполни форму за пару минут. Участие бесплатное.</p>
   </section>
 
   <form class="card" id="form" novalidate autocomplete="on">
@@ -189,7 +193,7 @@ function tashkentNow() {
 
 function tgText(d) {
   const solo = d.type === "solo";
-  const who = p => `${esc(p.name)}${p.nick ? " (" + esc(p.nick) + ")" : ""} · ${esc(p.phone)}`;
+  const who = p => `${esc(p.name)}${p.nick ? " (" + esc(p.nick) + ")" : ""} · ${esc(p.phone)}${p.steam ? "\n     Steam: " + esc(p.steam) : ""}`;
   const head = [
     d.number ? `🏆 <b>Участник #${d.number}</b>` : null,
     `🔥 <b>Новая заявка</b> — ${solo ? "СОЛО игрок" : "КОМАНДА"}`,
@@ -201,11 +205,12 @@ function tgText(d) {
   const body = solo ? [
     `👤 <b>Имя:</b> ${esc(d.players[0].name)}`,
     `📞 <b>Телефон:</b> ${esc(d.players[0].phone)}`,
-    `🎮 <b>Ник:</b> ${d.players[0].nick ? esc(d.players[0].nick) : "—"}`
+    `🎮 <b>Ник:</b> ${d.players[0].nick ? esc(d.players[0].nick) : "—"}`,
+    `🕹 <b>Steam ID:</b> ${d.players[0].steam ? esc(d.players[0].steam) : "—"}`
   ] : [
     `🛡 <b>Команда:</b> ${esc(d.team)}`,
     `👥 <b>Состав:</b>`,
-    ...d.players.map((p, k) => k === 0 ? `👑 <b>Капитан:</b> ${who(p)}` : `${k + 1}. ${who(p)}`)
+    ...d.players.map((p, k) => k === 0 ? `👑 <b>Капитан:</b> ${who(p)}` : p.role === "Запасной" ? `🔄 <b>Запасной:</b> ${who(p)}` : `${k + 1}. ${who(p)}`)
   ];
   return [...head, ...body, "", `🌐 <b>Язык сайта:</b> ${d.lang === "uz" ? "O‘zbekcha" : "Русский"}`].filter(l => l !== null).join("\n");
 }
@@ -243,13 +248,15 @@ async function sendApplication(data) {
 const T = {
   ru: {
     back:"На главную", h1a:"Займи", h1b:"свой слот",
-    lead:"Команда 5x5 или соло — заполни форму за пару минут. Участие бесплатное.",
+    lead:"Команда 5+1 или соло — заполни форму за пару минут. Участие бесплатное.",
     q:"Вы команда или соло игрок?", team:"Команда", teamSub:"Есть свой состав 5x5", solo:"Соло игрок", soloSub:"Ищу команду",
     name:"Имя", nameP:"Ваше имя, например: White", nameE:"Введите имя",
     phone:"Номер телефона", phoneE:"Введите номер полностью: +998 XX XXX XX XX",
     teamL:"Название команды", teamP:"Например: NAVI", teamE:"Укажите название команды",
     nick:"Ник", nickP:"@s1mple", nickP2:"@ник игрока", nameP2:"Имя игрока", opt:"необязательно",
-    rosterT:"Состав команды", rosterS:"Капитан и ещё 4 игрока", captain:"Капитан", player:"Игрок", you:"Ваши данные", capBadge:"на связи",
+    rosterT:"Состав команды", rosterS:"Капитан, ещё 4 игрока и запасной", captain:"Капитан", player:"Игрок", you:"Ваши данные", capBadge:"на связи",
+    sub:"Запасной игрок", subHint:"Формат 5+1. Если указываете запасного — заполните имя, Steam ID и телефон.",
+    steam:"Steam ID", steamP:"Steam ID или ссылка", steamE:"Укажите Steam ID или ссылку на профиль Steam",
     send:"Отправить заявку", sending:"Отправляем…",
     fail:"Не удалось отправить. Попробуйте ещё раз.",
     note:"Нажимая кнопку, вы соглашаетесь с <a href=\"/reglament\" target=\"_blank\">регламентом турнира</a> и обработкой данных для связи по турниру.",
@@ -263,7 +270,9 @@ const T = {
     phone:"Telefon raqami", phoneE:"Raqamni to‘liq kiriting: +998 XX XXX XX XX",
     teamL:"Jamoa nomi", teamP:"Masalan: NAVI", teamE:"Jamoa nomini kiriting",
     nick:"Nik", nickP:"@s1mple", nickP2:"@o‘yinchi niki", nameP2:"O‘yinchi ismi", opt:"majburiy emas",
-    rosterT:"Jamoa tarkibi", rosterS:"Sardor va yana 4 o‘yinchi", captain:"Sardor", player:"O‘yinchi", you:"Ma’lumotlaringiz", capBadge:"aloqada",
+    rosterT:"Jamoa tarkibi", rosterS:"Sardor, yana 4 o‘yinchi va zaxira", captain:"Sardor", player:"O‘yinchi", you:"Ma’lumotlaringiz", capBadge:"aloqada",
+    sub:"Zaxira o‘yinchi", subHint:"5+1 format. Zaxira o‘yinchini ko‘rsatsangiz, ismi, Steam ID va telefonini kiriting.",
+    steam:"Steam ID", steamP:"Steam ID yoki havola", steamE:"Steam ID yoki Steam profili havolasini kiriting",
     send:"Arizani yuborish", sending:"Yuborilmoqda…",
     fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
     note:"Tugmani bosish orqali siz <a href=\"/reglament\" target=\"_blank\">turnir nizomi</a>ga va aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
@@ -294,9 +303,11 @@ $$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.datas
 
 /* ---------- состав: капитан + игроки 2–5 (команда) или одна карточка (соло) ---------- */
 const roster = $("#roster");
+const SUB = 5;                                   // карточка запасного игрока (5+1)
 const playerCard = k => `
-  <div class="player${k === 0 ? " cap" : ""}" data-k="${k}">
-    <div class="p-head"><span class="p-num">${String(k + 1).padStart(2, "0")}</span><span class="p-role" data-role="${k}"></span>${k === 0 ? '<span class="p-badge" data-t="capBadge"></span>' : ""}</div>
+  <div class="player${k === 0 ? " cap" : ""}${k === SUB ? " sub" : ""}" data-k="${k}">
+    <div class="p-head"><span class="p-num">${k === SUB ? "+1" : String(k + 1).padStart(2, "0")}</span><span class="p-role" data-role="${k}"></span>${k === 0 ? '<span class="p-badge" data-t="capBadge"></span>' : k === SUB ? '<span class="p-badge ghost" data-t="opt"></span>' : ""}</div>
+    ${k === SUB ? '<p class="sub-hint" data-t="subHint"></p>' : ""}
     <div class="p-grid">
       <div class="field" data-f="name">
         <label for="name${k}"><span><span data-t="name"></span><b class="req">*</b></span></label>
@@ -307,14 +318,21 @@ const playerCard = k => `
         <label for="nick${k}"><span data-t="nick"></span><em data-t="opt"></em></label>
         <input id="nick${k}" type="text" maxlength="40" autocomplete="${k === 0 ? "nickname" : "off"}" data-p="${k === 0 ? "nickP" : "nickP2"}">
       </div>
-      <div class="field wide" data-f="phone">
+      <div class="field" data-f="steam">
+        <label for="steam${k}"><span><span data-t="steam"></span><b class="req">*</b></span></label>
+        <input id="steam${k}" type="text" maxlength="80" autocomplete="off" spellcheck="false" data-p="steamP">
+        <div class="err" data-t="steamE"></div>
+      </div>
+      <div class="field" data-f="phone">
         <label for="phone${k}"><span><span data-t="phone"></span><b class="req">*</b></span></label>
         <input id="phone${k}" class="phone" type="tel" inputmode="tel" maxlength="17" autocomplete="${k === 0 ? "tel" : "off"}" placeholder="+998 90 123 45 67">
         <div class="err" data-t="phoneE"></div>
       </div>
     </div>
   </div>`;
-roster.innerHTML = [0, 1, 2, 3, 4].map(playerCard).join("");
+roster.innerHTML = [0, 1, 2, 3, 4, SUB].map(playerCard).join("");
+const subCard = () => $(`.player[data-k="${SUB}"]`);
+const subFilled = () => [...subCard().querySelectorAll("input")].some(i => i.value.trim() && i.value.replace(/\D/g, "") !== "998");
 
 if (CONFIG.api) fetch(CONFIG.api).catch(() => {});     // прогрев бэкенда, пока человек заполняет форму
 const isSolo = () => $('input[name=type]:checked').value === "solo";
@@ -322,7 +340,7 @@ function roleNames() {
   const t = T[lang], solo = isSolo();
   $$("[data-role]").forEach(el => {
     const k = +el.dataset.role;
-    el.textContent = solo ? t.you : k === 0 ? t.captain : `${t.player} ${k + 1}`;
+    el.textContent = solo ? t.you : k === 0 ? t.captain : k === SUB ? t.sub : `${t.player} ${k + 1}`;
   });
 }
 function applyType() {
@@ -330,10 +348,12 @@ function applyType() {
   $("#f-team").hidden = solo;
   $("#rosterH").hidden = solo;
   $$(".player").forEach(p => { p.hidden = solo && p.dataset.k !== "0"; });
+  if (!subFilled()) $$(".field.bad", subCard()).forEach(f => f.classList.remove("bad"));
   $(".player.cap .p-badge").hidden = solo;
   $(".player.cap .p-num").hidden = solo;
   $("#form").classList.toggle("solo", solo);
   $$(".field.bad").forEach(f => { if (f.closest("[hidden]")) f.classList.remove("bad"); });
+  subCard().hidden = solo;
   roleNames();
 }
 $$('input[name=type]').forEach(r => r.addEventListener("change", applyType));
@@ -364,9 +384,11 @@ const okField = f => {
   if (f.id === "f-team") return v.length >= 2;
   if (f.dataset.f === "name") return v.length >= 2;
   if (f.dataset.f === "phone") return v.replace(/\D/g, "").length === 12;
+  if (f.dataset.f === "steam") return v.length >= 5;
   return true;
 };
-const requiredFields = () => [$("#f-team"), ...$$('.player .field[data-f="name"], .player .field[data-f="phone"]')].filter(f => !f.closest("[hidden]"));
+const REQ = '.player .field[data-f="name"], .player .field[data-f="steam"], .player .field[data-f="phone"]';
+const requiredFields = () => [$("#f-team"), ...$$(REQ)].filter(f => !f.closest("[hidden]") && (!f.closest(".player") || f.closest(".player").dataset.k != SUB || subFilled()));
 function check(only) {
   let first = null;
   for (const f of only ? [only] : requiredFields()) {
@@ -376,9 +398,9 @@ function check(only) {
   }
   return first;
 }
-$$('#f-team, .player .field[data-f="name"], .player .field[data-f="phone"]').forEach(f => {
+$$('#f-team, ' + REQ).forEach(f => {
   const inp = f.querySelector("input");
-  inp.addEventListener("blur", () => { if (inp.value && inp.value.replace(/\D/g, "") !== "998") check(f); });
+  inp.addEventListener("blur", () => { if (inp.value && inp.value.replace(/\D/g, "") !== "998" && requiredFields().includes(f)) check(f); });
   inp.addEventListener("input", () => f.classList.remove("bad"));
 });
 
@@ -393,17 +415,18 @@ $("#form").addEventListener("submit", async e => {
     return;
   }
   const solo = isSolo();
-  const players = $$(".player").filter(p => !p.hidden).map((p, k) => ({
-    role: solo ? "Соло" : k === 0 ? "Капитан" : `Игрок ${k + 1}`,
+  const players = $$(".player").filter(p => !p.hidden && (p.dataset.k != SUB || subFilled())).map((p, k) => ({
+    role: solo ? "Соло" : k === 0 ? "Капитан" : k === SUB ? "Запасной" : `Игрок ${k + 1}`,
     name: p.querySelector('[data-f="name"] input').value.trim(),
     nick: p.querySelector('[data-f="nick"] input').value.trim(),
+    steam: p.querySelector('[data-f="steam"] input').value.trim(),
     phone: p.querySelector('[data-f="phone"] input').value.trim()
   }));
   const data = {
     type: solo ? "solo" : "team",
     team: solo ? "" : $("#team").value.trim(),
     players,
-    name: players[0].name, phone: players[0].phone, nick: players[0].nick,   // капитан / соло-игрок
+    name: players[0].name, phone: players[0].phone, nick: players[0].nick, steam: players[0].steam,   // капитан / соло-игрок
     lang
   };
   const btn = $("#submit"), label = btn.querySelector("span");

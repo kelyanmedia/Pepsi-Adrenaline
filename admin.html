@@ -209,8 +209,8 @@ const fApps = () => apps.filter(match);
 const fPlayers = () => players.filter(match);
 
 const HEAD = {
-  apps: ["№", "Дата", "День", "Время", "Тип", "Команда", "Капитан / игрок", "Телефон", "Ник", "Игроков", "Язык"],
-  players: ["№ заявки", "Дата", "Тип", "Команда", "Роль", "Имя", "Ник", "Телефон"]
+  apps: ["№", "Дата", "День", "Время", "Тип", "Команда", "Капитан / игрок", "Телефон", "Ник", "Steam ID", "Игроков", "Язык"],
+  players: ["№ заявки", "Дата", "Тип", "Команда", "Роль", "Имя", "Ник", "Steam ID", "Телефон"]
 };
 function render() {
   $("#sAll").textContent = apps.length;
@@ -224,12 +224,12 @@ function render() {
   if (tab === "apps") {
     const list = fApps();
     html = list.map(r => `<tr class="${!first && !known.has(r.number) ? "fresh" : ""}"><td class="num">#${r.number}</td><td>${esc(r.date)}</td><td class="dim">${esc(r.day)}</td><td>${esc(r.time)}</td>
-      <td>${tag(r.type)}</td><td>${esc(r.team || "—")}</td><td>${esc(r.name)}</td><td>${esc(r.phone)}</td><td>${esc(r.nick || "—")}</td><td>${r.count}</td><td class="dim">${r.lang === "uz" ? "UZ" : "RU"}</td></tr>`).join("");
+      <td>${tag(r.type)}</td><td>${esc(r.team || "—")}</td><td>${esc(r.name)}</td><td>${esc(r.phone)}</td><td>${esc(r.nick || "—")}</td><td>${esc(r.steam || "—")}</td><td>${r.count}</td><td class="dim">${r.lang === "uz" ? "UZ" : "RU"}</td></tr>`).join("");
     $("#empty").hidden = list.length > 0;
   } else {
     const list = fPlayers();
     html = list.map(r => `<tr class="${!first && !known.has(r.number) ? "fresh" : ""}"><td class="num">#${r.number}</td><td>${esc(r.date)}</td><td>${tag(r.type)}</td><td>${esc(r.team || "—")}</td>
-      <td class="${r.role === "Капитан" ? "cap" : "dim"}">${r.role === "Капитан" ? "👑 " : ""}${esc(r.role)}</td><td>${esc(r.name)}</td><td>${esc(r.nick || "—")}</td><td>${esc(r.phone)}</td></tr>`).join("");
+      <td class="${r.role === "Капитан" ? "cap" : "dim"}">${r.role === "Капитан" ? "👑 " : ""}${esc(r.role)}</td><td>${esc(r.name)}</td><td>${esc(r.nick || "—")}</td><td>${esc(r.steam || "—")}</td><td>${esc(r.phone)}</td></tr>`).join("");
     $("#empty").hidden = list.length > 0;
   }
   $("#rows").innerHTML = html;
@@ -256,10 +256,10 @@ $("#xls").addEventListener("click", () => {
   };
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, sheet(HEAD.apps,
-    a.map(r => [r.number, r.date, r.day, r.time, r.type, r.team, r.name, r.phone, r.nick, r.count, r.lang === "uz" ? "UZ" : "RU"]),
-    [6, 12, 14, 10, 10, 22, 22, 19, 16, 9, 7]), "Заявки");
+    a.map(r => [r.number, r.date, r.day, r.time, r.type, r.team, r.name, r.phone, r.nick, r.steam || "", r.count, r.lang === "uz" ? "UZ" : "RU"]),
+    [6, 12, 14, 10, 10, 22, 22, 19, 16, 24, 9, 7]), "Заявки");
   XLSX.utils.book_append_sheet(wb, sheet(HEAD.players,
-    pl.map(r => [r.number, r.date, r.type, r.team, r.role, r.name, r.nick, r.phone]),
+    pl.map(r => [r.number, r.date, r.type, r.team, r.role, r.name, r.nick, r.steam || "", r.phone]),
     [10, 12, 10, 22, 12, 22, 16, 19]), "Игроки");
   const d = new Date(), pad = n => String(n).padStart(2, "0");
   XLSX.writeFile(wb, `adrenaline-cyberfest-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.xlsx`);
