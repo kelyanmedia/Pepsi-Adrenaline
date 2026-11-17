@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script>/* чистые адреса: /reglament вместо /reglament.html */
+if (/\.html$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/index\.html$/, "/").replace(/\.html$/, "").replace(/\/\/$/, "/") + location.search + location.hash);
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Регламент турнира — Adrenaline Rush Cyber Fest</title>
+<meta name="description" content="Регламент турнира Adrenaline Rush Cyber Fest по Counter-Strike 2: структура, расписание, состав команд, карты, призовой фонд, санкции.">
+<meta name="theme-color" content="#0a0907">
+<meta property="og:title" content="Регламент турнира — Adrenaline Rush Cyber Fest">
+<meta property="og:image" content="assets/poster.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0907;--panel:#13110d;--line:rgba(226,190,112,.18);--line-2:rgba(255,255,255,.08);
+  --gold:#d9b25f;--gold-hi:#f6e3a6;--gold-lo:#8f6a26;--text:#f4efe4;--muted:#a59c8a;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.65;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.top{position:sticky;top:0;z-index:50;background:rgba(10,9,7,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:12px clamp(18px,5vw,56px);display:flex;align-items:center;gap:16px}
+.logo img{height:40px;width:auto}
+.sp{flex:1}
+.back{font-family:var(--display);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#d8d0bf;padding:6px 0;border-bottom:2px solid transparent;transition:.3s}
+.back:hover{color:var(--gold-hi);border-color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;padding:12px 20px;color:#120d02;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b98d3a);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:transform .3s}
+.btn:hover{transform:translateY(-2px)}
+.lang{display:inline-flex;border:1px solid var(--line);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.lang button{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;color:var(--muted);background:none;border:0;padding:9px 14px;cursor:pointer}
+.lang button[aria-pressed=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02}
+
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero::before{content:"";position:absolute;inset:0;background:url(assets/hero.webp) center 30%/cover no-repeat;opacity:.28}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,7,.4),var(--bg))}
+.hero-in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,90px) clamp(18px,5vw,56px) clamp(30px,5vw,56px)}
+.eyebrow{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:13px;color:var(--gold);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(40px,7vw,92px);line-height:1.1;transform:skewX(-7deg);transform-origin:left bottom;margin:16px 0 14px}
+.gold-text{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 45%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.06em}
+.hero p{color:#cfc7b5;max-width:640px;font-size:clamp(17px,2vw,19px)}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.facts span{font-family:var(--display);font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--line);background:rgba(10,9,7,.6)}
+.facts b{color:var(--gold-hi);font-weight:600}
+.uz-note{display:none;margin-top:16px;color:var(--gold-hi);font-size:15px}
+html[lang=uz] .uz-note{display:block}
+
+.layout{max-width:1240px;margin:0 auto;padding:clamp(24px,4vw,48px) clamp(18px,5vw,56px) 90px;display:grid;grid-template-columns:270px 1fr;gap:clamp(24px,4vw,56px);align-items:start}
+.toc{position:sticky;top:86px;max-height:calc(100svh - 110px);overflow:auto;border:1px solid var(--line);background:var(--panel);padding:16px 10px}
+.toc b{display:block;font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);padding:0 10px 10px}
+.toc a{display:flex;gap:10px;padding:8px 10px;font-size:15px;line-height:1.35;color:#d6cebd;border-left:2px solid transparent;transition:.2s}
+.toc a span{font-family:var(--display);color:var(--gold);min-width:20px}
+.toc a:hover,.toc a.on{color:var(--gold-hi);background:rgba(217,178,95,.08);border-left-color:var(--gold)}
+
+.sec{padding:clamp(22px,3vw,34px);margin-bottom:16px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(26,22,15,.9),rgba(14,12,8,.92))}
+.sec h2{display:flex;align-items:baseline;gap:14px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(24px,3vw,32px);line-height:1.2;margin-bottom:16px}
+.sec h2 .n{color:var(--gold);font-size:.9em;min-width:1.4em}
+.sec h3{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.04em;text-transform:uppercase;margin:24px 0 10px;color:var(--gold-hi)}
+.sec h3 .n{color:var(--gold)}
+.sec h4{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.08em;text-transform:uppercase;margin:18px 0 6px;color:#e9e2d2}
+.sec p{color:#d6cebd;margin:8px 0}
+.sec ul{list-style:none;margin:8px 0 12px;display:grid;gap:7px}
+.sec li{position:relative;padding-left:22px;color:#d6cebd}
+.sec li::before{content:"";position:absolute;left:2px;top:.68em;width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
+.tbl{overflow-x:auto;margin:14px 0;border:1px solid var(--line)}
+.tbl table{width:100%;border-collapse:collapse;min-width:420px}
+.tbl th{text-align:left;font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:#1d1812;padding:12px 16px}
+.tbl td{padding:12px 16px;border-top:1px solid var(--line-2);color:#e9e2d2}
+.tbl.prize td:last-child{font-family:var(--display);font-weight:600;font-size:20px;color:var(--gold-hi)}
+.tbl.prize tr:first-child td{font-size:24px}
+.cta{margin-top:26px;padding:clamp(22px,3vw,34px);border:1px solid rgba(217,178,95,.5);background:linear-gradient(160deg,rgba(217,178,95,.12),rgba(14,12,8,.9));display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.cta b{font-family:var(--display);font-weight:600;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
+.cta p{color:var(--muted);margin-top:4px}
+footer{border-top:1px solid var(--line);padding:26px clamp(18px,5vw,56px);color:#6f695c;font-size:14px;text-align:center}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .toc{position:static;max-height:none}
+  .toc a{padding:7px 8px}
+}
+@media(max-width:520px){.top .btn{display:none}.back{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a href="/" class="logo" aria-label="Adrenaline Rush"><img src="assets/logo.webp" alt="Adrenaline Rush" width="320" height="116"></a>
+  <span class="sp"></span>
+  <a class="back" href="/" data-t="back">На главную</a>
+  <a class="btn" href="/register" data-t="reg">Регистрация</a>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="uz" aria-pressed="false">UZ</button></div>
+</div></header>
+
+<section class="hero"><div class="hero-in">
+  <div class="eyebrow">Adrenaline Rush Cyber Fest</div>
+  <h1><span data-t="h1a">Регламент</span> <span class="gold-text" data-t="h1b">турнира</span></h1>
+  <p data-t="lead">Официальные правила турнира по Counter-Strike 2. Регистрация команды означает полное согласие со всеми положениями регламента.</p>
+  <div class="facts"><span>CS2 · <b>5x5</b></span><span data-t="f2">Команд в сетке: <b>16</b></span><span data-t="f3">Призовой фонд: <b>85 000 000 UZS</b></span><span><b>18+</b></span></div>
+  <p class="uz-note">Nizom rasmiy ravishda rus tilida e’lon qilingan.</p>
+</div></section>
+
+<div class="layout">
+  <nav class="toc" aria-label="Содержание"><b data-t="toc">Содержание</b><a href="#s1"><span>1</span>Общая информация</a><a href="#s2"><span>2</span>Структура турнира</a><a href="#s3"><span>3</span>Расписание турнира</a><a href="#s4"><span>4</span>Участники и состав команд</a><a href="#s5"><span>5</span>Регистрация</a><a href="#s6"><span>6</span>Настройки матчей</a><a href="#s7"><span>7</span>Карты и Veto</a><a href="#s8"><span>8</span>Расписание матчей и опоздания</a><a href="#s9"><span>9</span>Технические паузы</a><a href="#s10"><span>10</span>Запрещённые действия</a><a href="#s11"><span>11</span>Призовой фонд</a><a href="#s12"><span>12</span>Протесты и спорные ситуации</a><a href="#s13"><span>13</span>Трансляция и медиа</a><a href="#s14"><span>14</span>Заключительные положения</a></nav>
+  <main>
+<section class="sec" id="s1"><h2><span class="n">1</span>Общая информация</h2>
+<p>Название турнира: Adrenaline Rush<br>Дисциплина: Counter-Strike 2 (CS2)<br>Формат турнира: Online Registration / Offline Playoffs / LAN Grand Final<br>Организаторы: Uzbekistan Cybersport Association &amp; RAVE Esports &amp; Enter group event &amp; International beverages Tashkent<br>Количество команд в основной сетке: 16<br>Призовой фонд: 85 000 000 UZS</p>
+<p>Adrenaline Rush — киберспортивный турнир по Counter-Strike 2 среди команд Республики Узбекистан. Турнир проводится в несколько этапов: онлайн-регистрация, при необходимости онлайн-отбор, офлайн-плей-офф в компьютерном клубе и LAN-финал на отдельной площадке.</p>
+</section>
+<section class="sec" id="s2"><h2><span class="n">2</span>Структура турнира</h2>
+<p>Турнир состоит из трёх основных этапов.</p>
+<h3><span class="n">2.1</span> Регистрация и Online Qualifier</h3>
+<ul><li>Регистрация проходит онлайн через официальную форму.</li><li>Продолжительность регистрации — не менее 15 дней.</li><li>Основная сетка рассчитана на 16 команд.</li><li>При регистрации более 16 команд проводится дополнительный онлайн-отбор.</li><li>Формат онлайн-отбора: Single Elimination.</li><li>Формат матчей: Best of 1 (BO1).</li><li>По итогам отбора определяются 16 участников основной сетки.</li></ul>
+<p>Если количество зарегистрированных команд не превышает 16, все допущенные команды проходят в основную сетку без дополнительного отбора.</p>
+<h3><span class="n">2.2</span> Offline Playoffs</h3>
+<p>Основной этап проводится в компьютерном клубе в течение трёх игровых дней.</p>
+<h4>Round of 16</h4>
+<ul><li>16 команд;</li><li>8 матчей;</li><li>Single Elimination;</li><li>Формат: Best of 1 (BO1).</li></ul>
+<h4>Quarterfinals</h4>
+<ul><li>8 команд;</li><li>4 матча;</li><li>Single Elimination;</li><li>Формат: Best of 3 (BO1).</li></ul>
+<h4>Semifinals</h4>
+<ul><li>4 команды;</li><li>2 матча;</li><li>Single Elimination;</li><li>Формат: Best of 3 (BO3).</li></ul>
+<p>По итогам полуфиналов определяются два финалиста, которые проходят в Grand Final.</p>
+<h3><span class="n">2.3</span> Grand Final</h3>
+<ul><li>Участники: 2 лучшие команды турнира.</li><li>Место проведения: площадка «Алпомиш».</li><li>Формат: Best of 3 (BO3).</li><li>Победитель становится чемпионом Adrenaline Cup.</li></ul>
+<p>Матч за третье место проводится между командами, проигравшими в полуфиналах. Его дата и место проведения определяются организаторами и публикуются отдельно.</p>
+</section>
+<section class="sec" id="s3"><h2><span class="n">3</span>Расписание турнира</h2>
+<p>Точные даты проведения этапов будут опубликованы организаторами дополнительно.</p>
+<div class="tbl"><table><thead><tr><th>Этап</th><th>Дата</th><th>Формат</th></tr></thead><tbody><tr><td>Регистрация</td><td>9-20 ноября</td><td>Online</td></tr><tr><td>Online Qualifier</td><td>21-23 ноября</td><td>BO1</td></tr><tr><td>Плей-офф</td><td>27-29 ноября</td><td>BO1</td></tr><tr><td>Grand Final</td><td>6 декабря</td><td>BO3</td></tr></tbody></table></div>
+<p>Место проведения Offline Playoffs: компьютерный клуб Cyber Arena.<br>Место проведения Grand Final: Ледовый комлекс Алпомиш.</p>
+</section>
+<section class="sec" id="s4"><h2><span class="n">4</span>Участники и состав команд</h2>
+<ul><li>К участию в турнире допускаются команды, соответствующие требованиям настоящего Регламента и организаторов.</li><li>Возраст всех участников турнира, включая основных и запасных игроков, должен составлять не менее 18 лет на момент подачи регистрационной заявки.</li><li>Состав каждой команды должен включать пять основных игроков и не более одного запасного игрока (формат 5+1).</li><li>В составе команды допускается участие не более одного легионера. Команда вправе выступать как полностью в составе граждан Республики Узбекистан, так и по формату 4+1 (четыре гражданина Республики Узбекистан и один легионер).</li><li>Гражданство участников подтверждается соответствующими документами. Граждане Республики Узбекистан обязаны предоставить документ, подтверждающий гражданство РУз, а легионер — документ, удостоверяющий личность и гражданство.</li><li>Каждый игрок может быть зарегистрирован только за одну команду в рамках турнира. Передача аккаунтов, выступление за несколько команд и использование незарегистрированных игроков запрещены.</li><li>Все участники обязаны предоставить достоверные регистрационные данные и пройти проверку администрации турнира. Организаторы оставляют за собой право запрашивать дополнительные документы для подтверждения личности, возраста и гражданства игроков.</li><li>Капитан команды является официальным представителем команды при взаимодействии с администрацией турнира и несёт ответственность за своевременное предоставление информации, подтверждение состава и соблюдение установленных требований.</li><li>В случае выхода команды в TOP 16 участие в офлайн-этапе является обязательным. Все пять игроков утвержденного основного состава обязаны лично присутствовать на площадке проведения турнира.</li><li>Неявка одного или нескольких игроков на офлайн-этап без предварительного согласования с администрацией может повлечь техническое поражение или дисквалификацию команды в соответствии с решением организаторов.</li></ul>
+<h3><span class="n">4.1</span> Порядок замены игроков</h3>
+<p>4.1.1. Каждая команда вправе зарегистрировать основной состав из пяти игроков и одного запасного игрока (формат 5+1).</p>
+<p>4.1.2. Запасной игрок может заменить любого участника основного состава исключительно перед началом матча. Проведение замены во время матча не допускается.</p>
+<p>4.1.3. Команда обязана уведомить администрацию турнира о намерении произвести замену не позднее чем за 1 (один) час до запланированного начала матча.</p>
+<p>4.1.4. В рамках одного игрового дня команда вправе произвести не более одной замены. Повторная замена в течение того же игрового дня не допускается, за исключением форс-мажорных обстоятельств, предусмотренных настоящим Регламентом.</p>
+<p>4.1.5. Последняя плановая замена может быть произведена исключительно до начала плей-офф. Перед стартом плей-офф каждая команда обязана предоставить администрации окончательный состав из пяти игроков, которые будут представлять команду на протяжении всего плей-офф.</p>
+<p>5.1.6. После утверждения окончательного состава для плей-офф плановые замены не допускаются. Исключения возможны только при возникновении форс-мажорных обстоятельств и с предварительного разрешения администрации турнира.</p>
+<h3><span class="n">4.2</span> Форс-мажорные обстоятельства</h3>
+<p>В исключительных случаях администрация турнира вправе разрешить замену игрока даже при несоблюдении установленных сроков или ограничений. К таким обстоятельствам относятся:</p>
+<ul><li>внезапное заболевание или резкое ухудшение состояния здоровья игрока, препятствующее его участию в матче;</li><li>травма или несчастный случай, в результате которых игрок не может продолжить участие в турнире;</li><li>чрезвычайные семейные обстоятельства, требующие немедленного присутствия игрока;</li><li>иные непредвиденные обстоятельства, не зависящие от воли игрока или команды и объективно препятствующие его участию в матче.</li></ul>
+<p>4.2.1 Для рассмотрения форс-мажорной замены капитан команды обязан незамедлительно обратиться к администрации турнира, объяснить причину замены и, при необходимости, предоставить подтверждающие документы или иные доказательства.</p>
+<p>4.2.2. Решение о возможности проведения форс-мажорной замены принимается исключительно администрацией турнира. Администрация вправе отказать в замене, если представленные обстоятельства не признаются уважительными.</p>
+<p>4.2.3. Форс-мажорная замена может быть произведена только на ранее зарегистрированного и прошедшего проверку запасного игрока. При этом должны соблюдаться требования к возрасту и гражданству участников, включая правило состава 4+1.</p>
+<p>4.2.4. Самовольная замена игрока без уведомления и одобрения администрации запрещена и может повлечь техническое поражение команды или её дисквалификацию совместно со штрафами.</p>
+</section>
+<section class="sec" id="s5"><h2><span class="n">5</span>Регистрация</h2>
+<p>Регистрация осуществляется через официальную регистрационную форму турнира. Перед регистрацией вы можете выбрать формат регистрации (Соло регистрация / Командная регистрация)</p>
+<p>Команда обязана предоставить:</p>
+<ul><li>Название команды;</li><li>Никнеймы всех игроков;</li><li>Steam ID игроков;</li><li>Контактные данные капитана;</li><li>Персональные данные</li><li>Информацию о запасном игроке, если он имеется.</li></ul>
+<p>Соло-игрок обязан предоставить:</p>
+<ul><li>Никнейм</li><li>Steam ID</li><li>Контактные данные</li><li>Персональные данные</li></ul>
+<p>Организаторы оставляют за собой право отклонить заявку при предоставлении неполной или недостоверной информации, а также при несоответствии требованиям турнира.</p>
+<p>После завершения регистрации изменения состава возможны только с согласия организаторов.</p>
+</section>
+<section class="sec" id="s6"><h2><span class="n">6</span>Настройки матчей</h2>
+<ul><li>Игра: Counter-Strike 2.</li><li>Формат: 5 на 5.</li><li>Версия игры: актуальная на момент проведения матча.</li><li>Сервер: определяется организаторами.</li><li>Античит: обязательное использование системы, установленной организаторами.</li><li>Настройки сервера: стандартные соревновательные.</li><li>Все участники обязаны использовать собственные игровые аккаунты.</li></ul>
+<p>Во время офлайн-этапа игроки обязаны соблюдать технические требования и правила компьютерного клуба.</p>
+</section>
+<section class="sec" id="s7"><h2><span class="n">7</span>Карты и Veto</h2>
+<p>Официальный Map Pool турнира:</p>
+<ul><li>Mirage</li><li>Inferno</li><li>Nuke</li><li>Cache</li><li>Ancient</li><li>Dust 2</li><li>Anubis</li></ul>
+<p>Организаторы оставляют за собой право обновить Map Pool до начала турнира.</p>
+<h3><span class="n"></span> Bo1</h3>
+<p>Команды поочерёдно банят карты до определения одной оставшейся карты.</p>
+<h3><span class="n"></span> Bo3</h3>
+<p>Стандартная процедура Veto:</p>
+<ul><li>Ban — команда 1;</li><li>Ban — команда 2;</li><li>Pick — команда 1;</li><li>Pick — команда 2;</li><li>Ban — команда 1;</li><li>Ban — команда 2;</li><li>Decider — оставшаяся карта.</li></ul>
+<p>Порядок первого действия определяется администрацией турнира.</p>
+</section>
+<section class="sec" id="s8"><h2><span class="n">8</span>Расписание матчей и опоздания</h2>
+<ul><li>Команды обязаны прибыть на место проведения согласно опубликованному расписанию.</li><li>Игроки должны быть готовы к матчу минимум за 10 минут до назначенного времени.</li><li>Допустимое опоздание — до 15 минут.</li><li>По истечении 15 минут организаторы имеют право засчитать команде техническое поражение или штраф в размере от 50$ до 200$.</li><li>В исключительных случаях решение о переносе матча принимает администрация турнира.</li></ul>
+<p>Капитан несёт ответственность за своевременное присутствие всех игроков команды.</p>
+</section>
+<section class="sec" id="s9"><h2><span class="n">9</span>Технические паузы</h2>
+<ul><li>Технические паузы разрешены исключительно при возникновении технических проблем.</li><li>Максимум: 2 паузы по 5 минут на команду за матч.</li><li>Использование пауз без обоснованной причины запрещено.</li><li>При возникновении технической проблемы капитан обязан незамедлительно уведомить администратора.</li><li>Самостоятельная остановка или возобновление матча без разрешения администратора запрещены.</li></ul>
+<p>Решение о продолжении матча, его переигровке или применении технического поражения принимает администрация турнира.</p>
+</section>
+<section class="sec" id="s10"><h2><span class="n">10</span>Запрещённые действия</h2>
+<p>Во время турнира запрещается:</p>
+<ul><li>Использование читов, скриптов, багов и стороннего программного обеспечения, предоставляющего игровое преимущество.</li><li>Использование чужих аккаунтов и Smurf-аккаунтов.</li><li>Участие в договорных матчах.</li><li>Передача информации посторонним лицам во время матча.</li><li>Оскорбления, токсичное поведение и неуважение к соперникам, судьям и администрации.</li><li>Нарушение указаний игровых администраторов.</li><li>Любые попытки повлиять на честность соревновательного процесса.</li></ul>
+<p>В зависимости от тяжести нарушения организаторы могут применить предупреждение, техническое поражение или дисквалификацию команды.</p>
+</section>
+<section class="sec" id="s11"><h2><span class="n">11</span>Призовой фонд</h2>
+<p>Общий призовой фонд: 85 000 000 UZS</p>
+<p>Распределение призового фонда:</p>
+<div class="tbl prize"><table><thead><tr><th>Место</th><th>Приз</th></tr></thead><tbody><tr><td>1 место</td><td>50 000 000 UZS</td></tr><tr><td>2 место</td><td>25 000 000 UZS</td></tr><tr><td>3 место</td><td>10 000 000 UZS</td></tr></tbody></table></div>
+<p>Выплата призовых осуществляется после завершения турнира и проверки результатов.</p>
+<p>Сроки и порядок выплаты призовых сообщаются организаторами дополнительно.</p>
+<h3><span class="n">11.1</span> Штрафы и дисциплинарные санкции</h3>
+<p>За нарушение регламента организаторы имеют право применять следующие санкции:</p>
+<ul><li>Устное или официальное предупреждение;</li><li>Денежный штраф от 50 до 200 USD;</li><li>Техническое поражение;</li><li>Дисквалификация отдельного игрока;</li><li>Дисквалификация всей команды;</li><li>Отстранение от участия в последующих турнирах организаторов.</li></ul>
+<h3><span class="n">11.2</span> Нарушения и размеры штрафов</h3>
+<h4>1. Неспортивное поведение</h4>
+<ul><li>Оскорбления соперников, игроков, судей или администрации — штраф от $50 до $100.</li><li>Провокации, агрессивное поведение и создание конфликтных ситуаций — штраф от $50 до $150.</li><li>Угрозы, дискриминация и серьёзные нарушения общественного порядка — штраф от $100 до $200 и возможная дисквалификация.</li></ul>
+<h4>2. Нарушение игрового процесса</h4>
+<ul><li>Использование запрещённого программного обеспечения, читов или скриптов — штраф от $100 до $200 и дисквалификация.</li><li>Использование игровых багов с целью получения преимущества — штраф от $50 до $150.</li><li>Договорные матчи или намеренное влияние на результаты турнира — штраф от $150 до $200 и дисквалификация всех причастных участников.</li><li>Передача информации посторонним лицам во время матча — штраф от $50 до $100.</li></ul>
+<h4>3. Нарушение дисциплины</h4>
+<ul><li>Повторные опоздания на матчи — штраф от $50 до $100.</li><li>Самовольный отказ от продолжения матча после его начала — штраф от $50 до $150.</li><li>Самовольное покидание игровой площадки во время матча без разрешения администратора — штраф от $50 до $100.</li><li>Игнорирование официальных требований администрации — штраф от $50 до $150.</li></ul>
+<h4>4. Нарушение правил площадки</h4>
+<ul><li>Умышленное повреждение оборудования или имущества компьютерного клуба либо финальной площадки — штраф от $100 до $200.</li><li>Несоблюдение правил площадки и требований персонала — штраф от $50 до $100.</li><li>Умышленное вмешательство в работу оборудования или инфраструктуры турнира — штраф от $100 до $200.</li></ul>
+<p>Возмещение фактически причинённого материального ущерба рассматривается отдельно от денежного штрафа.</p>
+<h3><span class="n">11.3</span> Порядок применения штрафов</h3>
+<ul><li>Размер штрафа определяется администрацией турнира с учётом тяжести нарушения, его последствий и повторности.</li><li>Минимальный размер штрафа составляет $50, максимальный — $200 за одно нарушение.</li><li>За повторные нарушения организаторы имеют право применять более строгие санкции.</li><li>За особо серьёзные нарушения денежный штраф может сопровождаться техническим поражением или дисквалификацией.</li><li>Штраф может быть применён как к отдельному игроку, так и к команде в зависимости от характера нарушения.</li><li>Капитан команды уведомляется о принятом решении и основаниях применения санкции.</li><li>Все решения администрации фиксируются и доводятся до соответствующих участников.</li></ul>
+<p>Участие в турнире означает согласие команды с установленной системой дисциплинарных санкций и штрафов.</p>
+</section>
+<section class="sec" id="s12"><h2><span class="n">12</span>Протесты и спорные ситуации</h2>
+<ul><li>Протесты принимаются исключительно от капитанов команд.</li><li>Протест должен быть подан в течение 15 минут после окончания матча.</li><li>В протесте необходимо указать суть нарушения и предоставить подтверждающие материалы, если они имеются.</li><li>Организаторы имеют право запросить дополнительные доказательства.</li><li>Решение по протесту принимается администрацией турнира.</li><li>Решение администрации является окончательным.</li></ul>
+<p>Протесты, поданные после установленного срока, могут быть отклонены.</p>
+</section>
+<section class="sec" id="s13"><h2><span class="n">13</span>Трансляция и медиа</h2>
+<p>Ключевые матчи турнира сопровождаются прямыми трансляциями на узбекском языке.</p>
+<p>Медийное сопровождение включает:</p>
+<ul><li>Профессиональных комментаторов;</li><li>Предматчевую и послематчевую аналитику;</li><li>Лучшие игровые моменты и хайлайты;</li><li>Интервью с участниками;</li><li>Интеграции партнёров и спонсоров;</li><li>Веб-камеры игроков с выводом в эфир при технической возможности.</li></ul>
+<p>Участники обязуются соблюдать требования организаторов, связанные с фото- и видеосъёмкой во время проведения турнира.</p>
+</section>
+<section class="sec" id="s14"><h2><span class="n">14</span>Заключительные положения</h2>
+<ul><li>Организаторы оставляют за собой право вносить изменения в регламент, расписание и формат проведения турнира при необходимости.</li><li>Все изменения публикуются через официальные информационные каналы турнира.</li><li>Участники обязаны самостоятельно следить за обновлениями.</li><li>Регистрация команды означает полное согласие со всеми положениями настоящего регламента.</li><li>Вопросы, не предусмотренные настоящим регламентом, рассматриваются администрацией турнира.</li></ul>
+<p>Организаторы оставляют за собой право принимать окончательные решения по вопросам проведения Adrenaline Cup.</p>
+</section>
+    <div class="cta">
+      <div><b data-t="ctaT">Готовы играть?</b><p data-t="ctaP">Подайте заявку командой 5x5 или соло — это займёт пару минут.</p></div>
+      <a class="btn" href="/register" data-t="ctaB">Подать заявку</a>
+    </div>
+  </main>
+</div>
+<footer>ADRENALINE CUP — COUNTER-STRIKE 2 · © 2026 Adrenaline Rush Cyber Fest</footer>
+
+<script>
+const T = {
+  ru: { back:"На главную", reg:"Регистрация", h1a:"Регламент", h1b:"турнира", toc:"Содержание",
+        lead:"Официальные правила турнира по Counter-Strike 2. Регистрация команды означает полное согласие со всеми положениями регламента.",
+        f2:"Команд в сетке: <b>16</b>", f3:"Призовой фонд: <b>85 000 000 UZS</b>",
+        ctaT:"Готовы играть?", ctaP:"Подайте заявку командой 5x5 или соло — это займёт пару минут.", ctaB:"Подать заявку",
+        title:"Регламент турнира — Adrenaline Rush Cyber Fest" },
+  uz: { back:"Bosh sahifa", reg:"Ro‘yxatdan o‘tish", h1a:"Turnir", h1b:"nizomi", toc:"Mundarija",
+        lead:"Counter-Strike 2 bo‘yicha turnirning rasmiy qoidalari. Jamoani ro‘yxatdan o‘tkazish nizomning barcha qoidalariga to‘liq rozilikni bildiradi.",
+        f2:"Setkadagi jamoalar: <b>16</b>", f3:"Sovrin jamg‘armasi: <b>85 000 000 UZS</b>",
+        ctaT:"O‘ynashga tayyormisiz?", ctaP:"5x5 jamoa yoki yakka holda ariza yuboring — bir necha daqiqa vaqt oladi.", ctaB:"Ariza yuborish",
+        title:"Turnir nizomi — Adrenaline Rush Cyber Fest" }
+};
+const $$ = s => [...document.querySelectorAll(s)];
+let lang = "ru";
+try {
+  const q = new URLSearchParams(location.search).get("lang"), saved = localStorage.getItem("lang");
+  if (q === "uz" || q === "ru") lang = q; else if (saved === "uz" || saved === "ru") lang = saved;
+} catch (e) {}
+function setLang(l) {
+  lang = l; try { localStorage.setItem("lang", l); } catch (e) {}
+  document.documentElement.lang = l; document.title = T[l].title;
+  $$("[data-t]").forEach(el => { el.innerHTML = T[l][el.dataset.t]; });
+  $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
+}
+$$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+setLang(lang);
+/* подсветка текущего раздела в оглавлении */
+const links = new Map($$(".toc a").map(a => [a.getAttribute("href").slice(1), a]));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { $$(".toc a.on").forEach(a => a.classList.remove("on")); const a = links.get(e.target.id); if (a) a.classList.add("on"); } }), { rootMargin: "-30% 0px -60% 0px" });
+$$(".sec").forEach(s => io.observe(s));
+</script>
+</body>
+</html>

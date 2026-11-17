@@ -118,6 +118,7 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 .fail{display:none;margin-top:14px;color:var(--err);font-size:16px;text-align:center}
 .fail.on{display:block}
 .note{margin-top:16px;color:#8a8272;font-size:14px;line-height:1.45}
+.note a{color:var(--gold-hi);text-decoration:underline;text-underline-offset:3px}
 
 .in{opacity:0;transform:translateY(34px);animation:up .9s var(--ease) forwards;animation-delay:var(--d,0s)}
 @keyframes up{to{opacity:1;transform:none}}
@@ -170,7 +171,7 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
     <button class="btn" type="submit" id="submit"><span data-t="send">Отправить заявку</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     <div class="fail" id="fail" data-t="fail">Не удалось отправить. Попробуйте ещё раз.</div>
-    <p class="note" data-t="note">Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру. </p>
+    <p class="note" data-t="note">Нажимая кнопку, вы соглашаетесь с <a href="/reglament" target="_blank">регламентом турнира</a> и обработкой данных для связи по турниру. </p>
   </form>
 </main>
 
@@ -251,7 +252,7 @@ const T = {
     rosterT:"Состав команды", rosterS:"Капитан и ещё 4 игрока", captain:"Капитан", player:"Игрок", you:"Ваши данные", capBadge:"на связи",
     send:"Отправить заявку", sending:"Отправляем…",
     fail:"Не удалось отправить. Попробуйте ещё раз.",
-    note:"Нажимая кнопку, вы соглашаетесь на обработку данных для связи по турниру.",
+    note:"Нажимая кнопку, вы соглашаетесь с <a href=\"/reglament\" target=\"_blank\">регламентом турнира</a> и обработкой данных для связи по турниру.",
     title:"Регистрация — Adrenaline Rush Cyber Fest"
   },
   uz: {
@@ -265,7 +266,7 @@ const T = {
     rosterT:"Jamoa tarkibi", rosterS:"Sardor va yana 4 o‘yinchi", captain:"Sardor", player:"O‘yinchi", you:"Ma’lumotlaringiz", capBadge:"aloqada",
     send:"Arizani yuborish", sending:"Yuborilmoqda…",
     fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
-    note:"Tugmani bosish orqali siz turnir bo‘yicha aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
+    note:"Tugmani bosish orqali siz <a href=\"/reglament\" target=\"_blank\">turnir nizomi</a>ga va aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
     title:"Ro‘yxatdan o‘tish — Adrenaline Rush Cyber Fest"
   }
 };
@@ -285,7 +286,7 @@ let setLang = function (l) {
   try { localStorage.setItem("lang", l); } catch (e) {}
   document.documentElement.lang = l;
   document.title = T[l].title;
-  $$("[data-t]").forEach(el => { el.textContent = T[l][el.dataset.t]; });
+  $$("[data-t]").forEach(el => { el.innerHTML = T[l][el.dataset.t]; });
   $$("[data-p]").forEach(el => { el.placeholder = T[l][el.dataset.p]; });
   $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
 };
