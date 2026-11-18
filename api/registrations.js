@@ -3,6 +3,11 @@
  *
  *   POST /api/registrations { action: "register", type, team, players[], lang } → номер участника
  *   POST /api/registrations { action: "list", login, password }               → данные для /admin
+ *   POST /api/registrations { action: "setReg", login, password, open }      → открыть / закрыть регистрацию вручную
+ *   GET  /api/registrations                                                   → { open } — идёт ли сейчас регистрация
+ *
+ * Регистрация закрывается автоматически в REG_END (28.11, 20:00 по Ташкенту). Админ может закрыть её
+ * раньше или открыть снова — ручной режим хранится в служебном описании бота (язык REG_LANG).
  *
  * Где хранятся заявки: в Telegram-группе организаторов — одно сообщение-файл
  * «База заявок», которое бот обновляет при каждой заявке. Каждая заявка зашифрована
@@ -20,6 +25,8 @@ const ADMIN_PASSWORD_SHA256 = "0eba393e80338601945f5f8549c11b5562954654d67c6d78b
 const ADMIN_PUBLIC_KEY = "WA7YIGwQfOuz58N//Ujbttbd89J5ayKWiKDLMsFIq0M=";  // X25519, из пароля через PBKDF2
 const KDF_SALT = "adrenaline-cyberfest-2026", KDF_ITER = 200000;
 const POINTER_LANG = "eo";               // служебное описание бота (язык, которого нет у участников) хранит id сообщения-базы
+const REG_LANG = "ia";                 // служебное описание бота с ручным режимом регистрации: "reg:open" / "reg:closed"
+const REG_END = Date.parse("2026-11-28T20:00:00+05:00");
 const DB_CAPTION = "📦 База заявок сайта adrenalinefest.uz (зашифрована). Не удаляйте это сообщение — из него работает админка.";
 
 /* ---------------- Telegram ---------------- */
@@ -70,6 +77,21 @@ async function writeDb(id, db) {
   return msg.document.file_id;
 }
 
+/* ---------------- статус регистрации ---------------- */
+let regCache = null;                     // { mode, at } — чтобы не дёргать Telegram на каждый запрос
+async function regMode(fresh) {
+  if (!fresh && regCache && Date.now() - regCache.at < 10000) return regCache.mode;
+  const d = await tg("getMyDescription", { language_code: REG_LANG });
+  const m = /^reg:(open|closed)$/.exec((d && d.description) || "");
+  regCache = { mode: m ? m[1] : "auto", at: Date.now() };
+  return regCache.mode;
+}
+async function regStatus(fresh) {
+  const mode = await regMode(fresh);
+  const open = mode === "open" ? true : mode === "closed" ? false : Date.now() < REG_END;
+  return { open, mode, regEnd: new Date(REG_END).toISOString() };
+}
+
 /* ---------------- шифрование ---------------- */
 const X25519_SPKI = Buffer.from("302a300506032b656e032100", "hex");
 const X25519_PKCS8 = Buffer.from("302e020100300506032b656e04220420", "hex");
@@ -118,6 +140,8 @@ async function register(d) {
   if (players.some(p => p.name.length < 2 || p.phone.replace(/\D/g, "").length !== 12) || (type === "team" && (team.length < 2 || players.length < 5)))
     return { status: 400, body: { ok: false, error: "invalid" } };
 
+  if (!(await regStatus(true)).open) return { status: 403, body: { ok: false, error: "closed" } };
+
   const when = tashkentNow();
   const payload = enc => ({ ...enc, ...when });
   const secret = encrypt({ type: type === "solo" ? "Соло" : "Команда", team, lang: d.lang === "uz" ? "uz" : "ru", players, ...when });
@@ -150,10 +174,22 @@ async function register(d) {
   throw new Error("could not store record");
 }
 
+const isAdmin = d => safeEq(String(d.login || ""), ADMIN_LOGIN) &&
+  safeEq(crypto.createHash("sha256").update(String(d.password || ""), "utf8").digest("hex"), ADMIN_PASSWORD_SHA256);
+
+// Ручное управление: «закрыть» — всегда закрыто; «открыть» до дедлайна — снова авторежим (закроется сам в 20:00 28.11),
+// после дедлайна — открыто, пока админ не закроет.
+async function setReg(d) {
+  if (!isAdmin(d)) { await sleep(800); return { status: 401, body: { ok: false, error: "auth" } }; }
+  const desc = d.open ? (Date.now() < REG_END ? "" : "reg:open") : "reg:closed";
+  await tg("setMyDescription", { description: desc, language_code: REG_LANG });
+  regCache = null;
+  return { status: 200, body: { ok: true, reg: await regStatus(true) } };
+}
+
 async function list(d) {
   const pass = String(d.password || "");
-  const ok = safeEq(String(d.login || ""), ADMIN_LOGIN) && safeEq(crypto.createHash("sha256").update(pass, "utf8").digest("hex"), ADMIN_PASSWORD_SHA256);
-  if (!ok) { await sleep(800); return { status: 401, body: { ok: false, error: "auth" } }; }
+  if (!isAdmin(d)) { await sleep(800); return { status: 401, body: { ok: false, error: "auth" } }; }
   const { db } = await readDb(false);
   const dec = decryptor(pass);
   const recs = db.records.map(r => { try { return { n: r.n, ...dec(r) }; } catch (e) { return null; } }).filter(Boolean).sort((a, b) => a.n - b.n);
@@ -162,12 +198,16 @@ async function list(d) {
     name: r.players[0].name, phone: r.players[0].phone, nick: r.players[0].nick, steam: r.players[0].steam || "", count: r.players.length, lang: r.lang
   }));
   const players = recs.flatMap(r => r.players.map(p => ({ number: r.n, date: r.date, type: r.type, team: r.team, role: p.role, name: p.name, nick: p.nick, steam: p.steam || "", phone: p.phone })));
-  return { status: 200, body: { ok: true, applications, players } };
+  return { status: 200, body: { ok: true, applications, players, reg: await regStatus(true) } };
 }
 
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  if (req.method !== "POST") return res.status(200).json({ ok: true, service: "adrenaline-registration" });
+  if (req.method !== "POST") {
+    let reg = null;
+    try { reg = await regStatus(false); } catch (e) { reg = { open: Date.now() < REG_END, mode: "auto", regEnd: new Date(REG_END).toISOString() }; }
+    return res.status(200).json({ ok: true, service: "adrenaline-registration", ...reg });
+  }
   let body = req.body;
   if (Buffer.isBuffer(body)) body = body.toString("utf8");
   if (typeof body === "string") { try { body = JSON.parse(body); } catch (e) { body = null; } }
@@ -179,6 +219,7 @@ module.exports = async (req, res) => {
   try {
     const out = body.action === "register" ? await register(body)
       : body.action === "list" ? await list(body)
+      : body.action === "setReg" ? await setReg(body)
       : { status: 400, body: { ok: false, error: "unknown_action" } };
     res.status(out.status).json(out.body);
   } catch (e) {

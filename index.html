@@ -119,6 +119,7 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 .live{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-size:13px;letter-spacing:.24em;text-transform:uppercase;padding:9px 18px;border:1px solid rgba(217,178,95,.45);background:rgba(10,9,7,.55);backdrop-filter:blur(6px);color:var(--gold-hi);border-radius:99px;opacity:0;animation:fadeUp .8s var(--ease) .2s forwards}
 .live i{width:8px;height:8px;border-radius:50%;background:#43e06b;box-shadow:0 0 0 0 rgba(67,224,107,.7);animation:pulse 1.6s infinite}
 @keyframes pulse{to{box-shadow:0 0 0 12px rgba(67,224,107,0)}}
+.live.off i{background:#ff6b5b;animation:none;box-shadow:0 0 10px rgba(255,107,91,.7)}
 .hero-brand{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,26px);margin-top:clamp(16px,2.4vh,26px);opacity:0;animation:fadeUpSkew .8s var(--ease) .3s forwards;transform:skewX(-9deg)}
 .hero-brand span{font-family:var(--display);font-weight:700;font-size:clamp(24px,min(4.6vw,6.4vh),66px);line-height:1.1;letter-spacing:.2em;text-transform:uppercase;padding-left:.2em;white-space:nowrap;filter:drop-shadow(0 4px 24px rgba(217,178,95,.35))}
 .hero-brand i{flex:0 1 clamp(30px,7vw,110px);height:2px;background:linear-gradient(90deg,transparent,var(--gold))}
@@ -382,7 +383,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 <section class="register" id="register">
   <div class="wrap reg-grid">
     <div>
-      <div class="eyebrow reveal" data-i="r1">Регистрация · до 28 ноября</div>
+      <div class="eyebrow reveal" data-i="r1">Регистрация · до 28 ноября, 20:00</div>
       <h2 class="h2 display reveal" data-i="r2">Займи слот<br><span class="gold-text">для своей команды</span></h2>
       <p class="lead reveal" data-i="r3">Заявка подаётся через форму на сайте и занимает пару минут. Можно зарегистрировать целую команду или прийти соло — мы подберём состав.</p>
 
@@ -434,12 +435,12 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
       <div class="tl-item">
         <i class="tl-dot"></i>
         <div class="tl-date"><strong data-i="q">29–30 ноября</strong><span data-i="e2">Этап 2</span></div>
-        <div class="tl-card" data-n="02"><h3 data-i="t2">Онлайн-отбор</h3><p data-i="t2p">Online Qualifier в формате BO1. Сетка и расписание приходят капитанам после закрытия регистрации.</p></div>
+        <div class="tl-card" data-n="02"><h3 data-i="t2">Онлайн-отбор</h3><p data-i="t2p">Проводится, если зарегистрировано больше 16 команд: матчи BO1, старт 29 ноября после обеда. Сетка и расписание приходят капитанам после закрытия регистрации.</p></div>
       </div>
       <div class="tl-item">
         <i class="tl-dot"></i>
-        <div class="tl-date"><strong data-i="po">5–6 декабря</strong><span data-i="e3">Этап 3</span></div>
-        <div class="tl-card" data-n="03"><h3 data-i="t3">Плей-офф</h3><p data-i="t3p">Офлайн-матчи BO1 в компьютерном клубе Cyber Arena. Лучшие команды проходят в гранд-финал.</p></div>
+        <div class="tl-date"><strong data-i="po">4–6 декабря</strong><span data-i="e3">Этап 3</span></div>
+        <div class="tl-card" data-n="03"><h3 data-i="t3">Плей-офф</h3><p data-i="t3p">Три игровых дня в компьютерном клубе Cyber Arena: матчи в формате BO1 и BO3 с трансляцией. Лучшие команды проходят в гранд-финал.</p></div>
       </div>
       <div class="tl-item">
         <i class="tl-dot"></i>
@@ -460,7 +461,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
       <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">5x5</div><h3 data-i="c1">Формат</h3><p data-i="c1p">Counter-Strike 2, пять игроков основного состава и один запасной (5+1). Одна заявка на команду.</p></div>
       <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">18+</div><h3 data-i="c2">Возраст</h3><p data-i="c2p">К участию допускаются игроки, которым исполнилось 18 лет.</p></div>
       <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">0</div><h3 data-i="c3">Взнос</h3><p data-i="c3p">Участие бесплатное. Нужна только заявка, поданная до 28 ноября.</p></div>
-      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">28.11</div><h3 data-i="c4">Дедлайн</h3><p data-i="c4p">Заявки принимаются с 18 по 28 ноября включительно.</p></div>
+      <div class="t-card reveal" style="--d:.0s"><div class="t-big gold-text">28.11</div><h3 data-i="c4">Дедлайн</h3><p data-i="c4p">Заявки принимаются с 18 ноября до 20:00 28 ноября (по Ташкенту).</p></div>
       <div class="t-card reveal" style="--d:.08s"><div class="t-big gold-text">Fair</div><h3 data-i="c5">Честная игра</h3><p data-i="c5p">Читы, подставные игроки и токсичное поведение — дисквалификация команды.</p></div>
       <div class="t-card reveal" style="--d:.16s"><div class="t-big gold-text">85M</div><h3 data-i="c6">Призовой фонд</h3><p data-i="c6p">85 000 000 делят три лучшие команды: 50, 25 и 10 млн.</p></div>
     </div>
@@ -469,7 +470,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
       <div class="loc-info reveal">
         <div class="eyebrow" data-i="l1">Локация гранд-финала</div>
         <h3 data-i="venue">Ледовый дворец «Алпомыш»</h3>
-        <p data-i="venueText">Гранд-финал пройдёт в Ташкенте, в ледовом дворце «Алпомыш» рядом с метро «Беруни». Офлайн-плей-офф 5–6 декабря — в компьютерном клубе Cyber Arena.</p>
+        <p data-i="venueText">Гранд-финал пройдёт в Ташкенте, в ледовом дворце «Алпомыш» рядом с метро «Беруни». Офлайн-плей-офф 4–6 декабря — в компьютерном клубе Cyber Arena.</p>
         <dl class="loc-rows">
           <div><dt data-i="l_d">Дата</dt><dd data-i="d2">13 декабря</dd></div>
           <div><dt data-i="l_f">Формат</dt><dd data-i="l_fv">Гранд-финал 5x5, BO3</dd></div>
@@ -493,7 +494,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
   <div class="wrap cta-in">
     <div class="eyebrow reveal" data-i="a1">Слоты ограничены</div>
     <h2 class="display reveal" data-i="a2"><span>Твоя команда</span><span class="gold-text">в игре?</span></h2>
-    <p class="reveal" data-i="a3">Регистрация закрывается 28 ноября. Подай заявку сейчас и поборись за призовой фонд 85 000 000.</p>
+    <p class="reveal" data-i="a3">Регистрация закрывается 28 ноября в 20:00. Подай заявку сейчас и поборись за призовой фонд 85 000 000.</p>
     <div class="reveal"><a class="btn btn-gold btn-lg" data-form href="/register"><span data-i="a4">Зарегистрировать команду</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     <div class="cta-sub reveal" data-i="a5">Регистрация <b>18–28 ноября</b> · Гранд-финал <b>13 декабря</b></div>
@@ -522,7 +523,7 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
         <h4 data-i="fh2">Даты</h4>
         <span data-i="fd1">18–28 ноября — регистрация</span>
         <span data-i="fdq">29–30 ноября — онлайн-отбор</span>
-        <span data-i="fdp">5–6 декабря — плей-офф</span>
+        <span data-i="fdp">4–6 декабря — плей-офф</span>
         <span data-i="fd2">13 декабря — гранд-финал</span>
         <a data-form href="/register" data-i="fapply">Подать заявку →</a>
       </div>
@@ -539,7 +540,8 @@ footer{position:relative;background:#060504;padding:clamp(70px,9vw,120px) 0 30px
 /* ================== НАСТРОЙКИ ================== */
 const CONFIG = {
   currency: "",                         // ← валюта призового фонда, например "сум" (пусто — не показывать)
-  regEnd: "2026-11-28T23:59:59+05:00"   // конец регистрации
+  regEnd: "2026-11-28T20:00:00+05:00",  // конец регистрации (28.11, 20:00 по Ташкенту)
+  api: "/api/registrations"            // статус регистрации (админ может закрыть / открыть вручную)
 };
 /* =============================================== */
 
@@ -580,34 +582,34 @@ const UZ = {
   d1:"18–28 noyabr", reg:"Ro‘yxatdan o‘tish", d2:"13 dekabr", fin:"Grand final",
   heroBtn:"Turnirda qatnashish",
   m1:"CS2 bo‘yicha turnir", m2:"Sovrin jamg‘armasi 85 000 000", m3:"Grand final 5x5",
-  r1:"Ro‘yxatdan o‘tish · 28 noyabrgacha", r2:"Jamoangiz uchun<br><span class=\"gold-text\">joy band qiling</span>",
+  r1:"Ro‘yxatdan o‘tish · 28 noyabr, 20:00 gacha", r2:"Jamoangiz uchun<br><span class=\"gold-text\">joy band qiling</span>",
   r3:"Ariza saytdagi forma orqali yuboriladi va bir necha daqiqa oladi. Butun jamoani ro‘yxatdan o‘tkazish yoki yakka tartibda ro‘yxatdan o‘tish mumkin — tarkib topishga yordam beramiz.",
   s1:"Jamoani shakllantiring", s1p:"Asosiy tarkibdagi besh o‘yinchi, xohishga ko‘ra zaxira o‘yinchi (5+1) hamda jamoa sardori va aloqa uchun mas’ul shaxs.",
   s2:"Formani to‘ldir", s2p:"Jamoa yoki yakka o‘yinchi ekanligingni va har bir o‘yinchi ma’lumotlarini ko‘rsat: ism, nik, Steam ID va telefon.",
   s3:"Tasdiq ol", s3p:"Tashkilotchilar sardor bilan bog‘lanib, o‘yinlar jadvalini yuborishadi.",
   regBtn:"Ro‘yxatdan o‘tish formasini ochish", free:"Ishtirok <b>bepul</b>",
-  cdT:"Ro‘yxat yopilishiga qadar", cdEnd:"Ro‘yxatdan o‘tish yakunlandi", cd_d:"kun", cd_h:"soat", cd_m:"daqiqa", cd_s:"soniya",
+  cdT:"Ro‘yxat yopilishiga qadar", cdEnd:"Ro‘yxatdan o‘tish yakunlandi", liveOff:"Ro‘yxatdan o‘tish yakunlandi", cd_d:"kun", cd_h:"soat", cd_m:"daqiqa", cd_s:"soniya",
   f1:"Format", f2:"Hammasi <span class=\"gold-text\">qanday o‘tadi</span>",
   f3:"Arizadan kubokkacha — to‘rt qadam. Eng yaxshi jamoalar final kuni sahnada uchrashadi.",
   e1:"1-bosqich", t1:"Jamoalarni ro‘yxatga olish", t1p:"Sardor forma orqali ariza yuboradi: 5+1 tarkib, niklar, Steam ID va o‘yinchilar telefonlari. Tekshiruvdan so‘ng jamoa o‘rin oladi.",
-  q:"29–30 noyabr", e2:"2-bosqich", t2:"Onlayn saralash", t2p:"Online Qualifier BO1 formatida. Setka va jadval ro‘yxat yopilgach sardorlarga yuboriladi.",
-  po:"5–6 dekabr", e3:"3-bosqich", t3:"Pley-off", t3p:"Cyber Arena kompyuter klubida BO1 oflayn o‘yinlar. Eng yaxshi jamoalar grand finalga chiqadi.",
+  q:"29–30 noyabr", e2:"2-bosqich", t2:"Onlayn saralash", t2p:"16 tadan ortiq jamoa ro‘yxatdan o‘tsa o‘tkaziladi: BO1 o‘yinlari, 29 noyabr tushdan keyin boshlanadi. Setka va jadval ro‘yxat yopilgach sardorlarga yuboriladi.",
+  po:"4–6 dekabr", e3:"3-bosqich", t3:"Pley-off", t3p:"Cyber Arena kompyuter klubida uch o‘yin kuni: BO1 va BO3 formatidagi o‘yinlar translyatsiya bilan. Eng yaxshi jamoalar grand finalga chiqadi.",
   e4:"4-bosqich", t4:"Grand final", t4p:"«Alpomish» muz saroyi sahnasida BO3 o‘yini: tomoshabinlar, yorug‘lik, sharhlovchilar va 85 000 000 so‘mlik sovrin jamg‘armasi.",
   p1:"Ishtirok qoidalari", p2:"Shartlar <span class=\"gold-text\">va manzil</span>",
   c1:"Format", c1p:"Counter-Strike 2, asosiy tarkibda besh o‘yinchi va bitta zaxira (5+1). Jamoa uchun bitta ariza.",
   c2:"Yosh", c2p:"Ishtirok etish uchun 18 yoshga to‘lgan bo‘lish kerak.",
   c3:"Badal", c3p:"Ishtirok bepul. Faqat 28 noyabrgacha yuborilgan ariza kerak.",
-  c4:"Muddat", c4p:"Arizalar 18 noyabrdan 28 noyabrgacha qabul qilinadi.",
+  c4:"Muddat", c4p:"Arizalar 18 noyabrdan 28 noyabr soat 20:00 gacha (Toshkent vaqti) qabul qilinadi.",
   c5:"Halol o‘yin", c5p:"Cheat, soxta o‘yinchilar va nomaqbul xulq-atvor — jamoani diskvalifikatsiya qilish.",
   c6:"Sovrin jamg‘armasi", c6p:"85 000 000 uchta eng yaxshi jamoa o‘rtasida taqsimlanadi: 50, 25 va 10 mln.",
   map:"Yo‘nalish qurish", l1:"Grand final manzili", venue:"«Alpomish» muz saroyi",
-  venueText:"Grand final Toshkentda, «Beruniy» metrosi yaqinidagi «Alpomish» muz saroyida o‘tadi. 5–6 dekabrdagi oflayn pley-off — Cyber Arena kompyuter klubida.",
+  venueText:"Grand final Toshkentda, «Beruniy» metrosi yaqinidagi «Alpomish» muz saroyida o‘tadi. 4–6 dekabrdagi oflayn pley-off — Cyber Arena kompyuter klubida.",
   l_d:"Sana", l_f:"Format", l_fv:"Grand final 5x5, BO3", l_a:"Manzil", addr:"Toshkent, Beruniy shoh ko‘chasi, 41",
   a1:"O‘rinlar cheklangan", a2:"<span>Jamoang</span><span class=\"gold-text\">o‘yindami?</span>",
-  a3:"Ro‘yxat 28 noyabrda yopiladi. Hoziroq ariza yubor va 85 000 000 sovrin jamg‘armasi uchun kurash.",
+  a3:"Ro‘yxat 28 noyabr soat 20:00 da yopiladi. Hoziroq ariza yubor va 85 000 000 sovrin jamg‘armasi uchun kurash.",
   a4:"Jamoani ro‘yxatdan o‘tkazish", a5:"Ro‘yxat <b>18–28 noyabr</b> · Grand final <b>13 dekabr</b>",
   fa:"Adrenaline Rush Cyber Fest — 85 000 000 sovrin jamg‘armali Counter-Strike 2 bo‘yicha 5x5 formatidagi turnir.",
-  fh1:"Turnir", fh2:"Sanalar", fd1:"18–28 noyabr — ro‘yxatdan o‘tish", fdq:"29–30 noyabr — onlayn saralash", fdp:"5–6 dekabr — pley-off", fd2:"13 dekabr — grand final", fapply:"Ariza yuborish →"
+  fh1:"Turnir", fh2:"Sanalar", fd1:"18–28 noyabr — ro‘yxatdan o‘tish", fdq:"29–30 noyabr — onlayn saralash", fdp:"4–6 dekabr — pley-off", fd2:"13 dekabr — grand final", fapply:"Ariza yuborish →"
 };
 const META = {
   ru: { title:"Adrenaline Rush Cyber Fest — турнир по CS2", desc:"Adrenaline Rush Cyber Fest — турнир по CS2 5x5. Призовой фонд 85 000 000. Регистрация команд 18–28 ноября, гранд-финал 13 декабря." },
@@ -654,7 +656,7 @@ if (!reduce) {
 }
 
 /* countdown */
-const end = new Date(CONFIG.regEnd).getTime(), cd = {};
+let end = new Date(CONFIG.regEnd).getTime(); const cd = {};
 $$("[data-cd]").forEach(b => cd[b.dataset.cd] = b);
 function tickCd(){
   let s = Math.max(0, Math.floor((end - Date.now()) / 1000));
@@ -666,6 +668,16 @@ function tickCd(){
   cd.d.textContent = pad(d); cd.h.textContent = pad(h); cd.m.textContent = pad(m); cd.s.textContent = pad(s);
 }
 tickCd(); setInterval(tickCd, 1000);
+
+/* статус регистрации с сервера: админ может закрыть её раньше срока */
+function regClosedUI() {
+  const live = $(".live span"); live.dataset.ru = "Регистрация завершена"; live.dataset.i = "liveOff"; live.innerHTML = lang === "uz" ? UZ.liveOff : live.dataset.ru;
+  $(".live").classList.add("off");
+  const t = $("#cdTitle"); t.dataset.ru = "Регистрация завершена"; t.dataset.i = "cdEnd"; t.innerHTML = lang === "uz" ? UZ.cdEnd : t.dataset.ru;
+  end = 0; tickCd();
+}
+if (Date.now() >= end) regClosedUI();
+if (CONFIG.api) fetch(CONFIG.api, { cache: "no-store" }).then(r => r.json()).then(j => { if (j.open === false) regClosedUI(); }).catch(() => {});
 
 /* hero parallax + poster tilt + card glow */
 const hero = $("#hero");

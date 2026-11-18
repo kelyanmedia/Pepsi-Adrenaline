@@ -129,6 +129,30 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
 .shake{animation:shake .4s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
+.deadline{display:inline-flex;align-items:center;gap:10px;margin:-14px 0 28px;font-family:var(--display);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.deadline::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.deadline b{color:var(--gold-hi);font-weight:500}
+
+/* поп-ап «регистрация завершена» */
+.pop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(6,5,3,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:popBg .4s ease}
+.pop[hidden]{display:none}
+.pop-card{position:relative;width:100%;max-width:520px;padding:clamp(28px,5vw,46px) clamp(22px,4.4vw,42px);text-align:center;background:linear-gradient(160deg,rgba(30,25,16,.98),rgba(14,12,8,.98));
+  clip-path:polygon(26px 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%,0 26px);animation:popIn .55s var(--ease)}
+.pop-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(246,227,166,.7),rgba(217,178,95,.1) 45%,rgba(217,178,95,.5));padding:1px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.pop-ico{width:64px;height:64px;margin:0 auto 18px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(217,178,95,.5);background:radial-gradient(circle,rgba(217,178,95,.22),transparent 70%);color:var(--gold-hi)}
+.pop-ico svg{width:30px;height:30px}
+.pop-card h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,5.4vw,40px);line-height:1.1;text-transform:uppercase;letter-spacing:.03em;transform:skewX(-9deg)}
+.pop-when{margin:16px auto 0;display:inline-block;padding:8px 16px;font-family:var(--display);font-size:clamp(16px,2.6vw,19px);letter-spacing:.12em;text-transform:uppercase;color:#120d02;background:linear-gradient(180deg,var(--gold-hi),var(--gold))}
+.pop-when[hidden]{display:none}
+.pop-card p{color:#cfc7b5;font-size:16px;line-height:1.55;margin:18px 0 26px}
+.pop-card .btn{font-size:17px;padding:17px 22px}
+.pop-card .pop-alt{display:inline-block;margin-top:16px;color:var(--muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.pop-card .pop-alt:hover{color:var(--gold-hi)}
+body.locked{overflow:hidden}
+@keyframes popBg{from{opacity:0}}
+@keyframes popIn{from{opacity:0;transform:translateY(26px) scale(.96)}}
+
 @media(max-width:480px){.back{display:none}.switch{grid-template-columns:1fr}.card{padding:22px 18px}.btn{font-size:18px;letter-spacing:.06em;padding:20px 18px;gap:8px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}}
 </style>
@@ -152,6 +176,7 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
   <section>
     <h1 class="in"><span data-t="h1a">Займи</span> <span class="gold-text" data-t="h1b">свой слот</span></h1>
     <p class="lead in" style="--d:.1s" data-t="lead">Команда 5+1 или соло — заполни форму за пару минут. Участие бесплатное.</p>
+    <div class="deadline in" style="--d:.15s" data-t="deadline">Приём заявок до <b>28 ноября, 20:00</b></div>
   </section>
 
   <form class="card" id="form" novalidate autocomplete="on">
@@ -178,6 +203,17 @@ input:focus{border-color:var(--gold);background:rgba(217,178,95,.07);box-shadow:
     <p class="note" data-t="note">Нажимая кнопку, вы соглашаетесь с <a href="/reglament" target="_blank">регламентом турнира</a> и обработкой данных для связи по турниру. </p>
   </form>
 </main>
+
+<div class="pop" id="closedPop" hidden role="dialog" aria-modal="true" aria-labelledby="popT">
+  <div class="pop-card">
+    <div class="pop-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="1.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></div>
+    <h2 id="popT" data-t="popT">Регистрация завершена</h2>
+    <div class="pop-when" id="popWhen" data-t="popWhen">28 ноября · 20:00</div>
+    <p id="popP" data-t="popP">Приём заявок закрыт 28 ноября в 20:00 (по Ташкенту). Онлайн-отбор пройдёт 29–30 ноября — расписание получат капитаны зарегистрированных команд.</p>
+    <a class="btn" href="/"><span data-t="popBtn">На главную</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="pop-alt" href="/reglament" data-t="popAlt">Регламент турнира</a>
+  </div>
+</div>
 
 <script>
 const CONFIG = window.APP_CONFIG || {};
@@ -233,6 +269,7 @@ async function sendApplication(data) {
       const r = await fetch(CONFIG.api, { method: "POST", body: JSON.stringify({ action: "register", ...data }) });
       j = await r.json();
     } catch (e) { j = null; }
+    if (j && j.error === "closed") { const e = new Error("closed"); e.closed = true; throw e; }
     if (j && j.ok) {
       const full = { ...data, number: j.number, date: j.date, day: j.day, time: j.time };
       if (!j.notified) toTelegram(full).catch(() => {});   // не ждём Telegram: заявка уже сохранена
@@ -240,9 +277,34 @@ async function sendApplication(data) {
     }
     // хранилище не подключено / сервер недоступен — заявка всё равно уходит в Telegram (без номера)
   }
+  if (Date.now() >= REG_END) { const e = new Error("closed"); e.closed = true; throw e; }   // сервер молчит, а срок уже вышел
   const full = { ...data, ...tashkentNow() };
   await toTelegram(full);
   return full;
+}
+
+/* ---------- приём заявок: до 28.11 20:00 по Ташкенту; админ может закрыть / открыть вручную ---------- */
+const REG_END = Date.parse("2026-11-28T20:00:00+05:00");
+let regOpen = Date.now() < REG_END, regManual = false;
+function showClosed(closed) {
+  const pop = document.getElementById("closedPop");
+  pop.hidden = !closed;
+  document.body.classList.toggle("locked", closed);
+  if (!closed) return;
+  const early = regManual && Date.now() < REG_END;        // закрыли вручную раньше срока
+  const t = T[lang];
+  document.getElementById("popWhen").hidden = early;
+  const p = document.getElementById("popP");
+  p.dataset.t = early ? "popP2" : "popP"; p.innerHTML = early ? t.popP2 : t.popP;
+}
+async function regStatus() {
+  if (!CONFIG.api) { showClosed(Date.now() >= REG_END); return; }
+  try {
+    const j = await (await fetch(CONFIG.api, { cache: "no-store" })).json();
+    if (typeof j.open === "boolean") { regOpen = j.open; regManual = j.mode !== "auto"; }
+    else regOpen = Date.now() < REG_END;
+  } catch (e) { regOpen = Date.now() < REG_END; }
+  showClosed(!regOpen);
 }
 
 const T = {
@@ -260,7 +322,11 @@ const T = {
     send:"Отправить заявку", sending:"Отправляем…",
     fail:"Не удалось отправить. Попробуйте ещё раз.",
     note:"Нажимая кнопку, вы соглашаетесь с <a href=\"/reglament\" target=\"_blank\">регламентом турнира</a> и обработкой данных для связи по турниру.",
-    title:"Регистрация — Adrenaline Rush Cyber Fest"
+    title:"Регистрация — Adrenaline Rush Cyber Fest",
+    deadline:"Приём заявок до <b>28 ноября, 20:00</b>",
+    popT:"Регистрация завершена", popWhen:"28 ноября · 20:00", popBtn:"На главную", popAlt:"Регламент турнира",
+    popP:"Приём заявок закрыт 28 ноября в 20:00 (по Ташкенту). Онлайн-отбор пройдёт 29–30 ноября — расписание получат капитаны зарегистрированных команд.",
+    popP2:"Приём заявок закрыт организаторами. Следите за новостями турнира — если регистрация откроется снова, форма появится здесь."
   },
   uz: {
     back:"Bosh sahifa", h1a:"O‘z o‘rningni", h1b:"band qil",
@@ -276,7 +342,11 @@ const T = {
     send:"Arizani yuborish", sending:"Yuborilmoqda…",
     fail:"Yuborib bo‘lmadi. Qayta urinib ko‘ring.",
     note:"Tugmani bosish orqali siz <a href=\"/reglament\" target=\"_blank\">turnir nizomi</a>ga va aloqa uchun ma’lumotlaringiz qayta ishlanishiga rozilik bildirasiz.",
-    title:"Ro‘yxatdan o‘tish — Adrenaline Rush Cyber Fest"
+    title:"Ro‘yxatdan o‘tish — Adrenaline Rush Cyber Fest",
+    deadline:"Arizalar <b>28 noyabr, 20:00</b> gacha qabul qilinadi",
+    popT:"Ro‘yxatdan o‘tish yakunlandi", popWhen:"28 noyabr · 20:00", popBtn:"Bosh sahifa", popAlt:"Turnir nizomi",
+    popP:"Arizalar qabuli 28 noyabr soat 20:00 da (Toshkent vaqti) yopildi. Onlayn saralash 29–30 noyabr kunlari o‘tadi — jadval ro‘yxatdan o‘tgan jamoa sardorlariga yuboriladi.",
+    popP2:"Arizalar qabuli tashkilotchilar tomonidan yopildi. Turnir yangiliklarini kuzatib boring — ro‘yxat qayta ochilsa, forma shu yerda paydo bo‘ladi."
   }
 };
 
@@ -334,7 +404,10 @@ roster.innerHTML = [0, 1, 2, 3, 4, SUB].map(playerCard).join("");
 const subCard = () => $(`.player[data-k="${SUB}"]`);
 const subFilled = () => [...subCard().querySelectorAll("input")].some(i => i.value.trim() && i.value.replace(/\D/g, "") !== "998");
 
-if (CONFIG.api) fetch(CONFIG.api).catch(() => {});     // прогрев бэкенда, пока человек заполняет форму
+showClosed(!regOpen);                                    // сразу по часам, затем уточняем у сервера (заодно прогрев бэкенда)
+regStatus();
+setInterval(regStatus, 60000);
+if (Date.now() < REG_END && REG_END - Date.now() < 2147483647) setTimeout(regStatus, REG_END - Date.now() + 1500);
 const isSolo = () => $('input[name=type]:checked').value === "solo";
 function roleNames() {
   const t = T[lang], solo = isSolo();
@@ -437,6 +510,7 @@ $("#form").addEventListener("submit", async e => {
     location.href = CONFIG.thanksPage || "/thanks";
   } catch (err) {
     btn.disabled = false; label.textContent = T[lang].send;
+    if (err && err.closed) { regOpen = false; regManual = Date.now() < REG_END; showClosed(true); return; }
     $("#fail").classList.add("on");
   }
 });
