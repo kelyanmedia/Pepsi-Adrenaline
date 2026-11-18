@@ -250,6 +250,17 @@ section{position:relative;padding:clamp(80px,11vw,150px) 0}
 .map-chip{position:absolute;z-index:2;left:18px;bottom:18px;display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#120d02;padding:12px 18px;background:linear-gradient(180deg,var(--gold-hi),var(--gold));
   clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:transform .3s}
 .map-chip:hover{transform:translateY(-3px)}
+/* десктоп: фото — широкий баннер во всю ширину в родных пропорциях, текст под ним в две колонки */
+@media(min-width:901px){
+  .loc{grid-template-columns:1fr}
+  .venue-photo{order:-1;min-height:0;aspect-ratio:1800/572;border-left:0;border-bottom:1px solid var(--line)}
+  .venue-photo img{object-position:50% 50%}
+  .venue-photo::after{background:linear-gradient(0deg,rgba(10,9,7,.55),rgba(10,9,7,0) 35%)}
+  .map-chip{left:24px;bottom:24px}
+  .loc-info{display:grid;grid-template-columns:1.15fr .85fr;column-gap:clamp(40px,6vw,90px);align-items:start}
+  .loc-info>*{grid-column:1}
+  .loc-info .loc-rows{grid-column:2;grid-row:1/span 3;margin-top:0;align-self:center}
+}
 .map-chip svg{width:18px;height:18px}
 .radar{position:relative;min-height:340px;overflow:hidden;border-left:1px solid var(--line);
   background:
