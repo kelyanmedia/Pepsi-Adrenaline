@@ -6,6 +6,23 @@
 if (/\.html$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/index\.html$/, "/").replace(/\.html$/, "").replace(/\/\/$/, "/") + location.search + location.hash);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1487361843361696');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1487361843361696&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <title>Регистрация — Adrenaline Rush Cyber Fest</title>
 <meta name="description" content="Регистрация на Adrenaline Rush Cyber Fest — турнир по CS2 5x5. Команда или соло игрок.">
 <meta name="theme-color" content="#0a0907">
@@ -156,14 +173,6 @@ body.locked{overflow:hidden}
 @media(max-width:480px){.back{display:none}.switch{grid-template-columns:1fr}.card{padding:22px 18px}.btn{font-size:18px;letter-spacing:.06em;padding:20px 18px;gap:8px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}}
 </style>
-<!-- Meta Pixel -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','1487361843361696');
-fbq('track','PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1487361843361696&ev=PageView&noscript=1" alt=""></noscript>
-<!-- End Meta Pixel -->
 </head>
 <body>
 <div class="bg"></div><div class="shade"></div>
