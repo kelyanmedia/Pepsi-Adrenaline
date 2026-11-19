@@ -156,6 +156,14 @@ body.locked{overflow:hidden}
 @media(max-width:480px){.back{display:none}.switch{grid-template-columns:1fr}.card{padding:22px 18px}.btn{font-size:18px;letter-spacing:.06em;padding:20px 18px;gap:8px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}}
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1487361843361696');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1487361843361696&ev=PageView&noscript=1" alt=""></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 <div class="bg"></div><div class="shade"></div>
@@ -507,6 +515,7 @@ $("#form").addEventListener("submit", async e => {
   try {
     const saved = await sendApplication(data);
     try { sessionStorage.setItem("reg", JSON.stringify({ type: saved.type, name: saved.name, team: saved.team, phone: saved.phone, number: saved.number || 0, date: saved.date, day: saved.day, time: saved.time })); } catch (e) {}
+    try { sessionStorage.removeItem("fbDone"); } catch (e) {}
     location.href = CONFIG.thanksPage || "/thanks";
   } catch (err) {
     btn.disabled = false; label.textContent = T[lang].send;
