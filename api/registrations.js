@@ -4,6 +4,7 @@
  *   POST /api/registrations { action: "register", type, team, players[], lang } → номер участника
  *   POST /api/registrations { action: "list", login, password }               → данные для /admin
  *   POST /api/registrations { action: "setReg", login, password, open }      → открыть / закрыть регистрацию вручную
+ *   POST /api/registrations { action: "dupDelete"|"dupMerge"|"dupIgnore", numbers, keep, login, password } → чистка дублей в админке
  *   GET  /api/registrations                                                   → { open } — идёт ли сейчас регистрация
  *
  * Регистрация закрывается автоматически в REG_END (28.11, 20:00 по Ташкенту). Админ может закрыть её
@@ -152,7 +153,7 @@ async function register(d) {
     const { id, file, db } = await readDb(true);
     let mine = db.records.find(r => r.id === rid), written = null;
     if (!mine) {
-      const number = db.records.reduce((m, r) => Math.max(m, r.n), 0) + 1;
+      const number = db.records.reduce((m, r) => Math.max(m, r.n), db.seq || 0) + 1;
       mine = { id: rid, n: number, ...payload(secret) };
       db.records.push(mine);
       const now = await pointer();
@@ -187,6 +188,87 @@ async function setReg(d) {
   return { status: 200, body: { ok: true, reg: await regStatus(true) } };
 }
 
+/* ---------------- дубли: удалить / объединить / «не дубль» ---------------- */
+const phoneKey = v => { const x = String(v || "").replace(/\D/g, ""); return x.length >= 9 ? x.slice(-9) : ""; };
+function steamKey(v) {
+  let s = String(v || "").trim().toLowerCase();
+  if (!s) return "";
+  let m = /(7656119\d{10})/.exec(s); if (m) return m[1];
+  m = /steamcommunity\.com\/id\/([^\/?#\s]+)/.exec(s); if (m) return m[1];
+  s = s.replace(/^https?:\/\/(www\.)?/, "").replace(/[\/\s]+$/, "");
+  return s.length >= 5 ? s : "";
+}
+const nums = a => [...new Set((Array.isArray(a) ? a : []).map(Number).filter(n => Number.isInteger(n) && n > 0))].slice(0, 60);
+
+// чтение → изменение → запись; если за это время базу обновил кто-то другой — повторяем
+async function mutateDb(fn) {
+  for (let a = 0; a < 6; a++) {
+    const { id, file, db } = await readDb(false);
+    if (!id) return { status: 404, body: { ok: false, error: "empty" } };
+    const res = fn(db);
+    if (res && res.error) return { status: 400, body: { ok: false, error: res.error } };
+    const now = await pointer();
+    if (now && now.file !== file) { await sleep(100 + Math.random() * 250); continue; }
+    await writeDb(id, db);
+    return { status: 200, body: { ok: true, ...(res || {}) } };
+  }
+  return { status: 503, body: { ok: false, error: "busy" } };
+}
+const bumpSeq = db => { db.seq = db.records.reduce((m, r) => Math.max(m, r.n), db.seq || 0); };
+
+async function dupAction(d) {
+  if (!isAdmin(d)) { await sleep(800); return { status: 401, body: { ok: false, error: "auth" } }; }
+  const list = nums(d.numbers);
+  if (!list.length) return { status: 400, body: { ok: false, error: "bad_request" } };
+
+  if (d.action === "dupIgnore") {                       // пометка «это не дубль» (хранятся только номера заявок)
+    const key = list.slice().sort((a, b) => a - b).join(",");
+    return mutateDb(db => {
+      const set = new Set(db.ignored || []);
+      d.undo ? set.delete(key) : set.add(key);
+      db.ignored = [...set];
+    });
+  }
+  if (d.action === "dupDelete") {
+    return mutateDb(db => {
+      const del = db.records.filter(r => list.includes(r.n));
+      if (!del.length) return { error: "not_found" };
+      bumpSeq(db);
+      db.records = db.records.filter(r => !list.includes(r.n));
+      return { deleted: del.length };
+    });
+  }
+  // dupMerge: заявки из numbers вливаются в keep; игроки с тем же телефоном / Steam ID склеиваются, пустые поля дополняются
+  const keep = Number(d.keep);
+  const others = list.filter(n => n !== keep);
+  if (!keep || !others.length) return { status: 400, body: { ok: false, error: "bad_request" } };
+  const dec = decryptor(String(d.password || ""));
+  return mutateDb(db => {
+    const kr = db.records.find(r => r.n === keep), ors = others.map(n => db.records.find(r => r.n === n));
+    if (!kr || ors.some(r => !r)) return { error: "not_found" };
+    let kd, ods;
+    try { kd = dec(kr); ods = ors.map(dec); } catch (e) { return { error: "decrypt" }; }
+    const players = kd.players.map(p => ({ ...p }));
+    let team = kd.team;
+    for (const od of ods) {
+      if (!team && od.team) team = od.team;
+      for (const p of od.players) {
+        const pk = phoneKey(p.phone), sk = steamKey(p.steam);
+        const hit = players.find(x => (pk && phoneKey(x.phone) === pk) || (sk && steamKey(x.steam) === sk));
+        if (hit) { for (const f of ["name", "nick", "steam", "phone"]) if (!hit[f] && p[f]) hit[f] = p[f]; }
+        else players.push({ ...p });
+      }
+    }
+    const solo = kd.type === "Соло";
+    if (players.length > (solo ? 1 : 6)) return { error: "too_many" };
+    players.forEach((p, k) => { p.role = solo ? "Соло" : k === 0 ? "Капитан" : k === 5 ? "Запасной" : `Игрок ${k + 1}`; });
+    Object.assign(kr, encrypt({ ...kd, team, players }));
+    bumpSeq(db);
+    db.records = db.records.filter(r => !others.includes(r.n));
+    return { merged: others.length, players: players.length };
+  });
+}
+
 async function list(d) {
   const pass = String(d.password || "");
   if (!isAdmin(d)) { await sleep(800); return { status: 401, body: { ok: false, error: "auth" } }; }
@@ -198,7 +280,7 @@ async function list(d) {
     name: r.players[0].name, phone: r.players[0].phone, nick: r.players[0].nick, steam: r.players[0].steam || "", count: r.players.length, lang: r.lang
   }));
   const players = recs.flatMap(r => r.players.map(p => ({ number: r.n, date: r.date, type: r.type, team: r.team, role: p.role, name: p.name, nick: p.nick, steam: p.steam || "", phone: p.phone })));
-  return { status: 200, body: { ok: true, applications, players, reg: await regStatus(true) } };
+  return { status: 200, body: { ok: true, applications, players, ignored: db.ignored || [], reg: await regStatus(true) } };
 }
 
 module.exports = async (req, res) => {
@@ -220,6 +302,7 @@ module.exports = async (req, res) => {
     const out = body.action === "register" ? await register(body)
       : body.action === "list" ? await list(body)
       : body.action === "setReg" ? await setReg(body)
+      : /^dup(Delete|Merge|Ignore)$/.test(body.action) ? await dupAction(body)
       : { status: 400, body: { ok: false, error: "unknown_action" } };
     res.status(out.status).json(out.body);
   } catch (e) {

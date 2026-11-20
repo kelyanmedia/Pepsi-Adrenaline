@@ -77,6 +77,41 @@ main{max-width:1400px;margin:0 auto;padding:22px 24px 80px}
 .tab{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;padding:11px 18px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer}
 .tab[aria-selected=true]{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#120d02;border-color:transparent}
 .tab b{margin-left:6px;opacity:.75}
+.tab.dup{margin-left:auto;display:inline-flex;align-items:center;gap:8px}
+.tab.dup b{margin:0;min-width:22px;padding:1px 7px;border-radius:99px;text-align:center;opacity:1;background:rgba(255,255,255,.08);color:var(--muted)}
+.tab.dup.has b{background:#ff8a1f;color:#120d02;animation:pulseDup 2s infinite}
+.tab.dup[aria-selected=true] b{background:rgba(18,13,2,.18);color:#120d02;animation:none}
+@keyframes pulseDup{50%{box-shadow:0 0 0 6px rgba(255,138,31,0)}0%{box-shadow:0 0 0 0 rgba(255,138,31,.55)}}
+.warn{color:#ff8a1f;margin-left:6px;font-size:14px;cursor:help}
+.dups{display:grid;gap:16px}
+.dups[hidden]{display:none}
+.dg{background:var(--panel);border:1px solid var(--line);border-left:3px solid #ff8a1f}
+.dg-h{padding:14px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line-2)}
+.dg-h b{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-hi);margin-right:6px}
+.chip{display:inline-flex;gap:6px;align-items:center;padding:3px 11px;border-radius:99px;font-size:14px;color:#ffc58a;background:rgba(255,138,31,.1);border:1px solid rgba(255,138,31,.4)}
+.chip small{color:var(--muted);font-size:13px}
+.dr{display:grid;grid-template-columns:auto 1fr auto;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line-2);align-items:start}
+.dr:last-of-type{border-bottom:0}
+.dr.keep{background:rgba(217,178,95,.07)}
+.dr input[type=radio]{width:20px;height:20px;accent-color:#d9b25f;margin-top:4px;cursor:pointer}
+.dr-t{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dr-t .num{font-family:var(--display);font-weight:600;font-size:20px;color:var(--gold-hi)}
+.dr-t .dim{color:var(--muted);font-size:14px}
+.dr ul{list-style:none;margin-top:8px;display:grid;gap:3px;font-size:15px}
+.dr li{color:#cfc7b5}
+.dr li i{font-style:normal;color:var(--muted);margin-right:6px;font-size:13px}
+.hit{color:#ffb15c;font-weight:600;background:rgba(255,138,31,.12);padding:0 4px}
+.dr .keeptag{font-family:var(--display);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#120d02;background:linear-gradient(180deg,var(--gold-hi),var(--gold));padding:2px 9px}
+.btn-sm{font-size:13px;padding:9px 14px}
+.btn-del{background:rgba(255,107,91,.1);color:#ffb3aa;box-shadow:inset 0 0 0 1px rgba(255,107,91,.5)}
+.dg-f{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line-2);background:rgba(255,255,255,.02)}
+.dg-f .sp{flex:1}
+.dnote{color:var(--muted);font-size:14px;margin:2px 0 4px}
+.dempty{padding:44px 20px;text-align:center;color:var(--muted);background:var(--panel);border:1px solid var(--line)}
+.dempty b{display:block;font-family:var(--display);font-size:22px;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);margin-bottom:6px}
+.dlink{background:none;border:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px;margin-top:6px}
+.dlink:hover{color:var(--gold-hi)}
+@media(max-width:760px){.tab.dup{margin-left:0}.dr{grid-template-columns:auto 1fr}.dr .btn{grid-column:2;justify-self:start}}
 .bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
 td.cap{color:var(--gold-hi);font-weight:600}
 .bar .grow{flex:1;min-width:220px}
@@ -144,12 +179,14 @@ tr.fresh{animation:fresh 4s ease-out}
     <div class="tabs" role="tablist">
       <button class="tab" type="button" role="tab" data-tab="apps" aria-selected="true">Заявки<b id="cApps">0</b></button>
       <button class="tab" type="button" role="tab" data-tab="players" aria-selected="false">Игроки<b id="cPlayers">0</b></button>
+      <button class="tab dup" type="button" role="tab" data-tab="dups" id="tabDup" aria-selected="false" title="Заявки с одинаковым телефоном, Steam ID или названием команды">Дубли<b id="cDups">0</b></button>
     </div>
-    <div class="bar">
+    <div class="bar" id="bar">
       <input class="grow" id="q" type="search" placeholder="Поиск: имя, телефон, команда, ник, номер…">
       <select id="ft"><option value="">Все типы</option><option value="Команда">Только команды</option><option value="Соло">Только соло</option></select>
     </div>
-    <div class="wrap">
+    <div class="dups" id="dups" hidden></div>
+    <div class="wrap" id="tbl">
       <table>
         <thead id="head"></thead>
         <tbody id="rows"></tbody>
@@ -212,6 +249,7 @@ function apply(j) {
   apps = (j.applications || j.rows || []).slice().sort((a, b) => b.number - a.number);
   players = (j.players || []).slice().sort((a, b) => b.number - a.number || roleOrder(a.role) - roleOrder(b.role));
   if (j.reg) showReg(j.reg);
+  ignored = new Set(j.ignored || []);
   render(); setLive(true, "обновлено " + new Date().toLocaleTimeString("ru-RU"));
 }
 const roleOrder = r => r === "Капитан" ? 0 : r === "Соло" ? 0 : parseInt(String(r).replace(/\D/g, "")) || 9;
@@ -228,22 +266,25 @@ const HEAD = {
   players: ["№ заявки", "Дата", "Тип", "Команда", "Роль", "Имя", "Ник", "Steam ID", "Телефон"]
 };
 function render() {
+  computeDups();
+  $("#bar").hidden = $("#tbl").hidden = tab === "dups"; $("#dups").hidden = tab !== "dups";
   $("#sAll").textContent = apps.length;
   $("#sTeam").textContent = apps.filter(r => r.type === "Команда").length;
   $("#sSolo").textContent = apps.filter(r => r.type === "Соло").length;
   $("#sPlayers").textContent = players.length;
   $("#cApps").textContent = apps.length; $("#cPlayers").textContent = players.length;
+  if (tab === "dups") { renderDups(); return; }
   $("#head").innerHTML = "<tr>" + HEAD[tab].map(h => `<th>${h}</th>`).join("") + "</tr>";
   const tag = t => `<span class="tag ${t === "Соло" ? "solo" : "team"}">${esc(t)}</span>`;
   let html = "";
   if (tab === "apps") {
     const list = fApps();
-    html = list.map(r => `<tr class="${!first && !known.has(r.number) ? "fresh" : ""}"><td class="num">#${r.number}</td><td>${esc(r.date)}</td><td class="dim">${esc(r.day)}</td><td>${esc(r.time)}</td>
+    html = list.map(r => `<tr class="${!first && !known.has(r.number) ? "fresh" : ""}"><td class="num">#${r.number}${warn(r.number)}</td><td>${esc(r.date)}</td><td class="dim">${esc(r.day)}</td><td>${esc(r.time)}</td>
       <td>${tag(r.type)}</td><td>${esc(r.team || "—")}</td><td>${esc(r.name)}</td><td>${esc(r.phone)}</td><td>${esc(r.nick || "—")}</td><td>${esc(r.steam || "—")}</td><td>${r.count}</td><td class="dim">${r.lang === "uz" ? "UZ" : "RU"}</td></tr>`).join("");
     $("#empty").hidden = list.length > 0;
   } else {
     const list = fPlayers();
-    html = list.map(r => `<tr class="${!first && !known.has(r.number) ? "fresh" : ""}"><td class="num">#${r.number}</td><td>${esc(r.date)}</td><td>${tag(r.type)}</td><td>${esc(r.team || "—")}</td>
+    html = list.map(r => `<tr class="${!first && !known.has(r.number) ? "fresh" : ""}"><td class="num">#${r.number}${warn(r.number)}</td><td>${esc(r.date)}</td><td>${tag(r.type)}</td><td>${esc(r.team || "—")}</td>
       <td class="${r.role === "Капитан" ? "cap" : "dim"}">${r.role === "Капитан" ? "👑 " : ""}${esc(r.role)}</td><td>${esc(r.name)}</td><td>${esc(r.nick || "—")}</td><td>${esc(r.steam || "—")}</td><td>${esc(r.phone)}</td></tr>`).join("");
     $("#empty").hidden = list.length > 0;
   }
@@ -257,6 +298,113 @@ document.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click",
   document.querySelectorAll("[data-tab]").forEach(x => x.setAttribute("aria-selected", x === b));
   render();
 }));
+
+/* ---------- дубли: автопоиск по телефону, Steam ID и названию команды ---------- */
+let dupGroups = [], dupNums = new Set(), ignored = new Set(), ignoredFound = 0, showIgnored = false, keepSel = {}, lastDupHtml = "", busy = false;
+const phoneKey = v => { const x = String(v || "").replace(/\D/g, ""); return x.length >= 9 ? x.slice(-9) : ""; };
+function steamKey(v) {
+  let s = String(v || "").trim().toLowerCase();
+  if (!s) return "";
+  let m = /(7656119\d{10})/.exec(s); if (m) return m[1];
+  m = /steamcommunity\.com\/id\/([^\/?#\s]+)/.exec(s); if (m) return m[1];
+  s = s.replace(/^https?:\/\/(www\.)?/, "").replace(/[\/\s]+$/, "");
+  return s.length >= 5 ? s : "";
+}
+const teamKey = t => String(t || "").toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+const warn = n => dupNums.has(n) ? `<span class="warn" title="Возможный дубль — см. вкладку «Дубли»">⚠</span>` : "";
+
+function computeDups() {
+  const recs = new Map(); apps.forEach(a => recs.set(a.number, { app: a, pl: [] }));
+  players.forEach(p => { const r = recs.get(p.number); if (r) r.pl.push(p); });
+  const idx = new Map(), add = (k, kind, label, n) => { if (!idx.has(k)) idx.set(k, { kind, label, nums: new Set() }); idx.get(k).nums.add(n); };
+  recs.forEach((r, n) => {
+    r.pl.forEach(p => { const pk = phoneKey(p.phone), sk = steamKey(p.steam); if (pk) add("p:" + pk, "phone", p.phone, n); if (sk) add("s:" + sk, "steam", p.steam, n); });
+    const tk = r.app.type === "Команда" ? teamKey(r.app.team) : ""; if (tk.length >= 2) add("t:" + tk, "team", r.app.team, n);
+  });
+  const shared = [...idx].filter(([, v]) => v.nums.size > 1);
+  const parent = new Map(); const find = x => { while (parent.get(x) !== x) { parent.set(x, parent.get(parent.get(x))); x = parent.get(x); } return x; };
+  shared.forEach(([, v]) => v.nums.forEach(n => { if (!parent.has(n)) parent.set(n, n); }));
+  shared.forEach(([, v]) => { const a = [...v.nums]; a.slice(1).forEach(n => parent.set(find(n), find(a[0]))); });
+  const groups = new Map();
+  parent.forEach((_, n) => { const r = find(n); if (!groups.has(r)) groups.set(r, new Set()); groups.get(r).add(n); });
+  const sharedKeys = new Set(shared.map(([k]) => k));
+  dupGroups = []; ignoredFound = 0; dupNums = new Set();
+  groups.forEach(set => {
+    const nums = [...set].sort((a, b) => a - b), sig = nums.join(",");
+    if (ignored.has(sig)) { ignoredFound++; if (!showIgnored) return; }
+    const reasons = shared.filter(([, v]) => [...v.nums].some(n => set.has(n))).map(([k, v]) => ({ key: k, kind: v.kind, label: v.label, nums: [...v.nums].sort((a, b) => a - b) }));
+    const rows = nums.map(n => recs.get(n));
+    const best = rows.slice().sort((a, b) => b.pl.length - a.pl.length || a.app.number - b.app.number)[0].app.number;
+    dupGroups.push({ sig, nums, reasons, rows, best, ignored: ignored.has(sig), sharedKeys });
+    if (!ignored.has(sig)) nums.forEach(n => dupNums.add(n));
+  });
+  dupGroups.sort((a, b) => Number(a.ignored) - Number(b.ignored) || a.nums[0] - b.nums[0]);
+  const live = dupGroups.filter(g => !g.ignored).length;
+  $("#cDups").textContent = live;
+  $("#tabDup").classList.toggle("has", live > 0);
+}
+
+const KIND = { phone: "Телефон", steam: "Steam ID", team: "Название команды" };
+function renderDups() {
+  const rowHtml = (g, r) => {
+    const a = r.app, keep = (keepSel[g.sig] || g.best) === a.number;
+    const lines = r.pl.slice().sort((x, y) => roleOrder(x.role) - roleOrder(y.role)).map(p => {
+      const ph = g.sharedKeys.has("p:" + phoneKey(p.phone)), st = g.sharedKeys.has("s:" + steamKey(p.steam));
+      return `<li><i>${esc(p.role)}</i>${esc(p.name)}${p.nick ? " (" + esc(p.nick) + ")" : ""} · <span class="${ph ? "hit" : ""}">${esc(p.phone)}</span> · <span class="${st ? "hit" : ""}">${esc(p.steam || "—")}</span></li>`;
+    }).join("");
+    const th = a.type === "Команда" && g.sharedKeys.has("t:" + teamKey(a.team));
+    return `<div class="dr${keep ? " keep" : ""}"><input type="radio" name="k${g.sig}" value="${a.number}" ${keep ? "checked" : ""} data-keep="${g.sig}" title="Оставить эту заявку" aria-label="Оставить заявку #${a.number}">
+      <div><div class="dr-t"><span class="num">#${a.number}</span><span class="tag ${a.type === "Соло" ? "solo" : "team"}">${esc(a.type)}</span>${a.team ? `<span class="${th ? "hit" : ""}">${esc(a.team)}</span>` : ""}<span class="dim">${esc(a.date)} ${esc(a.time)}</span>${keep ? '<span class="keeptag">оставить</span>' : ""}</div><ul>${lines}</ul></div>
+      <button class="btn btn-sm btn-del" type="button" data-act="del" data-n="${a.number}">Удалить</button></div>`;
+  };
+  const live = dupGroups.filter(g => !g.ignored);
+  let html = "";
+  if (!live.length) html += `<div class="dempty"><b>Дублей нет</b>Проверяю телефоны, Steam ID и названия команд после каждого обновления.</div>`;
+  else html += `<p class="dnote">Найдено групп: ${live.length}. В каждой группе выберите заявку, которую нужно оставить: «Объединить» перенесёт в неё игроков и недостающие данные из остальных и удалит остальные заявки.</p>`;
+  html += dupGroups.map(g => {
+    const keep = keepSel[g.sig] || g.best, others = g.nums.filter(n => n !== keep);
+    const chips = g.reasons.map(r => `<span class="chip">${KIND[r.kind]}: <b style="font-family:inherit;font-size:inherit;letter-spacing:0;text-transform:none;margin:0;color:#ffd9ad">${esc(r.label)}</b><small>${r.nums.map(n => "#" + n).join(", ")}</small></span>`).join("");
+    return `<div class="dg" style="${g.ignored ? "opacity:.6;border-left-color:var(--muted)" : ""}"><div class="dg-h"><b>${g.ignored ? "Не дубль · " : ""}Заявки ${g.nums.map(n => "#" + n).join(", ")}</b>${chips}</div>
+      ${g.rows.map(r => rowHtml(g, r)).join("")}
+      <div class="dg-f">${g.ignored
+        ? `<button class="btn btn-ghost btn-sm" type="button" data-act="unignore" data-g="${g.sig}">Вернуть в дубли</button>`
+        : `<button class="btn btn-gold btn-sm" type="button" data-act="merge" data-g="${g.sig}">Объединить в #${keep}</button><span class="sp"></span><button class="btn btn-ghost btn-sm" type="button" data-act="ignore" data-g="${g.sig}">Это не дубль</button>`}</div></div>`;
+  }).join("");
+  if (ignoredFound) html += `<div><button class="dlink" type="button" data-act="toggle">${showIgnored ? "Скрыть" : "Показать"} пропущенные группы (${ignoredFound})</button></div>`;
+  if (html !== lastDupHtml) { $("#dups").innerHTML = html; lastDupHtml = html; }
+}
+
+$("#dups").addEventListener("change", e => {
+  const r = e.target.closest("[data-keep]"); if (!r) return;
+  keepSel[r.dataset.keep] = Number(r.value); lastDupHtml = ""; renderDups();
+});
+$("#dups").addEventListener("click", async e => {
+  const b = e.target.closest("[data-act]"); if (!b || busy || !creds) return;
+  const act = b.dataset.act, g = dupGroups.find(x => x.sig === b.dataset.g);
+  if (act === "toggle") { showIgnored = !showIgnored; lastDupHtml = ""; render(); return; }
+  let req;
+  if (act === "del") {
+    const n = Number(b.dataset.n), a = apps.find(x => x.number === n);
+    if (!confirm(`Удалить заявку #${n}${a && a.team ? " (" + a.team + ")" : a ? " (" + a.name + ")" : ""}?\n\nЭто нельзя отменить. Номер заявки больше не будет использован.`)) return;
+    req = { action: "dupDelete", numbers: [n] };
+  } else if (act === "merge" && g) {
+    const keep = keepSel[g.sig] || g.best, others = g.nums.filter(n => n !== keep);
+    if (!confirm(`Объединить заявки ${others.map(n => "#" + n).join(", ")} в #${keep}?\n\nИгроки и недостающие данные перенесутся в #${keep}, остальные заявки будут удалены. Это нельзя отменить.`)) return;
+    req = { action: "dupMerge", keep, numbers: g.nums };
+  } else if ((act === "ignore" || act === "unignore") && g) {
+    req = { action: "dupIgnore", numbers: g.nums, undo: act === "unignore" };
+  } else return;
+  busy = true; b.disabled = true; const old = b.textContent; b.textContent = "…";
+  try {
+    const j = await call({ ...req, ...creds });
+    if (!j.ok) throw new Error(j.error);
+    delete keepSel[g && g.sig];
+    await refresh();
+  } catch (err) {
+    alert(err.message === "too_many" ? "Нельзя объединить: в одной заявке получится больше игроков, чем допускает формат (команда — до 6, соло — 1). Выберите «оставить» заявку-команду." : "Не получилось выполнить действие. Попробуйте ещё раз.");
+    b.disabled = false; b.textContent = old;
+  } finally { busy = false; }
+});
 
 /* ---------- ручное открытие / закрытие регистрации ---------- */
 let reg = null;
